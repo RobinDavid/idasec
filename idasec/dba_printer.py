@@ -50,7 +50,7 @@ def endianess_to_string(en):
     return {Little: "𝐿", Big: "𝐵"}[en]
 
 
-def dbaexpr_to_string(e,toplevel):
+def dbaexpr_to_string(e,toplevel=True):
     op = "" if toplevel else "("
     oc = "" if toplevel else ")"
     if isinstance(e, Bv):

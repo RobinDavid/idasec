@@ -41,6 +41,7 @@ from idasec.analysis.callret_analysis import CallRetAnalysis
 from idasec.analysis.opaque_analysis import OpaqueAnalysis
 from idasec.analysis.static_opaque_analysis import StaticOpaqueAnalysis
 
+
 IDA_ENABLED = False
 try:
     import idaapi

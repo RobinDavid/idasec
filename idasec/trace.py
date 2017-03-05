@@ -4,7 +4,8 @@ import struct
 from capstone import *
 from proto.trace_pb2 import *
 from proto.common_pb2 import *
-import idc
+
+from idasec.exception import assert_ida_available
 
 #from idasec.utils import to_hex_spaced
 
@@ -189,6 +190,8 @@ def make_header():
     return header
 
 def chunk_from_path(path):
+    assert_ida_available()
+    import idc
     chunk = chunk_t()
     for i in xrange(len(path)):
         body = chunk.body.add()

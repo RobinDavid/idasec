@@ -31,11 +31,11 @@ class Broker:
         self.pinsec_addr = ""
 
     def connect_pinsec(self, ip, port):
-        self.pinsec_addr = "tcp://"+ip+":"+port
+        self.pinsec_addr = "tcp://"+ip+":"+str(port)
         self.pin_socket.connect(self.pinsec_addr)
 
     def connect_binsec(self, ip, port):
-        self.binsec_addr = "tcp://"+ip+":"+port
+        self.binsec_addr = "tcp://"+ip+":"+str(port)
         self.binsec_socket.connect(self.binsec_addr)
 
     def disconnect_binsec(self):
@@ -144,6 +144,7 @@ def decode_instr(opcode):
     broker.connect_binsec("localhost", "5570")
     broker.send_binsec_message("DECODE_INSTR", raw)
     cmd, data = broker.receive_binsec_message()
+    print "CMD:", cmd, "data:",len(data)
     reply = MessageDecodeInstrReply()
     reply.parse(data)
     for opc,dbainsts in reply.instrs:
@@ -193,10 +194,12 @@ def launch_analysis(trace_name, conf_name):
     f = open(trace_name, "rb")
     read_finished = False
     first_chunk = True
+    i = 1
     while 1:
         cmd, data = broker.receive_binsec_message(read_finished)
         if cmd is not None and data is not None:
-            print cmd, data
+            print i, ":", cmd, repr(data)
+            i += 1
             if cmd == "END":
                 break
         if not read_finished:
