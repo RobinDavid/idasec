@@ -42,9 +42,9 @@ class IDASecCore:
         del t
 
     def compute_nb_instr(self):
-        #return 1000
+        return 0 #FIXME: by iterating all segments
         count = 0
-        start, stop = self.seg_mapping[".text"] #TODO: Iterate all segs writable
+        start, stop = self.seg_mapping[".text"] #TODO: Iterate all executable segs
         current = start
         while current <= stop:
             if idc.isCode(idc.GetFlags(current)):

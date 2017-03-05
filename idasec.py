@@ -26,8 +26,9 @@
 import sys
 import time
 import datetime
+import re
 
-from PySide import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 import ctypes
 from idasec.widgets.MainWidget import MainWidget
@@ -77,7 +78,7 @@ class IDASecForm(PluginForm):
         # Internal data structures
         self.running_analyses = {}
         self.core = IDASecCore()
-        self.parent = self.FormToPySideWidget(form)
+        self.parent = self.FormToPyQtWidget(form)
         self.setupUi(self.parent)
         self.main_widget = MainWidget(self)
         self.trace_widget = TraceWidget(self)
@@ -86,7 +87,7 @@ class IDASecForm(PluginForm):
 
         # -- ui stuff
         self.tab_widget.setTabsClosable(True)
-        self.parent.connect(self.tab_widget, QtCore.SIGNAL('tabCloseRequested(int)'), self.close_tab_action)
+        self.tab_widget.tabCloseRequested.connect(self.close_tab_action)
         self.tab_widget.addTab(self.main_widget, "Main")
         self.tab_widget.addTab(self.trace_widget, "Trace")
         self.tab_widget.addTab(self.analysis_widget, "Analysis")
@@ -102,7 +103,7 @@ class IDASecForm(PluginForm):
             print "IDASec apparently already deleted !"
 
     def setTabFocus(self, name):
-        widget = {"Main":self.main_widget, "Trace":self.trace_widget, "Analysis":self.analysis_widget}[name]
+        widget = {"Main": self.main_widget, "Trace": self.trace_widget, "Analysis": self.analysis_widget}[name]
         index = self.tab_widget.indexOf(widget)
         self.tab_widget.setCurrentIndex(index)
 
@@ -149,11 +150,8 @@ class IDASecForm(PluginForm):
         else:
             return DefaultAnalysis
 
-
     def Show(self):
-        return PluginForm.Show(self,
-                NAME,
-                options=(PluginForm.FORM_CLOSE_LATER | PluginForm.FORM_RESTORE | PluginForm.FORM_SAVE))
+        return PluginForm.Show(self, NAME, options=(PluginForm.FORM_CLOSE_LATER | PluginForm.FORM_RESTORE | PluginForm.FORM_SAVE))
 
     def add_trace(self, t):
         index = self.core.add_trace(t)
@@ -186,20 +184,20 @@ class IDASecForm(PluginForm):
     def setupUi(self, Master):
         Master.setObjectName("Master")
         Master.resize(718, 477)
-        self.verticalLayout = QtGui.QVBoxLayout(Master)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Master)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.splitter = QtGui.QSplitter(Master)
+        self.splitter = QtWidgets.QSplitter(Master)
         self.splitter.setOrientation(QtCore.Qt.Vertical)
         self.splitter.setObjectName("splitter")
-        self.tab_widget = QtGui.QTabWidget(self.splitter)
+        self.tab_widget = QtWidgets.QTabWidget(self.splitter)
         self.tab_widget.setObjectName("tab_widget")
 
-        self.docker = QtGui.QDockWidget(self.splitter)
+        self.docker = QtWidgets.QDockWidget(self.splitter)
         self.docker.setObjectName("docker")
         self.docker.setAllowedAreas(QtCore.Qt.BottomDockWidgetArea)
 
-        self.log_widget = QtGui.QTreeWidget(self.docker)
-        self.log_widget.setHeaderItem(QtGui.QTreeWidgetItem(["date", "origin", "type", "message"]))
+        self.log_widget = QtWidgets.QTreeWidget(self.docker)
+        self.log_widget.setHeaderItem(QtWidgets.QTreeWidgetItem(["date", "origin", "type", "message"]))
         self.docker.setWidget(self.log_widget)
 
         self.verticalLayout.addWidget(self.splitter)
@@ -207,14 +205,14 @@ class IDASecForm(PluginForm):
         QtCore.QMetaObject.connectSlotsByName(Master)
         Master.setWindowTitle("IDASec")
 
-    def log(self,type, message, origin="IDASec"):
+    def log(self, type, message, origin="IDASec"):
         date = datetime.datetime.now().strftime("%H:%M:%S")
         res = re.match("^(\[[A-Za-z]*\])",message)
         if res:
             type = res.groups()[0]
             message = message[len(type):].lstrip()
         message = message.rstrip()
-        self.log_widget.addTopLevelItem(QtGui.QTreeWidgetItem([date, origin, type, message]))
+        self.log_widget.addTopLevelItem(QtWidgets.QTreeWidgetItem([date, origin, type, message]))
         self.log_widget.scrollToBottom()
 
 
@@ -223,6 +221,7 @@ class IDASecForm(PluginForm):
 ################################################################################
 def PLUGIN_ENTRY():
     return IDASecPlugin()
+
 
 class IDASecPlugin(plugin_t):
 
@@ -275,7 +274,7 @@ def main():
 
 
 def main_standalone():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     ida_app = IDASecStandalone()
     form = AnalysisWidget(ida_app)
     form.show()

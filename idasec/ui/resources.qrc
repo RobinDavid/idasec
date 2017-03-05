@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/open-iconic-master/png/3x/magnifying-glass-3x.png</file>
+    <file>icons/open-iconic-master/png/3x/minus-3x.png</file>
+    <file>icons/open-iconic-master/png/3x/plus-3x.png</file>
+    <file>icons/oxygen/22x22/ok.png</file>
+    <file>icons/oxygen/22x22/ko.png</file>
+    <file>icons/open-iconic-master/png/3x/question-mark-3x.png</file>
+    <file>icons/open-iconic-master/png/3x/target-3x.png</file>
+    <file>icons/idasec.png</file>
+    <file>icons/idasec_small.png</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>static_iteration_config</class>
+ <widget class="QWidget" name="static_iteration_config">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>294</width>
+    <height>231</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_granularity">
+       <property name="text">
+        <string>Granularity:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QRadioButton" name="radio_addr">
+         <property name="text">
+          <string>Ins&amp;truction</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">group_granularity</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_routine">
+         <property name="text">
+          <string>Routine</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">group_granularity</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_program">
+         <property name="text">
+          <string>Progra&amp;m</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">group_granularity</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="target_label">
+       <property name="text">
+        <string>Target:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="target_field"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="target_button">
+       <property name="maximumSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/icons/icons/open-iconic-master/png/3x/target-3x.png</normaloff>:/icons/icons/open-iconic-master/png/3x/target-3x.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Path:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QRadioButton" name="radio_path_routine">
+         <property name="toolTip">
+          <string>Make the path to the predicate start at the begining of the routine</string>
+         </property>
+         <property name="text">
+          <string>Routine</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">group_path</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_path_basicblock">
+         <property name="toolTip">
+          <string>Start the path at the basic block</string>
+         </property>
+         <property name="text">
+          <string>Basic Bloc&amp;k</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">group_path</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_path_safe">
+         <property name="toolTip">
+          <string>Start the path at the first last instruction with multiple predecessors</string>
+         </property>
+         <property name="text">
+          <string>Safe</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">group_path</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="group_path"/>
+  <buttongroup name="group_granularity"/>
+ </buttongroups>
+</ui>

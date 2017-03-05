@@ -17,7 +17,6 @@ IDA plugin for reverse-engineering and dynamic interactions with the Binsec plat
 * protobuf
 * ZMQ
 * capstone *(for trace disassembly)*
-* PySide   *(because of IDA)*
 * graphviz *(to draw dependency within a formula)*
 * pyparsing
 * plotly   *(optional)*

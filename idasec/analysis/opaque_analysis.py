@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from PySide import QtGui, QtCore
-from PySide.QtGui import QWidget
 from idasec.commands import *
 from idasec.analysis.default_analysis import DefaultAnalysis
 from idasec.proto.analysis_config_pb2 import po_analysis_results

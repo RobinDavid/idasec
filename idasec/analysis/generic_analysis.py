@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from PySide import QtGui, QtCore
-from PySide.QtGui import QWidget, QMessageBox
+from PyQt5 import QtGui, QtCore, QtWidgets
 from idasec.commands import *
 from idasec.analysis.default_analysis import DefaultAnalysis
 from idasec.proto.analysis_config_pb2 import generic_analysis, generic_analysis_results, specific_parameters_t
@@ -9,6 +8,8 @@ from idasec.proto.common_pb2 import *
 from idasec.formula import SMTFormula
 import idasec.utils as utils
 from idasec.report_generator import *
+from idasec.ui.generic_analysis_ui import Ui_generic_analysis_widget
+from idasec.ui.generic_analysis_result_ui import Ui_generic_analysis_result
 
 import subprocess
 import cgi
@@ -55,7 +56,7 @@ class GenericResults:
 
 #================================  CONFIG CLASS =====================================
 #====================================================================================
-class GenericAnalysisConfigWidget(QWidget):
+class GenericAnalysisConfigWidget(QtWidgets.QWidget, Ui_generic_analysis_widget):
 
     def __init__(self):
         super(GenericAnalysisConfigWidget, self).__init__()
@@ -63,13 +64,13 @@ class GenericAnalysisConfigWidget(QWidget):
         self.setupUi(self)
         self.set_visbility_stuff(False)
         self.satisfiability_radiobutton.setChecked(True)
-        self.connect(self.from_button, QtCore.SIGNAL("clicked()"), self.from_button_clicked)
-        self.connect(self.to_button, QtCore.SIGNAL("clicked()"), self.to_button_clicked)
-        self.connect(self.restrict_from_button, QtCore.SIGNAL("clicked()"), self.restrict_from_button_clicked)
-        self.connect(self.restrict_to_button, QtCore.SIGNAL("clicked()"), self.restrict_to_button_clicked)
-        self.connect(self.target_addr_button, QtCore.SIGNAL("clicked()"), self.target_addr_button_clicked)
-        self.connect(self.dba_help_button, QtCore.SIGNAL("clicked()"), self.dba_help_button_clicked)
-        self.connect(self.values_radiobutton, QtCore.SIGNAL("toggled(bool)"), self.values_radiobutton_toggled)
+        self.from_button.clicked.connect(self.from_button_clicked)
+        self.to_button.clicked.connect(self.to_button_clicked)
+        self.restrict_from_button.clicked.connect(self.restrict_from_button_clicked)
+        self.restrict_to_button.clicked.connect(self.restrict_to_button_clicked)
+        self.target_addr_button.clicked.connect(self.target_addr_button_clicked)
+        self.dba_help_button.clicked.connect(self.dba_help_button_clicked)
+        self.values_radiobutton.toggled.connect(self.values_radiobutton_toggled)
 
     def set_fields(self, json_fields):
         gen = json_fields["generic_params"]
@@ -143,7 +144,6 @@ class GenericAnalysisConfigWidget(QWidget):
             print "Analysis specific arguments serialization failed"
             return None
 
-
     def from_button_clicked(self):
         self.from_field.setText(hex(idc.here()))
 
@@ -181,7 +181,7 @@ With:
 - bop: [+, -, *u, *s, /, /s, modu, mods, or, and, xor, >>(concat), lshift, rshiftu,
 rshifts, lrotate, rrotate, =, <>, <=u, <u, >=u, >u, <=s, <s, >=s, >s, extu, exts]
         '''
-        QMessageBox.about(self, u"DBA langage help", unicode(s))
+        QtWidgets.QMessageBox.about(self, u"DBA langage help", unicode(s))
 
 
     def values_radiobutton_toggled(self, toggled):
@@ -199,175 +199,6 @@ rshifts, lrotate, rrotate, =, <>, <=u, <u, >=u, >u, <=s, <s, >=s, >s, extu, exts
         self.restrict_to_label.setVisible(value)
         self.restrict_to_field.setVisible(value)
         self.restrict_to_button.setVisible(value)
-
-    def setupUi(self, generic_analysis_widget):
-        def _fromUtf8(s):
-            return s
-        def _translate(x,y,z):
-            return y
-        generic_analysis_widget.setObjectName(_fromUtf8("generic_analysis_widget"))
-        generic_analysis_widget.resize(292, 196)
-        self.verticalLayout = QtGui.QVBoxLayout(generic_analysis_widget)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.horizontalLayout = QtGui.QHBoxLayout()
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.from_label = QtGui.QLabel(generic_analysis_widget)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.from_label.sizePolicy().hasHeightForWidth())
-        self.from_label.setSizePolicy(sizePolicy)
-        self.from_label.setObjectName(_fromUtf8("from_label"))
-        self.horizontalLayout.addWidget(self.from_label)
-        self.from_field = QtGui.QLineEdit(generic_analysis_widget)
-        self.from_field.setObjectName(_fromUtf8("from_field"))
-        self.horizontalLayout.addWidget(self.from_field)
-        self.from_button = QtGui.QPushButton(generic_analysis_widget)
-        self.from_button.setMaximumSize(QtCore.QSize(25, 25))
-        self.from_button.setText(_fromUtf8(""))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/open-iconic-master/png/3x/target-3x.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.from_button.setIcon(icon)
-        self.from_button.setIconSize(QtCore.QSize(12, 12))
-        self.from_button.setObjectName(_fromUtf8("from_button"))
-        self.horizontalLayout.addWidget(self.from_button)
-        self.label_2 = QtGui.QLabel(generic_analysis_widget)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setObjectName(_fromUtf8("label_2"))
-        self.horizontalLayout.addWidget(self.label_2)
-        self.to_field = QtGui.QLineEdit(generic_analysis_widget)
-        self.to_field.setObjectName(_fromUtf8("to_field"))
-        self.horizontalLayout.addWidget(self.to_field)
-        self.to_button = QtGui.QPushButton(generic_analysis_widget)
-        self.to_button.setMinimumSize(QtCore.QSize(25, 25))
-        self.to_button.setMaximumSize(QtCore.QSize(25, 25))
-        self.to_button.setText(_fromUtf8(""))
-        self.to_button.setIcon(icon)
-        self.to_button.setIconSize(QtCore.QSize(12, 12))
-        self.to_button.setObjectName(_fromUtf8("to_button"))
-        self.horizontalLayout.addWidget(self.to_button)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        self.horizontalLayout_2 = QtGui.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.label_3 = QtGui.QLabel(generic_analysis_widget)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy)
-        self.label_3.setObjectName(_fromUtf8("label_3"))
-        self.horizontalLayout_2.addWidget(self.label_3)
-        self.target_addr_field = QtGui.QLineEdit(generic_analysis_widget)
-        self.target_addr_field.setObjectName(_fromUtf8("target_addr_field"))
-        self.horizontalLayout_2.addWidget(self.target_addr_field)
-        self.target_addr_button = QtGui.QPushButton(generic_analysis_widget)
-        self.target_addr_button.setMaximumSize(QtCore.QSize(25, 25))
-        self.target_addr_button.setText(_fromUtf8(""))
-        self.target_addr_button.setIcon(icon)
-        self.target_addr_button.setIconSize(QtCore.QSize(12, 12))
-        self.target_addr_button.setObjectName(_fromUtf8("target_addr_button"))
-        self.horizontalLayout_2.addWidget(self.target_addr_button)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.horizontalLayout_4 = QtGui.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
-        self.dba_label = QtGui.QLabel(generic_analysis_widget)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.dba_label.sizePolicy().hasHeightForWidth())
-        self.dba_label.setSizePolicy(sizePolicy)
-        self.dba_label.setObjectName(_fromUtf8("dba_label"))
-        self.horizontalLayout_4.addWidget(self.dba_label)
-        self.dba_expr_field = QtGui.QLineEdit(generic_analysis_widget)
-        self.dba_expr_field.setObjectName(_fromUtf8("dba_expr_field"))
-        self.horizontalLayout_4.addWidget(self.dba_expr_field)
-        self.dba_help_button = QtGui.QPushButton(generic_analysis_widget)
-        self.dba_help_button.setMaximumSize(QtCore.QSize(25, 25))
-        self.dba_help_button.setText(_fromUtf8(""))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/icons/open-iconic-master/png/3x/question-mark-3x.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.dba_help_button.setIcon(icon1)
-        self.dba_help_button.setIconSize(QtCore.QSize(12, 12))
-        self.dba_help_button.setObjectName(_fromUtf8("dba_help_button"))
-        self.horizontalLayout_4.addWidget(self.dba_help_button)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
-        self.horizontalLayout_3 = QtGui.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
-        self.query_label = QtGui.QLabel(generic_analysis_widget)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.query_label.sizePolicy().hasHeightForWidth())
-        self.query_label.setSizePolicy(sizePolicy)
-        self.query_label.setObjectName(_fromUtf8("query_label"))
-        self.horizontalLayout_3.addWidget(self.query_label)
-        self.satisfiability_radiobutton = QtGui.QRadioButton(generic_analysis_widget)
-        self.satisfiability_radiobutton.setObjectName(_fromUtf8("satisfiability_radiobutton"))
-        self.horizontalLayout_3.addWidget(self.satisfiability_radiobutton)
-        self.values_radiobutton = QtGui.QRadioButton(generic_analysis_widget)
-        self.values_radiobutton.setObjectName(_fromUtf8("values_radiobutton"))
-        self.horizontalLayout_3.addWidget(self.values_radiobutton)
-        self.values_limit_spinbox = QtGui.QSpinBox(generic_analysis_widget)
-        self.values_limit_spinbox.setMinimum(1)
-        self.values_limit_spinbox.setObjectName(_fromUtf8("values_limit_spinbox"))
-        self.horizontalLayout_3.addWidget(self.values_limit_spinbox)
-        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem1)
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
-        self.restrict_label = QtGui.QLabel(generic_analysis_widget)
-        self.restrict_label.setObjectName(_fromUtf8("restrict_label"))
-        self.verticalLayout.addWidget(self.restrict_label)
-        self.restrict_values_layout = QtGui.QHBoxLayout()
-        self.restrict_values_layout.setObjectName(_fromUtf8("restrict_values_layout"))
-        self.restrict_from_label = QtGui.QLabel(generic_analysis_widget)
-        self.restrict_from_label.setObjectName(_fromUtf8("restrict_from_label"))
-        self.restrict_values_layout.addWidget(self.restrict_from_label)
-        self.restrict_from_field = QtGui.QLineEdit(generic_analysis_widget)
-        self.restrict_from_field.setObjectName(_fromUtf8("restrict_from_field"))
-        self.restrict_values_layout.addWidget(self.restrict_from_field)
-        self.restrict_from_button = QtGui.QPushButton(generic_analysis_widget)
-        self.restrict_from_button.setMaximumSize(QtCore.QSize(25, 25))
-        self.restrict_from_button.setText(_fromUtf8(""))
-        self.restrict_from_button.setIcon(icon)
-        self.restrict_from_button.setIconSize(QtCore.QSize(12, 12))
-        self.restrict_from_button.setObjectName(_fromUtf8("restrict_from_button"))
-        self.restrict_values_layout.addWidget(self.restrict_from_button)
-        self.restrict_to_label = QtGui.QLabel(generic_analysis_widget)
-        self.restrict_to_label.setObjectName(_fromUtf8("restrict_to_label"))
-        self.restrict_values_layout.addWidget(self.restrict_to_label)
-        self.restrict_to_field = QtGui.QLineEdit(generic_analysis_widget)
-        self.restrict_to_field.setObjectName(_fromUtf8("restrict_to_field"))
-        self.restrict_values_layout.addWidget(self.restrict_to_field)
-        self.restrict_to_button = QtGui.QPushButton(generic_analysis_widget)
-        self.restrict_to_button.setMaximumSize(QtCore.QSize(25, 25))
-        self.restrict_to_button.setText(_fromUtf8(""))
-        self.restrict_to_button.setIcon(icon)
-        self.restrict_to_button.setIconSize(QtCore.QSize(12, 12))
-        self.restrict_to_button.setObjectName(_fromUtf8("restrict_to_button"))
-        self.restrict_values_layout.addWidget(self.restrict_to_button)
-        self.verticalLayout.addLayout(self.restrict_values_layout)
-        self.get_formula_checkbox = QtGui.QCheckBox(generic_analysis_widget)
-        self.get_formula_checkbox.setObjectName(_fromUtf8("get_formula_checkbox"))
-        self.verticalLayout.addWidget(self.get_formula_checkbox)
-        QtCore.QMetaObject.connectSlotsByName(generic_analysis_widget)
-        generic_analysis_widget.setWindowTitle(_translate("generic_analysis_widget", "Form", None))
-        self.from_label.setText(_translate("generic_analysis_widget", "From:", None))
-        self.label_2.setText(_translate("generic_analysis_widget", "To:", None))
-        self.label_3.setText(_translate("generic_analysis_widget", "Target addr:", None))
-        self.dba_label.setText(_translate("generic_analysis_widget", "DBA Expr:", None))
-        self.query_label.setText(_translate("generic_analysis_widget", "Query:", None))
-        self.satisfiability_radiobutton.setText(_translate("generic_analysis_widget", "Satisfiability", None))
-        self.values_radiobutton.setText(_translate("generic_analysis_widget", "Values", None))
-        self.restrict_label.setText(_translate("generic_analysis_widget", "Restrict values space:", None))
-        self.restrict_from_label.setText(_translate("generic_analysis_widget", "From:", None))
-        self.restrict_to_label.setText(_translate("generic_analysis_widget", "To:", None))
-        self.get_formula_checkbox.setText(_translate("generic_analysis_widget", "Retrieve formula from Binsec", None))
 
 
 #================================= GENERIC ANALYSIS =================================
@@ -467,9 +298,9 @@ class GenericAnalysis(DefaultAnalysis):
 
 #============================= RESULT WIDGET ===============================
 #===========================================================================
-class GenericAnalysisResultWidget(QWidget):
+class GenericAnalysisResultWidget(QtWidgets.QWidget, Ui_generic_analysis_result):
     def __init__(self, parent):
-        QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
         self.parent = parent
         # self.result_area.setEnabled(False)
@@ -483,7 +314,7 @@ class GenericAnalysisResultWidget(QWidget):
         self.action_button.setEnabled(False)
         self.action_selector.addItem(self.parent.ANNOT_CODE)
         self.action_button.clicked.connect(self.action_clicked)
-        self.connect(self.action_selector, QtCore.SIGNAL("currentIndexChanged(QString)"), self.action_selector_changed)
+        self.action_selector.currentIndexChanged[str].connect(self.action_selector_changed)
 
     def action_selector_changed(self, s):
         _, enabled = self.parent.actions[s]
@@ -533,80 +364,3 @@ class GenericAnalysisResultWidget(QWidget):
             return "Ukn"
         else:
             return "Err"
-
-
-    def setupUi(self, Form):
-        def _fromUtf8(s):
-            return s
-        def _translate(x,y,z):
-            return y
-        Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(758, 527)
-        self.verticalLayout_3 = QtGui.QVBoxLayout(Form)
-        self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
-        self.splitter = QtGui.QSplitter(Form)
-        self.splitter.setOrientation(QtCore.Qt.Vertical)
-        self.splitter.setObjectName(_fromUtf8("splitter"))
-        self.verticalLayoutWidget = QtGui.QWidget(self.splitter)
-        self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.result_label = QtGui.QLabel(self.verticalLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        self.result_label.setFont(font)
-        self.result_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.result_label.setObjectName(_fromUtf8("result_label"))
-        self.verticalLayout.addWidget(self.result_label)
-        self.result_area = QtGui.QTextEdit(self.verticalLayoutWidget)
-        self.result_area.setObjectName(_fromUtf8("result_area"))
-        self.verticalLayout.addWidget(self.result_area)
-        self.verticalLayoutWidget_2 = QtGui.QWidget(self.splitter)
-        self.verticalLayoutWidget_2.setObjectName(_fromUtf8("verticalLayoutWidget_2"))
-        self.verticalLayout_2 = QtGui.QVBoxLayout(self.verticalLayoutWidget_2)
-        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.formula_label = QtGui.QLabel(self.verticalLayoutWidget_2)
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.formula_label.setFont(font)
-        self.formula_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.formula_label.setObjectName(_fromUtf8("formula_label"))
-        self.verticalLayout_2.addWidget(self.formula_label)
-        self.formula_area = QtGui.QTextEdit(self.verticalLayoutWidget_2)
-        self.formula_area.setMinimumSize(QtCore.QSize(0, 0))
-        self.formula_area.setObjectName(_fromUtf8("formula_area"))
-        self.verticalLayout_2.addWidget(self.formula_area)
-        self.verticalLayout_3.addWidget(self.splitter)
-        self.horizontalLayout_2 = QtGui.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.action_label = QtGui.QLabel(Form)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.action_label.sizePolicy().hasHeightForWidth())
-        self.action_label.setSizePolicy(sizePolicy)
-        self.action_label.setObjectName(_fromUtf8("action_label"))
-        self.horizontalLayout_2.addWidget(self.action_label)
-        self.action_selector = QtGui.QComboBox(Form)
-        self.action_selector.setObjectName(_fromUtf8("action_selector"))
-        self.horizontalLayout_2.addWidget(self.action_selector)
-        self.action_button = QtGui.QPushButton(Form)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.action_button.sizePolicy().hasHeightForWidth())
-        self.action_button.setSizePolicy(sizePolicy)
-        self.action_button.setMinimumSize(QtCore.QSize(70, 0))
-        self.action_button.setObjectName(_fromUtf8("action_button"))
-        self.horizontalLayout_2.addWidget(self.action_button)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-        QtCore.QMetaObject.connectSlotsByName(Form)
-        Form.setWindowTitle(_translate("Form", "Form", None))
-        self.result_label.setText(_translate("Form", "Result", None))
-        self.formula_label.setText(_translate("Form", "SMT Formula", None))
-        self.action_label.setText(_translate("Form", "Action:", None))
-        self.action_button.setText(_translate("Form", "Do !", None))
