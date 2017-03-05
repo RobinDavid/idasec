@@ -8,7 +8,6 @@ from idasec.widgets.StandardParamWidget import StandardParamConfigWidget
 from idasec.widgets.StandardResultWidget import StandardResultWidget
 
 import idc
-import idasec.ui.resources_rc
 
 
 # ============================ RESULT CLASS (pb dependant) =============================

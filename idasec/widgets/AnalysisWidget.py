@@ -22,8 +22,6 @@ from idasec.ui.analysis_ui import Ui_Analysis
 import idc
 import idautils
 
-import idasec.ui.resources_rc
-
 
 class AnalysisWidget(QtWidgets.QWidget, Ui_Analysis):
     def __init__(self, parent):
@@ -196,7 +194,6 @@ class AnalysisWidget(QtWidgets.QWidget, Ui_Analysis):
         self.start, self.stop = start, stop
 
     def analysis_name_changed(self, name):
-        idc.Warning("Analysis name changed !")
         analysis_class = self.parent.analysis_from_name(name)
         if analysis_class.config_widget is not None:
             self.analysis_specific_group.setVisible(True)

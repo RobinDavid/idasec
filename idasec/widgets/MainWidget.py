@@ -9,7 +9,6 @@ from idasec.ui.main_ui import Ui_Main
 from idasec.message import MessageInfos, MessageDecodeInstr, MessageDecodeInstrReply
 from idasec.dba_printer import instr_to_string
 from idasec.utils import *
-import idasec.ui.resources_rc
 from idasec.commands import *
 import re
 

@@ -15,7 +15,6 @@ import subprocess
 import cgi
 
 import idc
-import idasec.ui.resources_rc
 
 
 #======================== RESULT CLASS (pb dependant) ========================

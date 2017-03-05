@@ -10,8 +10,6 @@ from collections import namedtuple
 
 import idc
 import idautils
-import idasec.ui.resources_rc
-
 
 # ============================= RESULT CLASS (pb dependant) ==========================
 def to_status_name(x):

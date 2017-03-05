@@ -11,9 +11,6 @@ import idc
 import idaapi
 
 
-import idasec.ui.resources_rc
-
-
 class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
     def __init__(self, parent):
         super(TraceWidget, self).__init__()
@@ -30,21 +27,13 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
 
     def OnCreate(self, form):
         self.setupUi(self)
-        #self.connect(self.add_trace_button, QtCore.SIGNAL("clicked()"), self.load_trace)
         self.add_trace_button.clicked.connect(self.load_trace)
-        #self.connect(self.disassemble_button, QtCore.SIGNAL("clicked()"), self.disassemble_from_trace)
         self.disassemble_button.clicked.connect(self.disassemble_from_trace)
-        #self.connect(self.colorize_button, QtCore.SIGNAL("clicked()"), self.colorize_trace)
         self.colorize_button.clicked.connect(self.colorize_trace)
-        #self.connect(self.heatmap_button, QtCore.SIGNAL("clicked()"), self.heatmap_trace)
         self.heatmap_button.clicked.connect(self.heatmap_trace)
-        #self.connect(self.dump_button, QtCore.SIGNAL("clicked()"), self.dump_trace)
         self.dump_button.clicked.connect(self.dump_trace)
-        #self.connect(self.refresh_button, QtCore.SIGNAL("clicked()"), self.refresh_trace_view)
         self.refresh_button.clicked.connect(self.refresh_trace_view)
-        #self.connect(self.traces_tab, QtCore.SIGNAL('currentChanged(int)'), self.trace_switch)
         self.traces_tab.currentChanged.connect(self.trace_switch)
-        #self.connect(self.traces_tab, QtCore.SIGNAL('tabCloseRequested(int)'), self.unload_trace)
         self.traces_tab.tabCloseRequested.connect(self.unload_trace)
         self.loading_stat.setVisible(False)
         self.progressbar_loading.setVisible(False)
@@ -124,7 +113,7 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
             if trace.metas.has_key(k):
                 for name, arg1, arg2 in trace.metas[k]:
                     if name == "wave":
-                        infos = ["=","========","> Wave:"+str(arg1)] #,"=","========"
+                        infos = ["=", "========", "> Wave:"+str(arg1)]
                     elif name == "exception":
                         infos = ["","","Exception type:"+str(arg1)+" @handler:"+str(arg2)] #,"",""
                     elif name == "module":

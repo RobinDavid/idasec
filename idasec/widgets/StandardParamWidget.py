@@ -4,7 +4,6 @@ import idasec.utils as utils
 from idasec.ui.standard_params_ui import Ui_standard_params
 
 import idc
-import idasec.ui.resources_rc
 
 class StandardParamConfigWidget(QtWidgets.QWidget, Ui_standard_params):
 
