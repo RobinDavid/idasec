@@ -1,7 +1,7 @@
 # coding: utf8
 
 from PyQt5 import QtCore, QtWidgets
-from idasec.path import Path
+from path import Path
 from idasec.trace import Trace
 from google.protobuf.message import DecodeError
 

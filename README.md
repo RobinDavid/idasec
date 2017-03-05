@@ -19,6 +19,7 @@ IDA plugin for reverse-engineering and dynamic interactions with the Binsec plat
 * capstone *(for trace disassembly)*
 * graphviz *(to draw dependency within a formula)*
 * pyparsing
+* path.py
 * plotly   *(optional)*
 
 ## Running Idasec

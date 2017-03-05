@@ -35,7 +35,7 @@ from idasec.widgets.MainWidget import MainWidget
 from idasec.widgets.TraceWidget import TraceWidget
 from idasec.idasec_core import IDASecCore
 from idasec.widgets.AnalysisWidget import AnalysisWidget
-from idasec.path import Path
+from path import Path
 from idasec.analysis.default_analysis import DefaultAnalysis
 from idasec.analysis.generic_analysis import GenericAnalysis
 from idasec.analysis.callret_analysis import CallRetAnalysis

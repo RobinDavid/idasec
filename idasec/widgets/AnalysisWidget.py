@@ -10,7 +10,7 @@ from idasec.analysis.default_analysis import STATIC, DYNAMIC, STATIC_AND_DYNAMIC
 
 import json
 from idasec.protobuf_json import json2pb, pb2json
-from idasec.path import Path
+from path import Path
 from idasec.proto.config_pb2 import configuration, input_t
 import idasec.proto.common_pb2 as common_pb2
 import idasec.proto.libcall_pb2 as libcall_pb2

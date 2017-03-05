@@ -12,7 +12,7 @@ from idasec.report_generator import make_cell, RED, GREEN, PURPLE, ORANGE, BLACK
 import idasec.utils as utils
 from idasec.ida_utils import MyFlowGraph, get_succs, Status
 from idasec.trace import make_header, chunk_from_path
-from idasec.path import Path
+from path import Path
 from collections import namedtuple
 from idasec.formula import *
 from idasec.ui.static_iteration_config_ui import Ui_static_iteration_config
