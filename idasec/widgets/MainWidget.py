@@ -39,6 +39,7 @@ class MainWidget(QtWidgets.QWidget, Ui_Main):
         self.ok = QtGui.QPixmap(":/icons/icons/oxygen/22x22/ok.png")
         self.ko = QtGui.QPixmap(":/icons/icons/oxygen/22x22/ko.png")
         self.prev_modules = sys.modules.keys()
+        self.set_pinsec_visible(False)
 
     def connect_binsec(self):
         try:
@@ -99,6 +100,13 @@ class MainWidget(QtWidgets.QWidget, Ui_Main):
         self.binsec_connect_button.setText("connect")
         self.binsec_port_field.setEnabled(True)
         self.binsec_ip_field.setEnabled(True)
+
+    def set_pinsec_visible(self, value):
+        self.label_2.setVisible(value)
+        self.pinsec_connect_button.setVisible(value)
+        self.pinsec_ip_field.setVisible(value)
+        self.pinsec_label.setVisible(value)
+        self.pinsec_port_field.setVisible(value)
 
     def decode_here_clicked(self):
         inst = idc.here()

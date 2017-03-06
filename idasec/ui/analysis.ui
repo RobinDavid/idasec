@@ -315,9 +315,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-25</y>
-            <width>338</width>
-            <height>1039</height>
+            <y>-756</y>
+            <width>343</width>
+            <height>1226</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -616,6 +616,14 @@
                </layout>
               </item>
               <item>
+               <widget class="QGroupBox" name="analysis_specific_group">
+                <property name="title">
+                 <string>Analysis specific</string>
+                </property>
+                <layout class="QVBoxLayout" name="analysis_specific_layout"/>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
                  <widget class="QLabel" name="direction_label">
@@ -881,14 +889,6 @@
                  </widget>
                 </item>
                </layout>
-              </item>
-              <item>
-               <widget class="QGroupBox" name="analysis_specific_group">
-                <property name="title">
-                 <string>Analysis specific</string>
-                </property>
-                <layout class="QVBoxLayout" name="analysis_specific_layout"/>
-               </widget>
               </item>
               <item>
                <widget class="QGroupBox" name="cocnsymb_group">

@@ -49,6 +49,7 @@ class AnalysisWidget(QtWidgets.QWidget, Ui_Analysis):
         self.antidebug_checkbox.setVisible(False)
         self.k_label.setVisible(False)
         self.k_spinbox.setVisible(False)
+        self.pinsec_group.setVisible(False)
 
         # --- Initialize input table
         self.input_header_table = ["type", "where", "addr/name", "value", "action", "when"]
