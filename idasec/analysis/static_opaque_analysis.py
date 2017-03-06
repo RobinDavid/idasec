@@ -150,7 +150,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         self.report.add_title("Opaque predicates Detection", size=2)
         self.exec_time_dep = 0
         self.exec_time_total = 0
-        self.txt_dump = None
 
     def run(self):
         # -- GUI stuff
@@ -168,7 +167,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         self.configuration.additional_parameters.typeid = self.configuration.additional_parameters.STANDARD
 
         target_val = str(self.config_widget.target_field.text())
-        self.txt_dump = open("/tmp/"+idc.GetInputFile()+"_dump.txt", "w")
         start_tps = time.time()
         if self.config_widget.radio_addr.isChecked():
             addr = utils.to_addr(target_val)
@@ -184,7 +182,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
             pass
 
         self.exec_time_total = time.time() - start_tps - self.exec_time_dep
-        self.txt_dump.close()
         self.analyse_finished = True
         self.broker.terminate()
 
@@ -263,7 +260,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                 if po.status == self.po.OPAQUE:
                     self.functions_spurious_instrs[rtn_addr].update(formula_dep+[addr])
                 self.results[addr] = AddrRet(po.status, k, formula_dep, predicate, distance, po.alive_branch, dead_branch)
-                self.txt_dump.write('%x,%s,%d,%s,%d\n' % (addr, to_status_name(po.status), k, predicate, distance))
         # print "End processing address:%x status:%s" % (addr, to_status_name(ret.status))
         if addr in self.results:
             return self.results[addr]
@@ -316,7 +312,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         f = SMTFormula()
         f.parse(raw_formula)
         offsets, bin_op, distance = self.slice(f)
-        pred = self.expr_synthesis(bin_op) if bin_op else ""
+        pred = self.expr_synthesis(bin_op) if bin_op else u""
         # print "compute_dependency: ", pred, offsets #,"\n",bin_op
         return offsets, pred, distance
 
@@ -342,9 +338,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         # TODO: Stat of pattern used etc..
 
         self.result_widget.webview.setHtml(self.report.generate())
-        f = open("/tmp/report_export.html", "w")
-        f.write(self.report.generate())
-        f.close()
 
     def refine_results(self):
         likely_retag = 0
@@ -487,11 +480,11 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         curr_fun = idaapi.get_func(idc.here()).startEA
         cfg = self.functions_cfg[curr_fun]
         color = 0xFFFFFF if enabled else 0x507cff
-        for bb in [x for x in cfg.values() if x.is_alive()]:
+        for bb in [x for x in cfg.values() if x.is_alive()]:  # Iterate only alive basic blocks
             for i, st in bb.instrs_status.items():
-                if st == Status.DEAD:
+                if st == Status.DEAD:  # Instructions dead in alive basic blocks are spurious
                     idc.SetColor(i, idc.CIC_ITEM, color)
-        self.actions[HIGHLIGHT_SPURIOUS_CALCULUS] = (self.highlight_spurious, not(enabled))
+        self.actions[HIGHLIGHT_SPURIOUS_CALCULUS] = (self.highlight_spurious, not enabled)
         self.result_widget.action_selector_changed(HIGHLIGHT_SPURIOUS_CALCULUS)
 
     def export_result(self, _):
@@ -500,15 +493,18 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         if not filepath.exists() and filepath != '':
                 report = filepath if filepath.ext == ".html" else filepath.dirname() / filepath.namebase+".html"
                 raw = filepath.dirname() / filepath.namebase+".csv"
+                html_file = filepath.dirname() / filepath.namebase+".html"
+                html_file.write_bytes(self.report.generate())
                 report.write_text(self.report.generate())
                 f = raw.open("w")
                 for addr, infos in self.results.iteritems():
-                    f.write(u"0x%x,%s,%d,%s,0x%x,0x%x\n" % (addr, to_status_name(infos.status), infos.k,
+                    f.write_bytes(u"0x%x,%s,%d,%s,0x%x,0x%x\n" % (addr, to_status_name(infos.status), infos.k,
                                                             infos.dependency, infos.alive_branch, infos.dead_branch))
                 f.close()
                 self.log("[info]", "Export done in %s and %s" % (report.basename(), raw.basename()))
         else:
             self.log("[error]", "File already exists.. (do not save)")
+
 
     def extract_reduced_cfg(self, _):
         # TODO: Make a copy of the CFG before stripping it
@@ -650,24 +646,35 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                 return self.expr_synthesis(e.expr, False)
             elif e.op == "extract":
                 s = self.expr_synthesis(e.expr, True)
-                return "(%s){%s,%s}" % (s, e.opt2, e.opt1) if not top else s
+                return u"(%s){%s,%s}" % (s, e.opt2, e.opt1) if not top else s
             else:
-                return "(%s %s)" % (e.op, self.expr_synthesis(e.expr, False))
+                return u"(%s %s)" % (e.op, self.expr_synthesis(e.expr, False))
         elif isinstance(e, BinOp):
             if e.op == "bvmul" and e.expr1 == e.expr2:
-                return "%s²" % (self.expr_synthesis(e.expr1, True))
+                return u"%s²" % (self.expr_synthesis(e.expr1, True))
             elif e.op == "bvxor" and e.expr1 == e.expr2:
-                return "0"
+                return u"0"
             elif e.op == "bvmul" and isinstance(e.expr2, Bv):
-                return "%s%s" % (e.expr2.value, self.expr_synthesis(e.expr1, False))
+                return u"%s%s" % (e.expr2.value, self.expr_synthesis(e.expr1, False))
             else:
                 top = e.op == "bvcomp" and top
-                return "%s%s %s %s%s" % (o, self.expr_synthesis(e.expr1, top), SMTFormula.bop_to_pp_string(e.op),
-                                         self.expr_synthesis(e.expr2, top), r)
+                return u"%s%s %s %s%s" % (o, self.expr_synthesis(e.expr1, top), SMTFormula.bop_to_pp_string(e.op),
+                                          self.expr_synthesis(e.expr2, top), r)
         elif isinstance(e, Ite):
             c = self.expr_synthesis(e.cond, False)
             e1 = self.expr_synthesis(e.expr1, False)
             e2 = self.expr_synthesis(e.expr2, False)
-            return "%s%s ? %s: %s%s" % (o, c, e1, e2, r)
+            return u"%s%s ? %s: %s%s" % (o, c, e1, e2, r)
         else:
-            return "[n/a]"
+            return u"[n/a]"
+
+    def generate_dead_alive_dump(self):
+        f = Path("dead_or_alive_dump.txt")
+        handle = f.open("w")
+        for cfg in self.functions_cfg.values():
+            for bb in cfg.values():
+                for i in bb.instrs:
+                    status = bb.instrs_status[i] if bb.is_alive() else Status.DEAD
+                    size = idc.NextHead(i)-i
+                    handle.write(u"%x,%d,%s\n" % (i, size, status))
+        handle.close()

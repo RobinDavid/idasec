@@ -115,9 +115,9 @@ def instr_to_string(inst):
         c1 = dbacond_to_string(inst.instr.cond)
         t1 = codeaddress_to_string(inst.instr.target1)
         t2 = str(inst.instr.target2)
-        return "if (%s) goto %s else %s" % (c1, t1, t2)
+        return u"if (%s) goto %s else %s" % (c1, t1, t2)
     else:
-        return "INVALID"
+        return u"INVALID"
 
 
 if __name__ == "__main__":

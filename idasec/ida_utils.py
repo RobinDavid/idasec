@@ -219,9 +219,9 @@ class MyFlowGraph(dict):
         return path
 
     def safe_path_to(self, addr):
-        path = self.full_path_to(addr)
+        path = self.full_path_to(addr)  # Start from the full path
         i = -1
-        for ea, k in zip(path, range(len(path))):
+        for ea, k in zip(path, range(len(path))):  # Compute i such that it is safe
             nb_preds = len([x for x in idautils.CodeRefsTo(ea, True)])
             if nb_preds > 1:
                 i = k
@@ -250,6 +250,9 @@ class MyFlowGraph(dict):
 
     def Show(self):
         self.viewer.Show()
+
+    def __str__(self):
+        return "<Function at:%x>" % self.startEA
 
 
 class MyFlowGraphViewer(idaapi.GraphViewer):
