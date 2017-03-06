@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+
 from idasec.ui.standard_result_ui import Ui_standard_result
 
 

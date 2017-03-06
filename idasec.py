@@ -24,24 +24,21 @@
 #
 ########################################################################
 import sys
-import time
 import datetime
 import re
 
-from PyQt5 import QtGui, QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+from path import Path
 
-import ctypes
 from idasec.widgets.MainWidget import MainWidget
 from idasec.widgets.TraceWidget import TraceWidget
 from idasec.idasec_core import IDASecCore
 from idasec.widgets.AnalysisWidget import AnalysisWidget
-from path import Path
 from idasec.analysis.default_analysis import DefaultAnalysis
 from idasec.analysis.generic_analysis import GenericAnalysis
 from idasec.analysis.callret_analysis import CallRetAnalysis
 from idasec.analysis.opaque_analysis import OpaqueAnalysis
 from idasec.analysis.static_opaque_analysis import StaticOpaqueAnalysis
-
 
 IDA_ENABLED = False
 try:
@@ -52,12 +49,15 @@ except ImportError:
     class PluginForm:
         def __init__(self):
             pass
+
     class plugin_t:
         def __init__(self):
             pass
+
     class idaapi:
-        PLUGIN_UNL=None
-        PLUGIN_OK=None
+        PLUGIN_UNL = None
+        PLUGIN_OK = None
+
         def __init__(self):
             pass
     IDA_ENABLED = False
@@ -65,7 +65,6 @@ except ImportError:
 
 IDASEC = None
 NAME = "IDASec"
-
 
 
 class IDASecForm(PluginForm):
@@ -83,7 +82,7 @@ class IDASecForm(PluginForm):
         self.main_widget = MainWidget(self)
         self.trace_widget = TraceWidget(self)
         self.analysis_widget = AnalysisWidget(self)
-        #---------------------------------
+        # ---------------------------------
 
         # -- ui stuff
         self.tab_widget.setTabsClosable(True)
@@ -137,7 +136,8 @@ class IDASecForm(PluginForm):
         widget = self.tab_widget.widget(self.tab_widget.currentIndex())
         return self.running_analyses[id(widget)]
 
-    def analysis_from_name(self, name):
+    @staticmethod
+    def analysis_from_name(name):
         name = name.upper()
         if name == "GENERIC":
             return GenericAnalysis

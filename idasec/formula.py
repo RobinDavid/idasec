@@ -2,6 +2,7 @@
 # coding=utf-8
 from pyparsing import nestedExpr, ParseException
 from collections import namedtuple
+
 from graphviz import Digraph
 
 BvTyp = namedtuple("BvTyp", "size")

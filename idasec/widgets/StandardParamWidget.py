@@ -1,9 +1,9 @@
 from PyQt5 import QtWidgets
+import idc
+
 from idasec.proto.analysis_config_pb2 import standard_analysis, specific_parameters_t
 import idasec.utils as utils
 from idasec.ui.standard_params_ui import Ui_standard_params
-
-import idc
 
 
 class StandardParamConfigWidget(QtWidgets.QWidget, Ui_standard_params):

@@ -2,9 +2,9 @@
 import struct
 
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-from proto.trace_pb2 import *
-from proto.common_pb2 import *
 
+from idasec.proto.trace_pb2 import *
+from idasec.proto.common_pb2 import *
 from idasec.exception import assert_ida_available
 
 

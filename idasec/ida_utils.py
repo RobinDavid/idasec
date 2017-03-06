@@ -1,13 +1,11 @@
 # coding=utf-8
 
 from enum import Enum
+from heapq import heappop, heappush
 
 import idautils
 import idaapi
 import idc
-from idaapi import GraphViewer
-
-from heapq import heappop, heappush
 
 
 def get_succs(ea):
@@ -254,10 +252,10 @@ class MyFlowGraph(dict):
         self.viewer.Show()
 
 
-class MyFlowGraphViewer(GraphViewer):
+class MyFlowGraphViewer(idaapi.GraphViewer):
 
     def __init__(self, flow_graph, title):
-        GraphViewer.__init__(self, title)
+        idaapi.GraphViewer.__init__(self, title)
         self.flow_graph = flow_graph
         self.result = None
         self.names = {}
@@ -297,7 +295,7 @@ class MyFlowGraphViewer(GraphViewer):
         print "command:", cmd_id
 
     def Show(self):
-        if not GraphViewer.Show(self):
+        if not idaapi.GraphViewer.Show(self):
             return False
         self.cmd_test = self.AddCommand("Test", "F2")
         if self.cmd_test == 0:

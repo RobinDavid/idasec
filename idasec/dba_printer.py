@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from dba_io import *
+from idasec.dba_io import *
 
 import sys  
 reload(sys)  

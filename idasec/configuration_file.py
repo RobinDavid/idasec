@@ -9,8 +9,8 @@ any later version http://www.gnu.org/licenses/.
 
 import json
 
-from protobuf_json import json2pb, pb2json
-from proto.config_pb2 import configuration
+from idasec.protobuf_json import json2pb, pb2json
+from idasec.proto.config_pb2 import configuration
 from idasec.exception import assert_ida_available
 
 

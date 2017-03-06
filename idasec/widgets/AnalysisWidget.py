@@ -1,15 +1,16 @@
 # coding: utf8
 
 import base64
+import json
 
 from PyQt5 import QtCore, QtWidgets
+from path import Path
+import idc
+import idautils
 
 from idasec.ui.custom_widgets import ButtonLineEdit
 from idasec.analysis.default_analysis import STATIC, STATIC_AND_DYNAMIC
-
-import json
 from idasec.protobuf_json import json2pb, pb2json
-from path import Path
 from idasec.proto.config_pb2 import input_t
 import idasec.proto.common_pb2 as common_pb2
 import idasec.proto.libcall_pb2 as libcall_pb2
@@ -17,9 +18,6 @@ import idasec.proto.syscall_pb2 as syscall_pb2
 import idasec.proto.instruction_pb2 as instruction_pb2
 from idasec.utils import register_name_to_size, hex_to_bin, to_hex
 from idasec.ui.analysis_ui import Ui_Analysis
-
-import idc
-import idautils
 
 
 class AnalysisWidget(QtWidgets.QWidget, Ui_Analysis):

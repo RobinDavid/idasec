@@ -1,6 +1,6 @@
-from proto.message_pb2 import *
-from proto.common_pb2 import *
-from dba_io import parse_dbalist
+from idasec.proto.message_pb2 import *
+from idasec.proto.common_pb2 import *
+from idasec.dba_io import parse_dbalist
 
 
 class AbstractMessage:

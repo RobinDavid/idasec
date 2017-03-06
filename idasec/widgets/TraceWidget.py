@@ -2,13 +2,12 @@
 
 from PyQt5 import QtCore, QtWidgets
 from path import Path
-from idasec.trace import Trace
 from google.protobuf.message import DecodeError
-
-from idasec.ui.trace_ui import Ui_trace_form
-
 import idc
 import idaapi
+
+from idasec.trace import Trace
+from idasec.ui.trace_ui import Ui_trace_form
 
 
 class TraceWidget(QtWidgets.QWidget, Ui_trace_form):

@@ -1,7 +1,7 @@
-import datetime
+
+from PyQt5 import QtWidgets
 
 from idasec.broker import Broker
-from PyQt5 import QtGui, QtCore, QtWidgets
 from idasec.trace import raw_parse_trace
 from idasec.commands import *
 

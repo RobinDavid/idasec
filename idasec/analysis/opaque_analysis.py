@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from collections import namedtuple
+
+import idc
+import idautils
+
 from idasec.commands import *
 from idasec.analysis.default_analysis import DefaultAnalysis
 from idasec.proto.analysis_config_pb2 import po_analysis_results
 from idasec.report_generator import make_cell, RED, GREEN, PURPLE, HTMLReport
 from idasec.widgets.StandardParamWidget import StandardParamConfigWidget
 from idasec.widgets.StandardResultWidget import StandardResultWidget
-from collections import namedtuple
-
-import idc
-import idautils
 
 
 # ============================= RESULT CLASS (pb dependant) ==========================

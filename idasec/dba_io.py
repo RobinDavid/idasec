@@ -1,6 +1,6 @@
-from dba import *
-from proto import dba_pb2
-from proto.dba_pb2 import dbaexpr
+from idasec.dba import *
+from idasec.proto import dba_pb2
+from idasec.proto.dba_pb2 import dbaexpr
 
 
 class GenerationError(Exception):
