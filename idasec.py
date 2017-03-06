@@ -26,6 +26,7 @@
 import sys
 import datetime
 import re
+import sip
 
 from PyQt5 import QtCore, QtWidgets
 from path import Path
@@ -150,8 +151,10 @@ class IDASecForm(PluginForm):
         else:
             return DefaultAnalysis
 
+    '''
     def Show(self):
         return PluginForm.Show(self, NAME, options=(PluginForm.FORM_CLOSE_LATER | PluginForm.FORM_RESTORE | PluginForm.FORM_SAVE))
+    '''
 
     def add_trace(self, t):
         index = self.core.add_trace(t)
@@ -219,6 +222,7 @@ class IDASecForm(PluginForm):
 ################################################################################
 # Usage as plugin
 ################################################################################
+
 def PLUGIN_ENTRY():
     return IDASecPlugin()
 
@@ -270,7 +274,7 @@ def main():
         return
     except Exception:
         IDASEC = IDASecForm()
-    IDASEC.Show()
+    IDASEC.Show("Idasec")
 
 
 def main_standalone():

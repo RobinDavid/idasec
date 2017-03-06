@@ -3,11 +3,6 @@
 
 from idasec.dba_io import *
 
-import sys  
-reload(sys)  
-sys.setdefaultencoding('utf8')
-
-
 def to_indice_str(s):
     matrix = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"]
     ret = ""

@@ -14,7 +14,6 @@ from idasec.utils import to_hex
 from idasec.commands import END, DECODE_INSTR_REPLY
 
 
-
 class MainWidget(QtWidgets.QWidget, Ui_Main):
     def __init__(self, parent):
         super(MainWidget, self).__init__()
