@@ -144,16 +144,19 @@ class CallRetAnalysis(DefaultAnalysis):
         self.result_widget.action_selector_changed(self.ANNOT_CODE)
 
     def generate_chart(self, _):
-        import plotly
-        import plotly.graph_objs as go
-        data = [[0, 0, 0], [0, 0, 0]]
-        ok, viol = self.results.get_ok_viol()
-        x = ["OK (%d)" % ok, "Tampering (%d)" % viol]
-        for ret in self.results:
-            i = 1 if ret.is_tampering() else 0
-            data[i][0] += ret.is_aligned()
-            data[i][1] += ret.is_disaligned()
-            data[i][2] += ret.is_single()
-        final_data = [go.Bar(x=x, y=[x[0] for x in data], name="Aligned"), go.Bar(x=x, y=[x[1] for x in data], name="Disaligned"), go.Bar(x=x, y=[x[2] for x in data], name="Single")]
-        fig = go.Figure(data=final_data, layout=go.Layout(barmode='group', title='Call stack tampering labels'))
-        plotly.offline.plot(fig, output_type='file', include_plotlyjs=True, auto_open=True)
+        try:
+            import plotly
+            import plotly.graph_objs as go
+            data = [[0, 0, 0], [0, 0, 0]]
+            ok, viol = self.results.get_ok_viol()
+            x = ["OK (%d)" % ok, "Tampering (%d)" % viol]
+            for ret in self.results:
+                i = 1 if ret.is_tampering() else 0
+                data[i][0] += ret.is_aligned()
+                data[i][1] += ret.is_disaligned()
+                data[i][2] += ret.is_single()
+            final_data = [go.Bar(x=x, y=[x[0] for x in data], name="Aligned"), go.Bar(x=x, y=[x[1] for x in data], name="Disaligned"), go.Bar(x=x, y=[x[2] for x in data], name="Single")]
+            fig = go.Figure(data=final_data, layout=go.Layout(barmode='group', title='Call stack tampering labels'))
+            plotly.offline.plot(fig, output_type='file', include_plotlyjs=True, auto_open=True)
+        except ImportError:
+            self.log("ERROR", "Plotly module not available")
