@@ -13,17 +13,18 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import common_pb2
-import dba_pb2
-import config_pb2
+import common_pb2 as common__pb2
+import dba_pb2 as dba__pb2
+import config_pb2 as config__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='message.proto',
   package='',
+  syntax='proto2',
   serialized_pb=_b('\n\rmessage.proto\x1a\x0c\x63ommon.proto\x1a\tdba.proto\x1a\x0c\x63onfig.proto\"\x98\x01\n\x12message_start_exec\x12\r\n\x05start\x18\x01 \x02(\x04\x12\x0c\n\x04stop\x18\x02 \x02(\x04\x12\x19\n\x0bsize_chunks\x18\x03 \x01(\r:\x04\x31\x30\x30\x30\x12\x13\n\x0b\x62reakpoints\x18\x04 \x03(\x04\x12&\n\x06inputs\x18\x05 \x03(\x0b\x32\x16.configuration.input_t\x12\r\n\x05skips\x18\x06 \x03(\x04\"\"\n\x12message_bp_reached\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x04\"6\n\rmessage_patch\x12%\n\x05patch\x18\x01 \x03(\x0b\x32\x16.configuration.input_t\"F\n\rmessage_infos\x12\x12\n\nnb_workers\x18\x01 \x02(\r\x12\x10\n\x08\x61nalyses\x18\x02 \x03(\t\x12\x0f\n\x07solvers\x18\x03 \x03(\t\"\xf7\x01\n\x14message_decode_instr\x12\x31\n\x06instrs\x18\x01 \x03(\x0b\x32!.message_decode_instr.instr_entry\x12\x31\n\x04kind\x18\x02 \x01(\x0e\x32\x1e.message_decode_instr.bin_kind:\x03\x42IN\x12&\n\x06irkind\x18\x03 \x01(\x0e\x32\x11.common.ir_kind_t:\x03\x44\x42\x41\x1a\x32\n\x0binstr_entry\x12\r\n\x05instr\x18\x01 \x02(\t\x12\x14\n\tbase_addr\x18\x02 \x01(\x04:\x01\x30\"\x1d\n\x08\x62in_kind\x12\x08\n\x04HEXA\x10\x01\x12\x07\n\x03\x42IN\x10\x02\"\xca\x01\n\x1amessage_decode_instr_reply\x12\x37\n\x06instrs\x18\x01 \x03(\x0b\x32\'.message_decode_instr_reply.instr_entry\x1as\n\x0binstr_entry\x12\x0e\n\x06opcode\x18\x01 \x02(\t\x12!\n\x06irkind\x18\x02 \x02(\x0e\x32\x11.common.ir_kind_t\x12#\n\ndba_instrs\x18\x03 \x01(\x0b\x32\r.dba.dba_listH\x00\x42\x0c\n\ninstrs_cnt\"\xac\x03\n\x17message_start_symb_exec\x12\x37\n\ntrace_type\x18\x01 \x02(\x0e\x32#.message_start_symb_exec.trace_kind\x12\x0c\n\x04name\x18\x02 \x02(\t\x12$\n\x06solver\x18\x03 \x01(\x0e\x32\x10.common.solver_t:\x02Z3\x12,\n\x06\x63onfig\x18\x04 \x01(\x0b\x32\x1c.configuration.configuration\x12&\n\x06irkind\x18\x05 \x01(\x0e\x32\x11.common.ir_kind_t:\x03\x44\x42\x41\x12\x1d\n\x15\x66ormula_optim_cstfold\x18\x06 \x01(\x08\x12\x1c\n\x14\x66ormula_optim_rebase\x18\x07 \x01(\x08\x12\x19\n\x11\x66ormula_optim_row\x18\x08 \x01(\x08\x12\x0f\n\x07verbose\x18\t \x02(\r\x12\x16\n\x0e\x61\x64\x64r_predicate\x18\n \x01(\x04\x12\x11\n\tpredicate\x18\x0b \x01(\t\x12\x16\n\x0etrace_filename\x18\x0c \x01(\t\"\"\n\ntrace_kind\x12\x08\n\x04\x46ILE\x10\x01\x12\n\n\x06STREAM\x10\x02\"\xe0\x01\n\x0emessage_output\x12)\n\x04type\x18\x01 \x02(\x0e\x32\x1b.message_output.output_kind\x12\x0f\n\x07message\x18\x02 \x02(\t\x12\x11\n\tram_total\x18\x03 \x01(\r\x12\x10\n\x08ram_free\x18\x04 \x01(\r\x12\x15\n\rram_available\x18\x05 \x01(\r\"V\n\x0boutput_kind\x12\x0b\n\x07SUCCESS\x10\x01\x12\n\n\x06RESULT\x10\x02\x12\t\n\x05\x44\x45\x42UG\x10\x03\x12\x0b\n\x07WARNING\x10\x04\x12\t\n\x05\x45RROR\x10\x05\x12\x0b\n\x07\x46\x41ILURE\x10\x06')
   ,
-  dependencies=[common_pb2.DESCRIPTOR,dba_pb2.DESCRIPTOR,config_pb2.DESCRIPTOR,])
+  dependencies=[common__pb2.DESCRIPTOR,dba__pb2.DESCRIPTOR,config__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -168,6 +169,7 @@ _MESSAGE_START_EXEC = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -198,6 +200,7 @@ _MESSAGE_BP_REACHED = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -228,6 +231,7 @@ _MESSAGE_PATCH = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -272,6 +276,7 @@ _MESSAGE_INFOS = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -309,6 +314,7 @@ _MESSAGE_DECODE_INSTR_INSTR_ENTRY = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -353,6 +359,7 @@ _MESSAGE_DECODE_INSTR = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -397,6 +404,7 @@ _MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -429,6 +437,7 @@ _MESSAGE_DECODE_INSTR_REPLY = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -537,6 +546,7 @@ _MESSAGE_START_SYMB_EXEC = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -596,6 +606,7 @@ _MESSAGE_OUTPUT = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -603,24 +614,24 @@ _MESSAGE_OUTPUT = _descriptor.Descriptor(
   serialized_end=1486,
 )
 
-_MESSAGE_START_EXEC.fields_by_name['inputs'].message_type = config_pb2._INPUT_T
-_MESSAGE_PATCH.fields_by_name['patch'].message_type = config_pb2._INPUT_T
+_MESSAGE_START_EXEC.fields_by_name['inputs'].message_type = config__pb2._INPUT_T
+_MESSAGE_PATCH.fields_by_name['patch'].message_type = config__pb2._INPUT_T
 _MESSAGE_DECODE_INSTR_INSTR_ENTRY.containing_type = _MESSAGE_DECODE_INSTR
 _MESSAGE_DECODE_INSTR.fields_by_name['instrs'].message_type = _MESSAGE_DECODE_INSTR_INSTR_ENTRY
 _MESSAGE_DECODE_INSTR.fields_by_name['kind'].enum_type = _MESSAGE_DECODE_INSTR_BIN_KIND
-_MESSAGE_DECODE_INSTR.fields_by_name['irkind'].enum_type = common_pb2._IR_KIND_T
+_MESSAGE_DECODE_INSTR.fields_by_name['irkind'].enum_type = common__pb2._IR_KIND_T
 _MESSAGE_DECODE_INSTR_BIN_KIND.containing_type = _MESSAGE_DECODE_INSTR
-_MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.fields_by_name['irkind'].enum_type = common_pb2._IR_KIND_T
-_MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.fields_by_name['dba_instrs'].message_type = dba_pb2._DBA_LIST
+_MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.fields_by_name['irkind'].enum_type = common__pb2._IR_KIND_T
+_MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.fields_by_name['dba_instrs'].message_type = dba__pb2._DBA_LIST
 _MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.containing_type = _MESSAGE_DECODE_INSTR_REPLY
 _MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.oneofs_by_name['instrs_cnt'].fields.append(
   _MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.fields_by_name['dba_instrs'])
 _MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.fields_by_name['dba_instrs'].containing_oneof = _MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY.oneofs_by_name['instrs_cnt']
 _MESSAGE_DECODE_INSTR_REPLY.fields_by_name['instrs'].message_type = _MESSAGE_DECODE_INSTR_REPLY_INSTR_ENTRY
 _MESSAGE_START_SYMB_EXEC.fields_by_name['trace_type'].enum_type = _MESSAGE_START_SYMB_EXEC_TRACE_KIND
-_MESSAGE_START_SYMB_EXEC.fields_by_name['solver'].enum_type = common_pb2._SOLVER_T
-_MESSAGE_START_SYMB_EXEC.fields_by_name['config'].message_type = config_pb2._CONFIGURATION
-_MESSAGE_START_SYMB_EXEC.fields_by_name['irkind'].enum_type = common_pb2._IR_KIND_T
+_MESSAGE_START_SYMB_EXEC.fields_by_name['solver'].enum_type = common__pb2._SOLVER_T
+_MESSAGE_START_SYMB_EXEC.fields_by_name['config'].message_type = config__pb2._CONFIGURATION
+_MESSAGE_START_SYMB_EXEC.fields_by_name['irkind'].enum_type = common__pb2._IR_KIND_T
 _MESSAGE_START_SYMB_EXEC_TRACE_KIND.containing_type = _MESSAGE_START_SYMB_EXEC
 _MESSAGE_OUTPUT.fields_by_name['type'].enum_type = _MESSAGE_OUTPUT_OUTPUT_KIND
 _MESSAGE_OUTPUT_OUTPUT_KIND.containing_type = _MESSAGE_OUTPUT

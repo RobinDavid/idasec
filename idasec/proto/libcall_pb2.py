@@ -14,15 +14,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import common_pb2
+import common_pb2 as common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='libcall.proto',
   package='libcall_types',
+  syntax='proto2',
   serialized_pb=_b('\n\rlibcall.proto\x12\rlibcall_types\x1a\x0c\x63ommon.proto\"\x96\x0b\n\x0blibcall_pol\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x30\n\x05ident\x18\x02 \x01(\x0e\x32\x18.libcall_types.lib_ident:\x07GENERIC\x12,\n\x06\x61\x63tion\x18\x03 \x01(\x0e\x32\x16.common.tracing_action:\x04SKIP\x12\x1a\n\x12restrict_addresses\x18\x04 \x03(\x04\x12+\n\x06strcpy\x18\x05 \x01(\x0b\x32\x19.libcall_types.strcpy_polH\x00\x12+\n\x06printf\x18\x06 \x01(\x0b\x32\x19.libcall_types.printf_polH\x00\x12\'\n\x04\x61toi\x18\x07 \x01(\x0b\x32\x17.libcall_types.atoi_polH\x00\x12+\n\x06malloc\x18\x08 \x01(\x0b\x32\x19.libcall_types.malloc_polH\x00\x12=\n\x0fgetmodulehandle\x18\t \x01(\x0b\x32\".libcall_types.getmodulehandle_polH\x00\x12;\n\x0egetprocaddress\x18\n \x01(\x0b\x32!.libcall_types.getprocaddress_polH\x00\x12\x35\n\x0bgetmainargs\x18\x0b \x01(\x0b\x32\x1e.libcall_types.getmainargs_polH\x00\x12\x35\n\x0bgethostname\x18\x0c \x01(\x0b\x32\x1e.libcall_types.gethostname_polH\x00\x12\'\n\x04\x66ree\x18\r \x01(\x0b\x32\x17.libcall_types.free_polH\x00\x12+\n\x06memcpy\x18\x0e \x01(\x0b\x32\x19.libcall_types.memcpy_polH\x00\x12+\n\x06memset\x18\x0f \x01(\x0b\x32\x19.libcall_types.memset_polH\x00\x12)\n\x05\x66getc\x18\x10 \x01(\x0b\x32\x18.libcall_types.fgetc_polH\x00\x12\'\n\x04read\x18\x11 \x01(\x0b\x32\x17.libcall_types.read_polH\x00\x12+\n\x06strchr\x18\x12 \x01(\x0b\x32\x19.libcall_types.strchr_polH\x00\x12\'\n\x04\x65xit\x18\x13 \x01(\x0b\x32\x17.libcall_types.exit_polH\x00\x12+\n\x06strcmp\x18\x14 \x01(\x0b\x32\x19.libcall_types.strcmp_polH\x00\x12-\n\x07strcpy2\x18\x15 \x01(\x0b\x32\x1a.libcall_types.strcpy2_polH\x00\x12\x35\n\x0b\x63type_b_loc\x18\x16 \x01(\x0b\x32\x1e.libcall_types.ctype_b_loc_polH\x00\x12+\n\x06\x66scanf\x18\x17 \x01(\x0b\x32\x19.libcall_types.fscanf_polH\x00\x12-\n\x07strncpy\x18\x18 \x01(\x0b\x32\x1a.libcall_types.strncpy_polH\x00\x12)\n\x05\x66stat\x18\x19 \x01(\x0b\x32\x18.libcall_types.fstat_polH\x00\x12-\n\x07realloc\x18\x1a \x01(\x0b\x32\x1a.libcall_types.realloc_polH\x00\x12\'\n\x04mmap\x18\x1b \x01(\x0b\x32\x17.libcall_types.mmap_polH\x00\x12)\n\x05qsort\x18\x1c \x01(\x0b\x32\x18.libcall_types.qsort_polH\x00\x12-\n\x07\x62search\x18\x1d \x01(\x0b\x32\x1a.libcall_types.bsearch_polH\x00\x12,\n\topen_stub\x18\x1e \x01(\x0b\x32\x17.libcall_types.open_polH\x00\x12-\n\x07generic\x18\x32 \x01(\x0b\x32\x1a.libcall_types.generic_polH\x00\x42\r\n\x0blibcall_cnt\"\xb6\n\n\tlibcall_t\x12\x11\n\tfunc_addr\x18\x01 \x02(\x04\x12\x11\n\tfunc_name\x18\x02 \x02(\t\x12\x11\n\tis_traced\x18\x03 \x02(\x08\x12\'\n\x05ident\x18\x04 \x02(\x0e\x32\x18.libcall_types.lib_ident\x12)\n\x06strcpy\x18\x05 \x01(\x0b\x32\x17.libcall_types.strcpy_tH\x00\x12)\n\x06printf\x18\x06 \x01(\x0b\x32\x17.libcall_types.printf_tH\x00\x12%\n\x04\x61toi\x18\x07 \x01(\x0b\x32\x15.libcall_types.atoi_tH\x00\x12)\n\x06malloc\x18\x08 \x01(\x0b\x32\x17.libcall_types.malloc_tH\x00\x12;\n\x0fgetmodulehandle\x18\t \x01(\x0b\x32 .libcall_types.getmodulehandle_tH\x00\x12\x39\n\x0egetprocaddress\x18\n \x01(\x0b\x32\x1f.libcall_types.getprocaddress_tH\x00\x12\x33\n\x0bgetmainargs\x18\x0b \x01(\x0b\x32\x1c.libcall_types.getmainargs_tH\x00\x12\x33\n\x0bgethostname\x18\x0c \x01(\x0b\x32\x1c.libcall_types.gethostname_tH\x00\x12%\n\x04\x66ree\x18\r \x01(\x0b\x32\x15.libcall_types.free_tH\x00\x12)\n\x06memcpy\x18\x0e \x01(\x0b\x32\x17.libcall_types.memcpy_tH\x00\x12)\n\x06memset\x18\x0f \x01(\x0b\x32\x17.libcall_types.memset_tH\x00\x12\'\n\x05\x66getc\x18\x10 \x01(\x0b\x32\x16.libcall_types.fgetc_tH\x00\x12+\n\x07generic\x18\x11 \x01(\x0b\x32\x18.libcall_types.generic_tH\x00\x12%\n\x04read\x18\x12 \x01(\x0b\x32\x15.libcall_types.read_tH\x00\x12)\n\x06strchr\x18\x13 \x01(\x0b\x32\x17.libcall_types.strchr_tH\x00\x12%\n\x04\x65xit\x18\x14 \x01(\x0b\x32\x15.libcall_types.exit_tH\x00\x12)\n\x06strcmp\x18\x15 \x01(\x0b\x32\x17.libcall_types.strcmp_tH\x00\x12+\n\x07strcpy2\x18\x16 \x01(\x0b\x32\x18.libcall_types.strcpy2_tH\x00\x12\x33\n\x0b\x63type_b_loc\x18\x17 \x01(\x0b\x32\x1c.libcall_types.ctype_b_loc_tH\x00\x12)\n\x06\x66scanf\x18\x18 \x01(\x0b\x32\x17.libcall_types.fscanf_tH\x00\x12+\n\x07strncpy\x18\x19 \x01(\x0b\x32\x18.libcall_types.strncpy_tH\x00\x12\'\n\x05\x66stat\x18\x1a \x01(\x0b\x32\x16.libcall_types.fstat_tH\x00\x12+\n\x07realloc\x18\x1b \x01(\x0b\x32\x18.libcall_types.realloc_tH\x00\x12%\n\x04mmap\x18\x1c \x01(\x0b\x32\x15.libcall_types.mmap_tH\x00\x12\'\n\x05qsort\x18\x1d \x01(\x0b\x32\x16.libcall_types.qsort_tH\x00\x12+\n\x07\x62search\x18\x1e \x01(\x0b\x32\x18.libcall_types.bsearch_tH\x00\x12*\n\topen_stub\x18\x1f \x01(\x0b\x32\x15.libcall_types.open_tH\x00\x42\r\n\x0blibcall_cnt\"*\n\x0bgeneric_pol\x12\x1b\n\x03ret\x18\x01 \x02(\x0e\x32\x0e.common.action\"Q\n\x0f\x63type_b_loc_pol\x12!\n\x05table\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x02 \x02(\x0e\x32\x0e.common.action\"\n\n\x08\x65xit_pol\"h\n\nfscanf_pol\x12\x1e\n\x06stream\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1d\n\x05\x65lems\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"\x83\x01\n\x08read_pol\x12\x1a\n\x02\x66\x64\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1f\n\x03\x62uf\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1d\n\x05\x63ount\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x04 \x02(\x0e\x32\x0e.common.action\"k\n\nstrcmp_pol\x12\x1f\n\x03src\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1f\n\x03\x64st\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"h\n\nstrchr_pol\x12\x1e\n\x02sc\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1d\n\x01\x63\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"\r\n\x0bstrcpy2_pol\"\x7f\n\x0bstrncpy_pol\x12\x1b\n\x03\x64st\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03src\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x19\n\x01n\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x04 \x02(\x0e\x32\x0e.common.action\"c\n\tfstat_pol\x12\x1a\n\x02\x66\x64\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1d\n\x03\x62uf\x18\x02 \x02(\x0b\x32\x10.common.memory_t\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"e\n\x0brealloc_pol\x12\x1b\n\x03ptr\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1c\n\x04size\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"\xe2\x01\n\x08mmap_pol\x12\x1c\n\x04\x61\x64\x64r\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1e\n\x06length\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x1c\n\x04prot\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1d\n\x05\x66lags\x18\x04 \x02(\x0e\x32\x0e.common.action\x12\x1a\n\x02\x66\x64\x18\x05 \x02(\x0e\x32\x0e.common.action\x12\x1e\n\x06offset\x18\x06 \x02(\x0e\x32\x0e.common.action\x12\x1f\n\x03ret\x18\x07 \x02(\x0b\x32\x12.common.memory_pol\"\x8b\x01\n\tqsort_pol\x12 \n\x04\x62\x61se\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1d\n\x05nmemb\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x1c\n\x04size\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1f\n\x07\x63ompare\x18\x04 \x02(\x0e\x32\x0e.common.action\"\xcf\x01\n\x0b\x62search_pol\x12\x1f\n\x03key\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12 \n\x04\x62\x61se\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1d\n\x05nmemb\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1c\n\x04size\x18\x04 \x02(\x0e\x32\x0e.common.action\x12\x1f\n\x07\x63ompare\x18\x05 \x02(\x0e\x32\x0e.common.action\x12\x1f\n\x03ret\x18\x06 \x02(\x0b\x32\x12.common.memory_pol\"\x8a\x01\n\x08open_pol\x12$\n\x08pathname\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1d\n\x05\x66lags\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x1c\n\x04mode\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x04 \x02(\x0e\x32\x0e.common.action\"k\n\nstrcpy_pol\x12\x1f\n\x03src\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1f\n\x03\x64st\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"M\n\nprintf_pol\x12\"\n\x06\x66ormat\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x02 \x02(\x0e\x32\x0e.common.action\"H\n\x08\x61toi_pol\x12\x1f\n\x03src\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"G\n\nmalloc_pol\x12\x1c\n\x04size\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x02 \x02(\x0e\x32\x0e.common.action\"[\n\x13getmodulehandle_pol\x12\'\n\x0bmodule_name\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x02 \x02(\x0e\x32\x0e.common.action\"y\n\x12getprocaddress_pol\x12\x1f\n\x07hmodule\x18\x01 \x02(\x0e\x32\x0e.common.action\x12%\n\tproc_name\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"\xde\x01\n\x0fgetmainargs_pol\x12 \n\x04\x61rgc\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12 \n\x04\x61rgv\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1f\n\x03\x65nv\x18\x03 \x02(\x0b\x32\x12.common.memory_pol\x12\"\n\ndowildcard\x18\x04 \x02(\x0e\x32\x0e.common.action\x12%\n\tstartinfo\x18\x05 \x02(\x0b\x32\x12.common.memory_pol\x12\x1b\n\x03ret\x18\x06 \x02(\x0e\x32\x0e.common.action\"q\n\x0fgethostname_pol\x12 \n\x04name\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1f\n\x07namelen\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x03 \x02(\x0e\x32\x0e.common.action\"\'\n\x08\x66ree_pol\x12\x1b\n\x03ptr\x18\x01 \x02(\x0e\x32\x0e.common.action\"\x8a\x01\n\nmemcpy_pol\x12 \n\x04\x64\x65st\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x1f\n\x03src\x18\x02 \x02(\x0b\x32\x12.common.memory_pol\x12\x1c\n\x04size\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x04 \x02(\x0e\x32\x0e.common.action\"\x81\x01\n\nmemset_pol\x12\x1d\n\x01s\x18\x01 \x02(\x0b\x32\x12.common.memory_pol\x12\x19\n\x01\x63\x18\x02 \x02(\x0e\x32\x0e.common.action\x12\x1c\n\x04size\x18\x03 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x04 \x02(\x0e\x32\x0e.common.action\"H\n\tfgetc_pol\x12\x1e\n\x06stream\x18\x01 \x02(\x0e\x32\x0e.common.action\x12\x1b\n\x03ret\x18\x02 \x02(\x0e\x32\x0e.common.action\"\x08\n\x06\x65xit_t\"\x18\n\tgeneric_t\x12\x0b\n\x03ret\x18\x01 \x02(\x04\"\x82\x01\n\rfscanf_elem_t\x12(\n\x04type\x18\x01 \x02(\x0e\x32\x1a.libcall_types.fscanf_enum\x12\x0c\n\x04\x61\x64\x64r\x18\x02 \x02(\x04\x12\x13\n\tvalue_dec\x18\x03 \x01(\x04H\x00\x12\x16\n\x0cvalue_string\x18\x04 \x01(\tH\x00\x42\x0c\n\nfscanf_cnt\"T\n\x08\x66scanf_t\x12\x0e\n\x06stream\x18\x01 \x02(\x04\x12+\n\x05\x65lems\x18\x02 \x03(\x0b\x32\x1c.libcall_types.fscanf_elem_t\x12\x0b\n\x03ret\x18\x03 \x02(\x04\"=\n\rctype_b_loc_t\x12\x1f\n\x05table\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x02 \x02(\x04\"=\n\x06read_t\x12\n\n\x02\x66\x64\x18\x01 \x02(\x04\x12\x0b\n\x03\x62uf\x18\x02 \x02(\x04\x12\r\n\x05\x63ount\x18\x03 \x02(\x04\x12\x0b\n\x03ret\x18\x04 \x02(\x04\"?\n\x08strchr_t\x12\t\n\x01s\x18\x01 \x02(\x04\x12\t\n\x01\x63\x18\x02 \x02(\x04\x12\x10\n\x08size_max\x18\x03 \x02(\x04\x12\x0b\n\x03ret\x18\x04 \x02(\x04\"D\n\tstrcpy2_t\x12\x0b\n\x03\x64st\x18\x01 \x02(\x04\x12\x0b\n\x03src\x18\x02 \x02(\x04\x12\x10\n\x08size_max\x18\x03 \x02(\x04\x12\x0b\n\x03ret\x18\x04 \x02(\x04\"=\n\tstrncpy_t\x12\x0b\n\x03\x64st\x18\x01 \x02(\x04\x12\x0b\n\x03src\x18\x02 \x02(\x04\x12\t\n\x01n\x18\x03 \x02(\x04\x12\x0b\n\x03ret\x18\x04 \x02(\x04\"A\n\x07\x66stat_t\x12\n\n\x02\x66\x64\x18\x01 \x02(\x04\x12\x1d\n\x03\x62uf\x18\x02 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x03 \x02(\x04\"3\n\trealloc_t\x12\x0b\n\x03ptr\x18\x01 \x02(\x04\x12\x0c\n\x04size\x18\x02 \x02(\x04\x12\x0b\n\x03ret\x18\x03 \x02(\x04\"~\n\x06mmap_t\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x04\x12\x0e\n\x06length\x18\x02 \x02(\x04\x12\x0c\n\x04prot\x18\x03 \x02(\x04\x12\r\n\x05\x66lags\x18\x04 \x02(\x04\x12\n\n\x02\x66\x64\x18\x05 \x02(\x04\x12\x0e\n\x06offset\x18\x06 \x02(\x04\x12\x1d\n\x03ret\x18\x07 \x02(\x0b\x32\x10.common.memory_t\"W\n\x07qsort_t\x12\x1e\n\x04\x62\x61se\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\r\n\x05nmemb\x18\x02 \x02(\x04\x12\x0c\n\x04size\x18\x03 \x02(\x04\x12\x0f\n\x07\x63ompare\x18\x04 \x02(\x04\"\x97\x01\n\tbsearch_t\x12\x1d\n\x03key\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x1e\n\x04\x62\x61se\x18\x02 \x02(\x0b\x32\x10.common.memory_t\x12\r\n\x05nmemb\x18\x03 \x02(\x04\x12\x0c\n\x04size\x18\x04 \x02(\x04\x12\x0f\n\x07\x63ompare\x18\x05 \x02(\x04\x12\x1d\n\x03ret\x18\x06 \x02(\x0b\x32\x10.common.memory_t\"V\n\x06open_t\x12\"\n\x08pathname\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\r\n\x05\x66lags\x18\x03 \x02(\x04\x12\x0c\n\x04mode\x18\x04 \x02(\x04\x12\x0b\n\x03ret\x18\x05 \x02(\x04\"U\n\x08strcpy_t\x12\x1d\n\x03src\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x1d\n\x03\x64st\x18\x02 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x03 \x02(\x04\"Y\n\x08strcmp_t\x12\n\n\x02s1\x18\x01 \x02(\x04\x12\n\n\x02s2\x18\x02 \x02(\x04\x12\x13\n\x0bsize_max_s1\x18\x03 \x02(\x04\x12\x13\n\x0bsize_max_s2\x18\x04 \x02(\x04\x12\x0b\n\x03ret\x18\x05 \x02(\x04\"9\n\x08printf_t\x12 \n\x06\x66ormat\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x02 \x02(\x04\"4\n\x06\x61toi_t\x12\x1d\n\x03src\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x03 \x02(\x04\"%\n\x08malloc_t\x12\x0c\n\x04size\x18\x01 \x02(\x04\x12\x0b\n\x03ret\x18\x02 \x02(\x04\"G\n\x11getmodulehandle_t\x12%\n\x0bmodule_name\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x02 \x02(\x04\"U\n\x10getprocaddress_t\x12\x0f\n\x07hmodule\x18\x01 \x02(\x04\x12#\n\tproc_name\x18\x02 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x03 \x02(\x04\"\xb4\x01\n\rgetmainargs_t\x12\x1e\n\x04\x61rgc\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x1e\n\x04\x61rgv\x18\x02 \x02(\x0b\x32\x10.common.memory_t\x12\x1d\n\x03\x65nv\x18\x03 \x02(\x0b\x32\x10.common.memory_t\x12\x12\n\ndowildcard\x18\x04 \x02(\x04\x12#\n\tstartinfo\x18\x05 \x02(\x0b\x32\x10.common.memory_t\x12\x0b\n\x03ret\x18\x06 \x02(\x04\"M\n\rgethostname_t\x12\x1e\n\x04name\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x0f\n\x07namelen\x18\x02 \x02(\x04\x12\x0b\n\x03ret\x18\x03 \x02(\x04\"\x15\n\x06\x66ree_t\x12\x0b\n\x03ptr\x18\x01 \x02(\x04\"d\n\x08memcpy_t\x12\x1e\n\x04\x64\x65st\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\x1d\n\x03src\x18\x02 \x02(\x0b\x32\x10.common.memory_t\x12\x0c\n\x04size\x18\x03 \x02(\x04\x12\x0b\n\x03ret\x18\x04 \x02(\x04\"M\n\x08memset_t\x12\x1b\n\x01s\x18\x01 \x02(\x0b\x32\x10.common.memory_t\x12\t\n\x01\x63\x18\x02 \x02(\x04\x12\x0c\n\x04size\x18\x03 \x02(\x04\x12\x0b\n\x03ret\x18\x04 \x02(\x04\"&\n\x07\x66getc_t\x12\x0e\n\x06stream\x18\x01 \x02(\x04\x12\x0b\n\x03ret\x18\x02 \x02(\x04*\x85\x03\n\tlib_ident\x12\x0b\n\x07INVALID\x10\x00\x12\n\n\x06PRINTF\x10\x01\x12\n\n\x06STRCPY\x10\x02\x12\x08\n\x04\x41TOI\x10\x03\x12\n\n\x06MALLOC\x10\x04\x12\x08\n\x04\x46REE\x10\x05\x12\n\n\x06MEMCPY\x10\x06\x12\n\n\x06MEMSET\x10\x07\x12\t\n\x05\x46GETC\x10\x08\x12\x08\n\x04READ\x10\t\x12\n\n\x06STRCHR\x10\n\x12\x08\n\x04\x45XIT\x10\x0b\x12\n\n\x06STRCMP\x10\x0c\x12\x0f\n\x0b\x43TYPE_B_LOC\x10\r\x12\n\n\x06\x46SCANF\x10\x0e\x12\x0b\n\x07STRRCHR\x10\x0f\x12\x0b\n\x07STRNCPY\x10\x10\x12\t\n\x05\x46STAT\x10\x11\x12\x0b\n\x07REALLOC\x10\x12\x12\x08\n\x04MMAP\x10\x13\x12\t\n\x05QSORT\x10\x14\x12\x0b\n\x07\x42SEARCH\x10\x15\x12\r\n\tOPEN_STUB\x10\x16\x12\x0b\n\x07STRCPY2\x10\x33\x12\x13\n\x0fGETMODULEHANDLE\x10\x64\x12\x12\n\x0eGETPROCADDRESS\x10\x65\x12\x0f\n\x0bGETMAINARGS\x10\x66\x12\x0f\n\x0bGETHOSTNAME\x10g\x12\x0c\n\x07GENERIC\x10\xff\x01*\x88\x01\n\x0b\x66scanf_enum\x12\x05\n\x01\x64\x10\x00\x12\x06\n\x02\x64\x64\x10\x01\x12\x05\n\x01i\x10\x02\x12\x05\n\x01o\x10\x03\x12\x05\n\x01u\x10\x04\x12\x05\n\x01x\x10\x05\x12\x06\n\x02xx\x10\x06\x12\x05\n\x01\x66\x10\x07\x12\x05\n\x01\x65\x10\x08\x12\x05\n\x01g\x10\t\x12\x06\n\x02\x65\x65\x10\n\x12\x05\n\x01\x61\x10\x0b\x12\x05\n\x01s\x10\x0c\x12\x05\n\x01\x63\x10\r\x12\x06\n\x02sb\x10\x0e\x12\x05\n\x01p\x10\x0f\x12\x05\n\x01n\x10\x10')
   ,
-  dependencies=[common_pb2.DESCRIPTOR,])
+  dependencies=[common__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _LIB_IDENT = _descriptor.EnumDescriptor(
@@ -520,6 +521,7 @@ _LIBCALL_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -763,6 +765,7 @@ _LIBCALL_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -796,6 +799,7 @@ _GENERIC_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -833,6 +837,7 @@ _CTYPE_B_LOC_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -856,6 +861,7 @@ _EXIT_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -900,6 +906,7 @@ _FSCANF_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -951,6 +958,7 @@ _READ_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -995,6 +1003,7 @@ _STRCMP_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1039,6 +1048,7 @@ _STRCHR_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1062,6 +1072,7 @@ _STRCPY2_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1113,6 +1124,7 @@ _STRNCPY_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1157,6 +1169,7 @@ _FSTAT_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1201,6 +1214,7 @@ _REALLOC_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1273,6 +1287,7 @@ _MMAP_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1324,6 +1339,7 @@ _QSORT_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1389,6 +1405,7 @@ _BSEARCH_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1440,6 +1457,7 @@ _OPEN_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1484,6 +1502,7 @@ _STRCPY_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1521,6 +1540,7 @@ _PRINTF_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1558,6 +1578,7 @@ _ATOI_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1595,6 +1616,7 @@ _MALLOC_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1632,6 +1654,7 @@ _GETMODULEHANDLE_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1676,6 +1699,7 @@ _GETPROCADDRESS_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1741,6 +1765,7 @@ _GETMAINARGS_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1785,6 +1810,7 @@ _GETHOSTNAME_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1815,6 +1841,7 @@ _FREE_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1866,6 +1893,7 @@ _MEMCPY_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1917,6 +1945,7 @@ _MEMSET_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1954,6 +1983,7 @@ _FGETC_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -1977,6 +2007,7 @@ _EXIT_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2007,6 +2038,7 @@ _GENERIC_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2058,6 +2090,7 @@ _FSCANF_ELEM_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -2105,6 +2138,7 @@ _FSCANF_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2142,6 +2176,7 @@ _CTYPE_B_LOC_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2193,6 +2228,7 @@ _READ_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2244,6 +2280,7 @@ _STRCHR_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2295,6 +2332,7 @@ _STRCPY2_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2346,6 +2384,7 @@ _STRNCPY_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2390,6 +2429,7 @@ _FSTAT_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2434,6 +2474,7 @@ _REALLOC_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2506,6 +2547,7 @@ _MMAP_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2557,6 +2599,7 @@ _QSORT_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2622,6 +2665,7 @@ _BSEARCH_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2673,6 +2717,7 @@ _OPEN_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2717,6 +2762,7 @@ _STRCPY_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2775,6 +2821,7 @@ _STRCMP_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2812,6 +2859,7 @@ _PRINTF_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2849,6 +2897,7 @@ _ATOI_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2886,6 +2935,7 @@ _MALLOC_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2923,6 +2973,7 @@ _GETMODULEHANDLE_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -2967,6 +3018,7 @@ _GETPROCADDRESS_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -3032,6 +3084,7 @@ _GETMAINARGS_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -3076,6 +3129,7 @@ _GETHOSTNAME_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -3106,6 +3160,7 @@ _FREE_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -3157,6 +3212,7 @@ _MEMCPY_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -3208,6 +3264,7 @@ _MEMSET_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -3245,6 +3302,7 @@ _FGETC_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -3253,7 +3311,7 @@ _FGETC_T = _descriptor.Descriptor(
 )
 
 _LIBCALL_POL.fields_by_name['ident'].enum_type = _LIB_IDENT
-_LIBCALL_POL.fields_by_name['action'].enum_type = common_pb2._TRACING_ACTION
+_LIBCALL_POL.fields_by_name['action'].enum_type = common__pb2._TRACING_ACTION
 _LIBCALL_POL.fields_by_name['strcpy'].message_type = _STRCPY_POL
 _LIBCALL_POL.fields_by_name['printf'].message_type = _PRINTF_POL
 _LIBCALL_POL.fields_by_name['atoi'].message_type = _ATOI_POL
@@ -3471,87 +3529,87 @@ _LIBCALL_T.fields_by_name['bsearch'].containing_oneof = _LIBCALL_T.oneofs_by_nam
 _LIBCALL_T.oneofs_by_name['libcall_cnt'].fields.append(
   _LIBCALL_T.fields_by_name['open_stub'])
 _LIBCALL_T.fields_by_name['open_stub'].containing_oneof = _LIBCALL_T.oneofs_by_name['libcall_cnt']
-_GENERIC_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_CTYPE_B_LOC_POL.fields_by_name['table'].message_type = common_pb2._MEMORY_POL
-_CTYPE_B_LOC_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_FSCANF_POL.fields_by_name['stream'].enum_type = common_pb2._ACTION
-_FSCANF_POL.fields_by_name['elems'].enum_type = common_pb2._ACTION
-_FSCANF_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_READ_POL.fields_by_name['fd'].enum_type = common_pb2._ACTION
-_READ_POL.fields_by_name['buf'].message_type = common_pb2._MEMORY_POL
-_READ_POL.fields_by_name['count'].enum_type = common_pb2._ACTION
-_READ_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_STRCMP_POL.fields_by_name['src'].message_type = common_pb2._MEMORY_POL
-_STRCMP_POL.fields_by_name['dst'].message_type = common_pb2._MEMORY_POL
-_STRCMP_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_STRCHR_POL.fields_by_name['sc'].message_type = common_pb2._MEMORY_POL
-_STRCHR_POL.fields_by_name['c'].message_type = common_pb2._MEMORY_POL
-_STRCHR_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_STRNCPY_POL.fields_by_name['dst'].enum_type = common_pb2._ACTION
-_STRNCPY_POL.fields_by_name['src'].enum_type = common_pb2._ACTION
-_STRNCPY_POL.fields_by_name['n'].enum_type = common_pb2._ACTION
-_STRNCPY_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_FSTAT_POL.fields_by_name['fd'].enum_type = common_pb2._ACTION
-_FSTAT_POL.fields_by_name['buf'].message_type = common_pb2._MEMORY_T
-_FSTAT_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_REALLOC_POL.fields_by_name['ptr'].enum_type = common_pb2._ACTION
-_REALLOC_POL.fields_by_name['size'].enum_type = common_pb2._ACTION
-_REALLOC_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_MMAP_POL.fields_by_name['addr'].enum_type = common_pb2._ACTION
-_MMAP_POL.fields_by_name['length'].enum_type = common_pb2._ACTION
-_MMAP_POL.fields_by_name['prot'].enum_type = common_pb2._ACTION
-_MMAP_POL.fields_by_name['flags'].enum_type = common_pb2._ACTION
-_MMAP_POL.fields_by_name['fd'].enum_type = common_pb2._ACTION
-_MMAP_POL.fields_by_name['offset'].enum_type = common_pb2._ACTION
-_MMAP_POL.fields_by_name['ret'].message_type = common_pb2._MEMORY_POL
-_QSORT_POL.fields_by_name['base'].message_type = common_pb2._MEMORY_POL
-_QSORT_POL.fields_by_name['nmemb'].enum_type = common_pb2._ACTION
-_QSORT_POL.fields_by_name['size'].enum_type = common_pb2._ACTION
-_QSORT_POL.fields_by_name['compare'].enum_type = common_pb2._ACTION
-_BSEARCH_POL.fields_by_name['key'].message_type = common_pb2._MEMORY_POL
-_BSEARCH_POL.fields_by_name['base'].message_type = common_pb2._MEMORY_POL
-_BSEARCH_POL.fields_by_name['nmemb'].enum_type = common_pb2._ACTION
-_BSEARCH_POL.fields_by_name['size'].enum_type = common_pb2._ACTION
-_BSEARCH_POL.fields_by_name['compare'].enum_type = common_pb2._ACTION
-_BSEARCH_POL.fields_by_name['ret'].message_type = common_pb2._MEMORY_POL
-_OPEN_POL.fields_by_name['pathname'].message_type = common_pb2._MEMORY_POL
-_OPEN_POL.fields_by_name['flags'].enum_type = common_pb2._ACTION
-_OPEN_POL.fields_by_name['mode'].enum_type = common_pb2._ACTION
-_OPEN_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_STRCPY_POL.fields_by_name['src'].message_type = common_pb2._MEMORY_POL
-_STRCPY_POL.fields_by_name['dst'].message_type = common_pb2._MEMORY_POL
-_STRCPY_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_PRINTF_POL.fields_by_name['format'].message_type = common_pb2._MEMORY_POL
-_PRINTF_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_ATOI_POL.fields_by_name['src'].message_type = common_pb2._MEMORY_POL
-_ATOI_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_MALLOC_POL.fields_by_name['size'].enum_type = common_pb2._ACTION
-_MALLOC_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_GETMODULEHANDLE_POL.fields_by_name['module_name'].message_type = common_pb2._MEMORY_POL
-_GETMODULEHANDLE_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_GETPROCADDRESS_POL.fields_by_name['hmodule'].enum_type = common_pb2._ACTION
-_GETPROCADDRESS_POL.fields_by_name['proc_name'].message_type = common_pb2._MEMORY_POL
-_GETPROCADDRESS_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_GETMAINARGS_POL.fields_by_name['argc'].message_type = common_pb2._MEMORY_POL
-_GETMAINARGS_POL.fields_by_name['argv'].message_type = common_pb2._MEMORY_POL
-_GETMAINARGS_POL.fields_by_name['env'].message_type = common_pb2._MEMORY_POL
-_GETMAINARGS_POL.fields_by_name['dowildcard'].enum_type = common_pb2._ACTION
-_GETMAINARGS_POL.fields_by_name['startinfo'].message_type = common_pb2._MEMORY_POL
-_GETMAINARGS_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_GETHOSTNAME_POL.fields_by_name['name'].message_type = common_pb2._MEMORY_POL
-_GETHOSTNAME_POL.fields_by_name['namelen'].enum_type = common_pb2._ACTION
-_GETHOSTNAME_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_FREE_POL.fields_by_name['ptr'].enum_type = common_pb2._ACTION
-_MEMCPY_POL.fields_by_name['dest'].message_type = common_pb2._MEMORY_POL
-_MEMCPY_POL.fields_by_name['src'].message_type = common_pb2._MEMORY_POL
-_MEMCPY_POL.fields_by_name['size'].enum_type = common_pb2._ACTION
-_MEMCPY_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_MEMSET_POL.fields_by_name['s'].message_type = common_pb2._MEMORY_POL
-_MEMSET_POL.fields_by_name['c'].enum_type = common_pb2._ACTION
-_MEMSET_POL.fields_by_name['size'].enum_type = common_pb2._ACTION
-_MEMSET_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
-_FGETC_POL.fields_by_name['stream'].enum_type = common_pb2._ACTION
-_FGETC_POL.fields_by_name['ret'].enum_type = common_pb2._ACTION
+_GENERIC_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_CTYPE_B_LOC_POL.fields_by_name['table'].message_type = common__pb2._MEMORY_POL
+_CTYPE_B_LOC_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_FSCANF_POL.fields_by_name['stream'].enum_type = common__pb2._ACTION
+_FSCANF_POL.fields_by_name['elems'].enum_type = common__pb2._ACTION
+_FSCANF_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_READ_POL.fields_by_name['fd'].enum_type = common__pb2._ACTION
+_READ_POL.fields_by_name['buf'].message_type = common__pb2._MEMORY_POL
+_READ_POL.fields_by_name['count'].enum_type = common__pb2._ACTION
+_READ_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_STRCMP_POL.fields_by_name['src'].message_type = common__pb2._MEMORY_POL
+_STRCMP_POL.fields_by_name['dst'].message_type = common__pb2._MEMORY_POL
+_STRCMP_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_STRCHR_POL.fields_by_name['sc'].message_type = common__pb2._MEMORY_POL
+_STRCHR_POL.fields_by_name['c'].message_type = common__pb2._MEMORY_POL
+_STRCHR_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_STRNCPY_POL.fields_by_name['dst'].enum_type = common__pb2._ACTION
+_STRNCPY_POL.fields_by_name['src'].enum_type = common__pb2._ACTION
+_STRNCPY_POL.fields_by_name['n'].enum_type = common__pb2._ACTION
+_STRNCPY_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_FSTAT_POL.fields_by_name['fd'].enum_type = common__pb2._ACTION
+_FSTAT_POL.fields_by_name['buf'].message_type = common__pb2._MEMORY_T
+_FSTAT_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_REALLOC_POL.fields_by_name['ptr'].enum_type = common__pb2._ACTION
+_REALLOC_POL.fields_by_name['size'].enum_type = common__pb2._ACTION
+_REALLOC_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_MMAP_POL.fields_by_name['addr'].enum_type = common__pb2._ACTION
+_MMAP_POL.fields_by_name['length'].enum_type = common__pb2._ACTION
+_MMAP_POL.fields_by_name['prot'].enum_type = common__pb2._ACTION
+_MMAP_POL.fields_by_name['flags'].enum_type = common__pb2._ACTION
+_MMAP_POL.fields_by_name['fd'].enum_type = common__pb2._ACTION
+_MMAP_POL.fields_by_name['offset'].enum_type = common__pb2._ACTION
+_MMAP_POL.fields_by_name['ret'].message_type = common__pb2._MEMORY_POL
+_QSORT_POL.fields_by_name['base'].message_type = common__pb2._MEMORY_POL
+_QSORT_POL.fields_by_name['nmemb'].enum_type = common__pb2._ACTION
+_QSORT_POL.fields_by_name['size'].enum_type = common__pb2._ACTION
+_QSORT_POL.fields_by_name['compare'].enum_type = common__pb2._ACTION
+_BSEARCH_POL.fields_by_name['key'].message_type = common__pb2._MEMORY_POL
+_BSEARCH_POL.fields_by_name['base'].message_type = common__pb2._MEMORY_POL
+_BSEARCH_POL.fields_by_name['nmemb'].enum_type = common__pb2._ACTION
+_BSEARCH_POL.fields_by_name['size'].enum_type = common__pb2._ACTION
+_BSEARCH_POL.fields_by_name['compare'].enum_type = common__pb2._ACTION
+_BSEARCH_POL.fields_by_name['ret'].message_type = common__pb2._MEMORY_POL
+_OPEN_POL.fields_by_name['pathname'].message_type = common__pb2._MEMORY_POL
+_OPEN_POL.fields_by_name['flags'].enum_type = common__pb2._ACTION
+_OPEN_POL.fields_by_name['mode'].enum_type = common__pb2._ACTION
+_OPEN_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_STRCPY_POL.fields_by_name['src'].message_type = common__pb2._MEMORY_POL
+_STRCPY_POL.fields_by_name['dst'].message_type = common__pb2._MEMORY_POL
+_STRCPY_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_PRINTF_POL.fields_by_name['format'].message_type = common__pb2._MEMORY_POL
+_PRINTF_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_ATOI_POL.fields_by_name['src'].message_type = common__pb2._MEMORY_POL
+_ATOI_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_MALLOC_POL.fields_by_name['size'].enum_type = common__pb2._ACTION
+_MALLOC_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_GETMODULEHANDLE_POL.fields_by_name['module_name'].message_type = common__pb2._MEMORY_POL
+_GETMODULEHANDLE_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_GETPROCADDRESS_POL.fields_by_name['hmodule'].enum_type = common__pb2._ACTION
+_GETPROCADDRESS_POL.fields_by_name['proc_name'].message_type = common__pb2._MEMORY_POL
+_GETPROCADDRESS_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_GETMAINARGS_POL.fields_by_name['argc'].message_type = common__pb2._MEMORY_POL
+_GETMAINARGS_POL.fields_by_name['argv'].message_type = common__pb2._MEMORY_POL
+_GETMAINARGS_POL.fields_by_name['env'].message_type = common__pb2._MEMORY_POL
+_GETMAINARGS_POL.fields_by_name['dowildcard'].enum_type = common__pb2._ACTION
+_GETMAINARGS_POL.fields_by_name['startinfo'].message_type = common__pb2._MEMORY_POL
+_GETMAINARGS_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_GETHOSTNAME_POL.fields_by_name['name'].message_type = common__pb2._MEMORY_POL
+_GETHOSTNAME_POL.fields_by_name['namelen'].enum_type = common__pb2._ACTION
+_GETHOSTNAME_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_FREE_POL.fields_by_name['ptr'].enum_type = common__pb2._ACTION
+_MEMCPY_POL.fields_by_name['dest'].message_type = common__pb2._MEMORY_POL
+_MEMCPY_POL.fields_by_name['src'].message_type = common__pb2._MEMORY_POL
+_MEMCPY_POL.fields_by_name['size'].enum_type = common__pb2._ACTION
+_MEMCPY_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_MEMSET_POL.fields_by_name['s'].message_type = common__pb2._MEMORY_POL
+_MEMSET_POL.fields_by_name['c'].enum_type = common__pb2._ACTION
+_MEMSET_POL.fields_by_name['size'].enum_type = common__pb2._ACTION
+_MEMSET_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
+_FGETC_POL.fields_by_name['stream'].enum_type = common__pb2._ACTION
+_FGETC_POL.fields_by_name['ret'].enum_type = common__pb2._ACTION
 _FSCANF_ELEM_T.fields_by_name['type'].enum_type = _FSCANF_ENUM
 _FSCANF_ELEM_T.oneofs_by_name['fscanf_cnt'].fields.append(
   _FSCANF_ELEM_T.fields_by_name['value_dec'])
@@ -3560,28 +3618,28 @@ _FSCANF_ELEM_T.oneofs_by_name['fscanf_cnt'].fields.append(
   _FSCANF_ELEM_T.fields_by_name['value_string'])
 _FSCANF_ELEM_T.fields_by_name['value_string'].containing_oneof = _FSCANF_ELEM_T.oneofs_by_name['fscanf_cnt']
 _FSCANF_T.fields_by_name['elems'].message_type = _FSCANF_ELEM_T
-_CTYPE_B_LOC_T.fields_by_name['table'].message_type = common_pb2._MEMORY_T
-_FSTAT_T.fields_by_name['buf'].message_type = common_pb2._MEMORY_T
-_MMAP_T.fields_by_name['ret'].message_type = common_pb2._MEMORY_T
-_QSORT_T.fields_by_name['base'].message_type = common_pb2._MEMORY_T
-_BSEARCH_T.fields_by_name['key'].message_type = common_pb2._MEMORY_T
-_BSEARCH_T.fields_by_name['base'].message_type = common_pb2._MEMORY_T
-_BSEARCH_T.fields_by_name['ret'].message_type = common_pb2._MEMORY_T
-_OPEN_T.fields_by_name['pathname'].message_type = common_pb2._MEMORY_T
-_STRCPY_T.fields_by_name['src'].message_type = common_pb2._MEMORY_T
-_STRCPY_T.fields_by_name['dst'].message_type = common_pb2._MEMORY_T
-_PRINTF_T.fields_by_name['format'].message_type = common_pb2._MEMORY_T
-_ATOI_T.fields_by_name['src'].message_type = common_pb2._MEMORY_T
-_GETMODULEHANDLE_T.fields_by_name['module_name'].message_type = common_pb2._MEMORY_T
-_GETPROCADDRESS_T.fields_by_name['proc_name'].message_type = common_pb2._MEMORY_T
-_GETMAINARGS_T.fields_by_name['argc'].message_type = common_pb2._MEMORY_T
-_GETMAINARGS_T.fields_by_name['argv'].message_type = common_pb2._MEMORY_T
-_GETMAINARGS_T.fields_by_name['env'].message_type = common_pb2._MEMORY_T
-_GETMAINARGS_T.fields_by_name['startinfo'].message_type = common_pb2._MEMORY_T
-_GETHOSTNAME_T.fields_by_name['name'].message_type = common_pb2._MEMORY_T
-_MEMCPY_T.fields_by_name['dest'].message_type = common_pb2._MEMORY_T
-_MEMCPY_T.fields_by_name['src'].message_type = common_pb2._MEMORY_T
-_MEMSET_T.fields_by_name['s'].message_type = common_pb2._MEMORY_T
+_CTYPE_B_LOC_T.fields_by_name['table'].message_type = common__pb2._MEMORY_T
+_FSTAT_T.fields_by_name['buf'].message_type = common__pb2._MEMORY_T
+_MMAP_T.fields_by_name['ret'].message_type = common__pb2._MEMORY_T
+_QSORT_T.fields_by_name['base'].message_type = common__pb2._MEMORY_T
+_BSEARCH_T.fields_by_name['key'].message_type = common__pb2._MEMORY_T
+_BSEARCH_T.fields_by_name['base'].message_type = common__pb2._MEMORY_T
+_BSEARCH_T.fields_by_name['ret'].message_type = common__pb2._MEMORY_T
+_OPEN_T.fields_by_name['pathname'].message_type = common__pb2._MEMORY_T
+_STRCPY_T.fields_by_name['src'].message_type = common__pb2._MEMORY_T
+_STRCPY_T.fields_by_name['dst'].message_type = common__pb2._MEMORY_T
+_PRINTF_T.fields_by_name['format'].message_type = common__pb2._MEMORY_T
+_ATOI_T.fields_by_name['src'].message_type = common__pb2._MEMORY_T
+_GETMODULEHANDLE_T.fields_by_name['module_name'].message_type = common__pb2._MEMORY_T
+_GETPROCADDRESS_T.fields_by_name['proc_name'].message_type = common__pb2._MEMORY_T
+_GETMAINARGS_T.fields_by_name['argc'].message_type = common__pb2._MEMORY_T
+_GETMAINARGS_T.fields_by_name['argv'].message_type = common__pb2._MEMORY_T
+_GETMAINARGS_T.fields_by_name['env'].message_type = common__pb2._MEMORY_T
+_GETMAINARGS_T.fields_by_name['startinfo'].message_type = common__pb2._MEMORY_T
+_GETHOSTNAME_T.fields_by_name['name'].message_type = common__pb2._MEMORY_T
+_MEMCPY_T.fields_by_name['dest'].message_type = common__pb2._MEMORY_T
+_MEMCPY_T.fields_by_name['src'].message_type = common__pb2._MEMORY_T
+_MEMSET_T.fields_by_name['s'].message_type = common__pb2._MEMORY_T
 DESCRIPTOR.message_types_by_name['libcall_pol'] = _LIBCALL_POL
 DESCRIPTOR.message_types_by_name['libcall_t'] = _LIBCALL_T
 DESCRIPTOR.message_types_by_name['generic_pol'] = _GENERIC_POL

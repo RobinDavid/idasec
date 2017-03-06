@@ -13,18 +13,19 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import dba_pb2
-import common_pb2
-import syscall_pb2
-import libcall_pb2
+import dba_pb2 as dba__pb2
+import common_pb2 as common__pb2
+import syscall_pb2 as syscall__pb2
+import libcall_pb2 as libcall__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='trace.proto',
   package='trace_format',
+  syntax='proto2',
   serialized_pb=_b('\n\x0btrace.proto\x12\x0ctrace_format\x1a\tdba.proto\x1a\x0c\x63ommon.proto\x1a\rsyscall.proto\x1a\rlibcall.proto\"\xc0\x01\n\x08header_t\x12;\n\x0c\x61rchitecture\x18\x01 \x02(\x0e\x32%.trace_format.header_t.architecture_t\x12*\n\x0c\x61\x64\x64ress_size\x18\x02 \x02(\x0e\x32\x14.common.proto_size_t\x12$\n\x04kind\x18\x03 \x01(\x0e\x32\x11.common.ir_kind_t:\x03\x44\x42\x41\"%\n\x0e\x61rchitecture_t\x12\x07\n\x03X86\x10\x00\x12\n\n\x06X86_64\x10\x01\"\xeb\x02\n\nmetadata_t\x12:\n\x06typeid\x18\x01 \x02(\x0e\x32*.trace_format.metadata_t.typeid_metadata_t\x12\x19\n\x0fmodule_metadata\x18\x02 \x01(\tH\x00\x12\x42\n\x12\x65xception_metadata\x18\x03 \x01(\x0b\x32$.trace_format.metadata_t.exception_tH\x00\x12\x17\n\rwave_metadata\x18\x04 \x01(\rH\x00\x1a\x36\n\x0b\x65xception_t\x12\x16\n\x0etype_exception\x18\x01 \x02(\r\x12\x0f\n\x07handler\x18\x02 \x02(\x04\"]\n\x11typeid_metadata_t\x12\x14\n\x10INVALID_METADATA\x10\x00\x12\x12\n\x0e\x45XCEPTION_TYPE\x10\x01\x12\x0f\n\x0bMODULE_TYPE\x10\x02\x12\r\n\tWAVE_TYPE\x10\x03\x42\x12\n\x10metadata_content\"\xde\x04\n\x0eins_con_info_t\x12>\n\x06typeid\x18\x01 \x02(\x0e\x32..trace_format.ins_con_info_t.typeid_con_info_t\x12+\n\rread_register\x18\x02 \x01(\x0b\x32\x12.common.register_tH\x00\x12,\n\x0ewrite_register\x18\x03 \x01(\x0b\x32\x12.common.register_tH\x00\x12\'\n\x0bload_memory\x18\x04 \x01(\x0b\x32\x10.common.memory_tH\x00\x12(\n\x0cstore_memory\x18\x05 \x01(\x0b\x32\x10.common.memory_tH\x00\x12(\n\x04\x63\x61ll\x18\x06 \x01(\x0b\x32\x18.libcall_types.libcall_tH\x00\x12/\n\x0bsystem_call\x18\x08 \x01(\x0b\x32\x18.syscall_types.syscall_tH\x00\x12\x16\n\x0cnext_address\x18\t \x01(\x04H\x00\x12\x1a\n\x10reserved_comment\x18\n \x01(\tH\x00\x12\x0e\n\x04wave\x18\x0b \x01(\rH\x00\"\xa9\x01\n\x11typeid_con_info_t\x12\x0b\n\x07INVALID\x10\x00\x12\x0b\n\x07REGREAD\x10\x01\x12\x0c\n\x08REGWRITE\x10\x02\x12\x0b\n\x07MEMLOAD\x10\x03\x12\x0c\n\x08MEMSTORE\x10\x04\x12\x08\n\x04\x43\x41LL\x10\x05\x12\x0b\n\x07SYSCALL\x10\x06\x12\x11\n\rNOT_RETRIEVED\x10\x07\x12\x10\n\x0cNEXT_ADDRESS\x10\x08\x12\x0b\n\x07\x43OMMENT\x10\t\x12\x08\n\x04WAVE\x10\nB\x13\n\x11\x63onc_info_content\"\x9c\x01\n\rinstruction_t\x12\x11\n\tthread_id\x18\x01 \x02(\r\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x02(\x04\x12\x0e\n\x06opcode\x18\x03 \x02(\x0c\x12\x34\n\x0e\x63oncrete_infos\x18\x04 \x03(\x0b\x32\x1c.trace_format.ins_con_info_t\x12!\n\ndba_instrs\x18\x05 \x01(\x0b\x32\r.dba.dba_list\"\xde\x01\n\x06\x62ody_t\x12\x32\n\x06typeid\x18\x01 \x02(\x0e\x32\".trace_format.body_t.typeid_body_t\x12,\n\x08metadata\x18\x02 \x01(\x0b\x32\x18.trace_format.metadata_tH\x00\x12\x32\n\x0binstruction\x18\x03 \x01(\x0b\x32\x1b.trace_format.instruction_tH\x00\".\n\rtypeid_body_t\x12\x0c\n\x08METADATA\x10\x00\x12\x0f\n\x0bINSTRUCTION\x10\x01\x42\x0e\n\x0c\x62ody_content\"-\n\x07\x63hunk_t\x12\"\n\x04\x62ody\x18\x01 \x03(\x0b\x32\x14.trace_format.body_t\"U\n\x07trace_t\x12&\n\x06header\x18\x01 \x02(\x0b\x32\x16.trace_format.header_t\x12\"\n\x04\x62ody\x18\x02 \x03(\x0b\x32\x14.trace_format.body_t')
   ,
-  dependencies=[dba_pb2.DESCRIPTOR,common_pb2.DESCRIPTOR,syscall_pb2.DESCRIPTOR,libcall_pb2.DESCRIPTOR,])
+  dependencies=[dba__pb2.DESCRIPTOR,common__pb2.DESCRIPTOR,syscall__pb2.DESCRIPTOR,libcall__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -199,6 +200,7 @@ _HEADER_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -236,6 +238,7 @@ _METADATA_T_EXCEPTION_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -287,6 +290,7 @@ _METADATA_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -384,6 +388,7 @@ _INS_CON_INFO_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -445,6 +450,7 @@ _INSTRUCTION_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -490,6 +496,7 @@ _BODY_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -523,6 +530,7 @@ _CHUNK_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -560,6 +568,7 @@ _TRACE_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -568,8 +577,8 @@ _TRACE_T = _descriptor.Descriptor(
 )
 
 _HEADER_T.fields_by_name['architecture'].enum_type = _HEADER_T_ARCHITECTURE_T
-_HEADER_T.fields_by_name['address_size'].enum_type = common_pb2._PROTO_SIZE_T
-_HEADER_T.fields_by_name['kind'].enum_type = common_pb2._IR_KIND_T
+_HEADER_T.fields_by_name['address_size'].enum_type = common__pb2._PROTO_SIZE_T
+_HEADER_T.fields_by_name['kind'].enum_type = common__pb2._IR_KIND_T
 _HEADER_T_ARCHITECTURE_T.containing_type = _HEADER_T
 _METADATA_T_EXCEPTION_T.containing_type = _METADATA_T
 _METADATA_T.fields_by_name['typeid'].enum_type = _METADATA_T_TYPEID_METADATA_T
@@ -585,12 +594,12 @@ _METADATA_T.oneofs_by_name['metadata_content'].fields.append(
   _METADATA_T.fields_by_name['wave_metadata'])
 _METADATA_T.fields_by_name['wave_metadata'].containing_oneof = _METADATA_T.oneofs_by_name['metadata_content']
 _INS_CON_INFO_T.fields_by_name['typeid'].enum_type = _INS_CON_INFO_T_TYPEID_CON_INFO_T
-_INS_CON_INFO_T.fields_by_name['read_register'].message_type = common_pb2._REGISTER_T
-_INS_CON_INFO_T.fields_by_name['write_register'].message_type = common_pb2._REGISTER_T
-_INS_CON_INFO_T.fields_by_name['load_memory'].message_type = common_pb2._MEMORY_T
-_INS_CON_INFO_T.fields_by_name['store_memory'].message_type = common_pb2._MEMORY_T
-_INS_CON_INFO_T.fields_by_name['call'].message_type = libcall_pb2._LIBCALL_T
-_INS_CON_INFO_T.fields_by_name['system_call'].message_type = syscall_pb2._SYSCALL_T
+_INS_CON_INFO_T.fields_by_name['read_register'].message_type = common__pb2._REGISTER_T
+_INS_CON_INFO_T.fields_by_name['write_register'].message_type = common__pb2._REGISTER_T
+_INS_CON_INFO_T.fields_by_name['load_memory'].message_type = common__pb2._MEMORY_T
+_INS_CON_INFO_T.fields_by_name['store_memory'].message_type = common__pb2._MEMORY_T
+_INS_CON_INFO_T.fields_by_name['call'].message_type = libcall__pb2._LIBCALL_T
+_INS_CON_INFO_T.fields_by_name['system_call'].message_type = syscall__pb2._SYSCALL_T
 _INS_CON_INFO_T_TYPEID_CON_INFO_T.containing_type = _INS_CON_INFO_T
 _INS_CON_INFO_T.oneofs_by_name['conc_info_content'].fields.append(
   _INS_CON_INFO_T.fields_by_name['read_register'])
@@ -620,7 +629,7 @@ _INS_CON_INFO_T.oneofs_by_name['conc_info_content'].fields.append(
   _INS_CON_INFO_T.fields_by_name['wave'])
 _INS_CON_INFO_T.fields_by_name['wave'].containing_oneof = _INS_CON_INFO_T.oneofs_by_name['conc_info_content']
 _INSTRUCTION_T.fields_by_name['concrete_infos'].message_type = _INS_CON_INFO_T
-_INSTRUCTION_T.fields_by_name['dba_instrs'].message_type = dba_pb2._DBA_LIST
+_INSTRUCTION_T.fields_by_name['dba_instrs'].message_type = dba__pb2._DBA_LIST
 _BODY_T.fields_by_name['typeid'].enum_type = _BODY_T_TYPEID_BODY_T
 _BODY_T.fields_by_name['metadata'].message_type = _METADATA_T
 _BODY_T.fields_by_name['instruction'].message_type = _INSTRUCTION_T

@@ -14,15 +14,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import common_pb2
+import common_pb2 as common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='syscall.proto',
   package='syscall_types',
+  syntax='proto2',
   serialized_pb=_b('\n\rsyscall.proto\x12\rsyscall_types\x1a\x0c\x63ommon.proto\"\xda\x01\n\x0bsyscall_pol\x12\n\n\x02id\x18\x01 \x02(\r\x12\x0c\n\x04name\x18\x02 \x02(\t\x12+\n\x05ident\x18\x03 \x02(\x0e\x32\x1c.syscall_types.syscall_ident\x12&\n\x06\x61\x63tion\x18\x04 \x02(\x0e\x32\x16.common.tracing_action\x12\x1a\n\x12restrict_addresses\x18\x05 \x03(\x04\x12-\n\x07nr_read\x18\x06 \x01(\x0b\x32\x1a.syscall_types.nr_read_polH\x00\x42\x11\n\x0fsyscall_pol_cnt\"\xa4\x02\n\tsyscall_t\x12\n\n\x02id\x18\x01 \x02(\r\x12+\n\x05ident\x18\x02 \x02(\x0e\x32\x1c.syscall_types.syscall_ident\x12\x30\n\x0copen_syscall\x18\x03 \x01(\x0b\x32\x18.syscall_types.nr_open_tH\x00\x12\x30\n\x0cread_syscall\x18\x04 \x01(\x0b\x32\x18.syscall_types.nr_read_tH\x00\x12\x31\n\x0cwrite_sycall\x18\x05 \x01(\x0b\x32\x19.syscall_types.nr_write_tH\x00\x12\x36\n\x0egeneric_sycall\x18\x06 \x01(\x0b\x32\x1c.syscall_types.sys_generic_tH\x00\x42\x0f\n\rsyscall_t_cnt\"\x1b\n\x0bnr_read_pol\x12\x0c\n\x04name\x18\x01 \x02(\t\"T\n\tnr_open_t\x12\x11\n\tfile_name\x18\x01 \x02(\t\x12\r\n\x05\x66lags\x18\x02 \x02(\x11\x12\x0c\n\x04mode\x18\x03 \x02(\r\x12\x17\n\x0f\x66ile_descriptor\x18\x04 \x02(\x05\"y\n\tnr_read_t\x12\x17\n\x0f\x66ile_descriptor\x18\x01 \x02(\r\x12\x16\n\x0e\x62uffer_address\x18\x02 \x02(\x04\x12\r\n\x05\x63ount\x18\x03 \x02(\r\x12\x13\n\x0b\x62uffer_data\x18\x04 \x02(\x0c\x12\x17\n\x0f\x63ount_effective\x18\x05 \x02(\r\"z\n\nnr_write_t\x12\x17\n\x0f\x66ile_descriptor\x18\x01 \x02(\r\x12\x16\n\x0e\x62uffer_address\x18\x02 \x02(\x04\x12\r\n\x05\x63ount\x18\x03 \x02(\r\x12\x13\n\x0b\x62uffer_data\x18\x04 \x02(\x0c\x12\x17\n\x0f\x63ount_effective\x18\x05 \x02(\r\".\n\rsys_generic_t\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x02(\r*D\n\rsyscall_ident\x12\x0b\n\x07NR_READ\x10\x00\x12\x0c\n\x08NR_WRITE\x10\x01\x12\x0b\n\x07NR_OPEN\x10\x02\x12\x0b\n\x07GENERIC\x10\x03')
   ,
-  dependencies=[common_pb2.DESCRIPTOR,])
+  dependencies=[common__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _SYSCALL_IDENT = _descriptor.EnumDescriptor(
@@ -120,6 +121,7 @@ _SYSCALL_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -188,6 +190,7 @@ _SYSCALL_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -221,6 +224,7 @@ _NR_READ_POL = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -272,6 +276,7 @@ _NR_OPEN_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -330,6 +335,7 @@ _NR_READ_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -388,6 +394,7 @@ _NR_WRITE_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -425,6 +432,7 @@ _SYS_GENERIC_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -433,7 +441,7 @@ _SYS_GENERIC_T = _descriptor.Descriptor(
 )
 
 _SYSCALL_POL.fields_by_name['ident'].enum_type = _SYSCALL_IDENT
-_SYSCALL_POL.fields_by_name['action'].enum_type = common_pb2._TRACING_ACTION
+_SYSCALL_POL.fields_by_name['action'].enum_type = common__pb2._TRACING_ACTION
 _SYSCALL_POL.fields_by_name['nr_read'].message_type = _NR_READ_POL
 _SYSCALL_POL.oneofs_by_name['syscall_pol_cnt'].fields.append(
   _SYSCALL_POL.fields_by_name['nr_read'])

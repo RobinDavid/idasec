@@ -13,15 +13,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-import common_pb2
+import common_pb2 as common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='analysis_config.proto',
   package='analysis_config',
+  syntax='proto2',
   serialized_pb=_b('\n\x15\x61nalysis_config.proto\x12\x0f\x61nalysis_config\x1a\x0c\x63ommon.proto\"\x9e\x02\n\x15specific_parameters_t\x12\x43\n\x06typeid\x18\x01 \x02(\x0e\x32\x33.analysis_config.specific_parameters_t.analyse_type\x12;\n\x0egeneric_params\x18\x02 \x01(\x0b\x32!.analysis_config.generic_analysisH\x00\x12=\n\x0fstandard_params\x18\x03 \x01(\x0b\x32\".analysis_config.standard_analysisH\x00\"3\n\x0c\x61nalyse_type\x12\x08\n\x04NONE\x10\x00\x12\x0b\n\x07GENERIC\x10\x01\x12\x0c\n\x08STANDARD\x10\x02\x42\x0f\n\ranalyse_param\"K\n\x11standard_analysis\x12\x13\n\x0btarget_addr\x18\x01 \x01(\x04\x12\x0c\n\x04uniq\x18\x02 \x01(\x08\x12\x13\n\x0bget_formula\x18\x03 \x01(\x08\"\xa7\x02\n\x10generic_analysis\x12:\n\x04kind\x18\x01 \x02(\x0e\x32,.analysis_config.generic_analysis.query_type\x12\x13\n\x0btarget_addr\x18\x02 \x02(\x04\x12\x0b\n\x03\x64\x62\x61\x18\x03 \x02(\t\x12\x14\n\x0climit_values\x18\x04 \x01(\r\x12\x13\n\x0bget_formula\x18\x05 \x01(\x08\x12\x11\n\tfrom_addr\x18\x06 \x01(\x04\x12\x0f\n\x07to_addr\x18\x07 \x01(\x04\x12\x1c\n\x14restrict_values_from\x18\x08 \x01(\x04\x12\x1a\n\x12restrict_values_to\x18\t \x01(\x04\",\n\nquery_type\x12\x12\n\x0eSATISFIABILITY\x10\x00\x12\n\n\x06VALUES\x10\x01\"c\n\x18generic_analysis_results\x12\"\n\x06result\x18\x01 \x02(\x0e\x32\x12.common.smt_result\x12\x0e\n\x06values\x18\x02 \x03(\x04\x12\x13\n\x0bsmt_formula\x18\x03 \x01(\t\"\xb7\x05\n\x18\x63\x61llret_analysis_results\x12\x42\n\x06values\x18\x01 \x03(\x0b\x32\x32.analysis_config.callret_analysis_results.ret_data\x1a\x63\n\tcall_data\x12\x0c\n\x04\x61\x64\x64r\x18\x01 \x02(\x04\x12H\n\x06status\x18\x02 \x02(\x0e\x32\x38.analysis_config.callret_analysis_results.callret_status\x1a\x9e\x02\n\x08ret_data\x12\x10\n\x08ret_addr\x18\x01 \x02(\x04\x12H\n\x06status\x18\x02 \x02(\x0e\x32\x38.analysis_config.callret_analysis_results.callret_status\x12H\n\x06labels\x18\x03 \x03(\x0e\x32\x38.analysis_config.callret_analysis_results.callret_labels\x12\x13\n\x0breturnsites\x18\x04 \x03(\x04\x12\x13\n\x0bsolve_count\x18\x05 \x02(\r\x12\x42\n\x05\x63\x61lls\x18\x06 \x03(\x0b\x32\x33.analysis_config.callret_analysis_results.call_data\"\xac\x01\n\x0e\x63\x61llret_labels\x12\x0c\n\x08VIOLABLE\x10\x01\x12\x0b\n\x07\x41LIGNED\x10\x02\x12\x0e\n\nDISALIGNED\x10\x03\x12\x0e\n\nCAN_RETURN\x10\x04\x12\n\n\x06SINGLE\x10\x05\x12\x0c\n\x08MULTIPLE\x10\x06\x12\n\n\x06STRONG\x10\x07\x12\x08\n\x04WEAK\x10\x08\x12\x10\n\x0cSOLVER_WRONG\x10\t\x12\x0b\n\x07NO_CALL\x10\n\x12\x10\n\x0cHAS_RETURNED\x10\x0b\"\"\n\x0e\x63\x61llret_status\x12\x06\n\x02OK\x10\x01\x12\x08\n\x04VIOL\x10\x02\"\xd6\x02\n\x13po_analysis_results\x12<\n\x06values\x18\x01 \x03(\x0b\x32,.analysis_config.po_analysis_results.po_data\x1a\xbe\x01\n\x07po_data\x12\x10\n\x08jmp_addr\x18\x01 \x02(\x04\x12>\n\x06status\x18\x02 \x02(\x0e\x32..analysis_config.po_analysis_results.po_status\x12\x0e\n\x06ksteps\x18\x03 \x02(\r\x12\x18\n\x10\x63omputation_time\x18\x04 \x02(\x02\x12\x10\n\x08nb_paths\x18\x05 \x01(\r\x12\x14\n\x0c\x61live_branch\x18\x06 \x01(\x04\x12\x0f\n\x07\x66ormula\x18\x07 \x01(\t\"@\n\tpo_status\x12\x0b\n\x07UNKNOWN\x10\x01\x12\x0e\n\nNOT_OPAQUE\x10\x02\x12\n\n\x06OPAQUE\x10\x03\x12\n\n\x06LIKELY\x10\x04')
   ,
-  dependencies=[common_pb2.DESCRIPTOR,])
+  dependencies=[common__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -222,6 +223,7 @@ _SPECIFIC_PARAMETERS_T = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
@@ -269,6 +271,7 @@ _STANDARD_ANALYSIS = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -356,6 +359,7 @@ _GENERIC_ANALYSIS = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -400,6 +404,7 @@ _GENERIC_ANALYSIS_RESULTS = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -437,6 +442,7 @@ _CALLRET_ANALYSIS_RESULTS_CALL_DATA = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -501,6 +507,7 @@ _CALLRET_ANALYSIS_RESULTS_RET_DATA = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -532,6 +539,7 @@ _CALLRET_ANALYSIS_RESULTS = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -571,7 +579,7 @@ _PO_ANALYSIS_RESULTS_PO_DATA = _descriptor.Descriptor(
     _descriptor.FieldDescriptor(
       name='computation_time', full_name='analysis_config.po_analysis_results.po_data.computation_time', index=3,
       number=4, type=2, cpp_type=6, label=2,
-      has_default_value=False, default_value=0,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -604,6 +612,7 @@ _PO_ANALYSIS_RESULTS_PO_DATA = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -634,6 +643,7 @@ _PO_ANALYSIS_RESULTS = _descriptor.Descriptor(
   ],
   options=None,
   is_extendable=False,
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
@@ -653,7 +663,7 @@ _SPECIFIC_PARAMETERS_T.oneofs_by_name['analyse_param'].fields.append(
 _SPECIFIC_PARAMETERS_T.fields_by_name['standard_params'].containing_oneof = _SPECIFIC_PARAMETERS_T.oneofs_by_name['analyse_param']
 _GENERIC_ANALYSIS.fields_by_name['kind'].enum_type = _GENERIC_ANALYSIS_QUERY_TYPE
 _GENERIC_ANALYSIS_QUERY_TYPE.containing_type = _GENERIC_ANALYSIS
-_GENERIC_ANALYSIS_RESULTS.fields_by_name['result'].enum_type = common_pb2._SMT_RESULT
+_GENERIC_ANALYSIS_RESULTS.fields_by_name['result'].enum_type = common__pb2._SMT_RESULT
 _CALLRET_ANALYSIS_RESULTS_CALL_DATA.fields_by_name['status'].enum_type = _CALLRET_ANALYSIS_RESULTS_CALLRET_STATUS
 _CALLRET_ANALYSIS_RESULTS_CALL_DATA.containing_type = _CALLRET_ANALYSIS_RESULTS
 _CALLRET_ANALYSIS_RESULTS_RET_DATA.fields_by_name['status'].enum_type = _CALLRET_ANALYSIS_RESULTS_CALLRET_STATUS
