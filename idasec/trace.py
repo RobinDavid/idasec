@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 import struct
 
-from capstone import *
+from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 from proto.trace_pb2 import *
 from proto.common_pb2 import *
 
 from idasec.exception import assert_ida_available
 
-#from idasec.utils import to_hex_spaced
 
 md = Cs(CS_ARCH_X86, CS_MODE_32)
 
@@ -23,7 +22,7 @@ def proto_size_t_to_int(a):
             BIT256: 256}[a]
 
 
-class Instruction():
+class Instruction:
     def __init__(self):
         self.thread = None
         self.address = None
@@ -32,7 +31,7 @@ class Instruction():
         self.decoded = False
         self.dbainstrs = []
 
-        #Concrete infos
+        # Concrete infos
         self.nextaddr = None
         self.registers = []
         self.memories = []
@@ -50,13 +49,13 @@ class Instruction():
             self.opcode += i.mnemonic + " "+i.op_str
         if len(pb_inst.dba_instrs.instrs) != 0:
             self.decoded = True
-            #TODO: Add the decoding of DBA instructions
+            # TODO: Add the decoding of DBA instructions
         else:
             pass
         for info in pb_inst.concrete_infos:
             if info.typeid == ins_con_info_t.REGREAD:
                 self.add_register(info.read_register, "R")
-            elif info.typeid ==  ins_con_info_t.REGWRITE:
+            elif info.typeid == ins_con_info_t.REGWRITE:
                 self.add_register(info.write_register, "W")
             elif info.typeid == ins_con_info_t.MEMLOAD:
                 self.memories.append(("R", info.load_memory.addr, info.load_memory.value))
@@ -91,9 +90,9 @@ class Instruction():
         concs += "" if self.libcall is None else " Call:"+self.libcall.func_name
         concs += "" if self.syscall is None else " "+str(self.syscall.id)
         concs += "" if self.comment is None else " Comment:"+self.comment
-        for r_w, name, value in self.registers:
+        for r_w, reg, value in self.registers:
             val = hex(value) if isinstance(value, int) else to_hex(value)
-            concs += " "+r_w+"["+name+"]="+val
+            concs += " "+r_w+"["+reg+"]="+val
         for r_w, addr, value in self.memories:
             concs += " "+r_w+"@["+hex(addr)+"]="+to_hex(value)
         concs += " Next:"+hex(self.nextaddr) if self.nextaddr is not None else ""
@@ -105,14 +104,14 @@ class Instruction():
 
 class Trace:
 
-    def __init__(self, name):
-        self.filename = name
+    def __init__(self, fname):
+        self.filename = fname
         self.addr_size = 32
         self.architecture = None
         self.instrs = {}
         self.metas = {}
         self.trace_index = 0
-        self.length = lambda : self.trace_index - 1
+        self.length = lambda: self.trace_index - 1
         self.addr_covered = set()
         self.address_hit_count = {}
 
@@ -131,7 +130,7 @@ class Trace:
             if tmp == "":
                 break
             else:
-                chunk_nb+=1
+                chunk_nb += 1
                 old_index = self.trace_index
                 size, = struct.unpack("I", tmp)
                 chunk.ParseFromString(f.read(size))
@@ -140,18 +139,18 @@ class Trace:
         f.close()
 
     def parse_file(self, filename):
-        for chk_nb, sz_chk, i1, i2, size in self.parse_file_generator(filename):
+        for _, _, _, _, _ in self.parse_file_generator(filename):
             pass
-
 
     def add_body(self, body):
         for elem in body:
             if elem.typeid == body_t.METADATA:
                 m = {metadata_t.INVALID_METADATA: ("invalid", None, None),
-                     metadata_t.EXCEPTION_TYPE: ('exception', elem.metadata.exception_metadata.type_exception, elem.metadata.exception_metadata.handler),
+                     metadata_t.EXCEPTION_TYPE: ('exception', elem.metadata.exception_metadata.type_exception,
+                                                 elem.metadata.exception_metadata.handler),
                      metadata_t.MODULE_TYPE: ('module', elem.metadata.module_metadata, None),
                      metadata_t.WAVE_TYPE: ("wave", elem.metadata.wave_metadata, None)}[elem.metadata.typeid]
-                if self.metas.has_key(self.trace_index):
+                if self.trace_index in self.metas:
                     self.metas[self.trace_index].append(m)
                 else:
                     self.metas[self.trace_index] = [m]
@@ -160,7 +159,7 @@ class Trace:
                 inst.parse(elem.instruction)
                 self.instrs[self.trace_index] = inst
                 self.addr_covered.add(inst.address)
-                if self.address_hit_count.has_key(inst.address):
+                if inst.address in self.address_hit_count:
                     self.address_hit_count[inst.address] += 1
                 else:
                     self.address_hit_count[inst.address] = 1
@@ -168,14 +167,14 @@ class Trace:
 
     def to_string_generator(self):
         for i in xrange(self.trace_index):
-            if self.metas.has_key(i):
+            if i in self.metas:
                 for m in self.metas[i]:
-                    name, arg1, arg2 = m
-                    if name == "invalid":
-                        print name
-                    elif name == "exception":
+                    name_id, arg1, arg2 = m
+                    if name_id == "invalid":
+                        print name_id
+                    elif name_id == "exception":
                         print "Exception, type:"+str(arg1)+" handler:"+to_hex(arg2)
-                    elif name == "wave":
+                    elif name_id == "wave":
                         print "====================== Wave "+str(arg1) + "======================"
             yield "%d %s" % (i, self.instrs[i].to_string())
 
@@ -183,11 +182,13 @@ class Trace:
         for line in self.to_string_generator():
             print line
 
+
 def make_header():
     header = header_t()
     header.architecture = header.X86
     header.address_size = BIT32
     return header
+
 
 def chunk_from_path(path):
     assert_ida_available()
@@ -218,7 +219,6 @@ def raw_parse_trace(filename):
     size, = struct.unpack("I", f.read(4))
     raw_header = f.read(size)
     yield "TRACE_HEADER", raw_header
-    chunk = chunk_t()
     while True:
         tmp = f.read(4)
         if tmp == "":

@@ -11,28 +11,30 @@ from collections import namedtuple
 import idc
 import idautils
 
+
 # ============================= RESULT CLASS (pb dependant) ==========================
 def to_status_name(x):
-    return {po_analysis_results.UNKNOWN : "Unknown",
+    return {po_analysis_results.UNKNOWN: "Unknown",
             po_analysis_results.NOT_OPAQUE: "Covered",
             po_analysis_results.OPAQUE: "Opaque",
             po_analysis_results.LIKELY: "Unknown"}[x]
 
 
 def to_alive_branch(status, branch):
-    return {po_analysis_results.UNKNOWN : "/",
+    return {po_analysis_results.UNKNOWN: "/",
             po_analysis_results.NOT_OPAQUE: "*",
             po_analysis_results.OPAQUE: "%x" % branch,
             po_analysis_results.LIKELY: "/"}[status]
 
 
 def status_to_color(x):
-    return {po_analysis_results.UNKNOWN:PURPLE,
+    return {po_analysis_results.UNKNOWN: PURPLE,
             po_analysis_results.LIKELY: PURPLE,
-            po_analysis_results.NOT_OPAQUE:GREEN,
-            po_analysis_results.OPAQUE:RED}[x]
+            po_analysis_results.NOT_OPAQUE: GREEN,
+            po_analysis_results.OPAQUE: RED}[x]
 
 AddrRet = namedtuple("AddrRet", "status nb_paths alive_branch")
+
 
 class POResults(dict):
     def __init__(self):
@@ -58,7 +60,6 @@ class OpaqueAnalysis(DefaultAnalysis):
     name = "opaque"
 
     ANNOT_CODE = "Annotate code"
-    GENERATE_PLOT = "Generate plot chart"
     HIGHLIGHT_DEAD_BRANCHES = "Highlight dead branches"
 
     @staticmethod
@@ -68,7 +69,6 @@ class OpaqueAnalysis(DefaultAnalysis):
     def __init__(self, parent, config, is_stream=False, trace=None):
         DefaultAnalysis.__init__(self, parent, config, is_stream, trace)
         self.actions = {self.ANNOT_CODE: (self.annotate_code, False),
-#                        self.GENERATE_PLOT: (self.generate_chart, False),
                         self.HIGHLIGHT_DEAD_BRANCHES: (self.highlight_dead, False)}
         self.results = POResults()
         self.marked_addresses = {}
@@ -86,7 +86,7 @@ class OpaqueAnalysis(DefaultAnalysis):
         self.result_widget.action_button.setEnabled(True)
         report = HTMLReport()
         report.add_title("Opaque predicates results k="+(str(self.results.k)), size=3)
-        report.add_table_header(['address',"status","nb path(tested)","alive branch"])
+        report.add_table_header(['address', "status", "nb path(tested)", "alive branch"])
         for addr in sorted(self.results.keys()):
             infos = self.results[addr]
             addr = make_cell("%x" % addr)
@@ -94,7 +94,7 @@ class OpaqueAnalysis(DefaultAnalysis):
             status = make_cell(status, bold=True, color=color)
             alive_br = to_alive_branch(infos.status, infos.alive_branch)
             report.add_table_line([addr, status, make_cell(str(infos.nb_paths)), make_cell(alive_br)])
-            #TODO: Compute the number of possible paths for each predicate
+            # TODO: Compute the number of possible paths for each predicate
         report.end_table()
         data = report.generate()
         self.result_widget.webview.setHtml(data)
@@ -106,44 +106,43 @@ class OpaqueAnalysis(DefaultAnalysis):
                 idc.MakeRptCmt(addr, status)
             else:
                 idc.MakeRptCmt(addr, "")
-        self.actions[self.ANNOT_CODE] = (self.annotate_code, not(enabled))
+        self.actions[self.ANNOT_CODE] = (self.annotate_code, not enabled)
         self.result_widget.action_selector_changed(self.ANNOT_CODE)
-
-#    def generate_chart(self, enabled):
-#        print "not implemented yet"
-#        pass#TODO: To implement
 
     @staticmethod
     def make_po_pair(ea, alive):
-        dead = [x for x in idautils.CodeRefsFrom(ea,True) if x != alive]
+        dead = [x for x in idautils.CodeRefsFrom(ea, True) if x != alive]
         return alive, dead[0]
 
     def highlight_dead(self, enabled):
-        opaque_map = {k:self.make_po_pair(k,v.alive_branch) for k,v in self.results.items() if v.status == po_analysis_results.OPAQUE}
+        opaque_map = {k: self.make_po_pair(k, v.alive_branch) for k, v in self.results.items()
+                      if v.status == po_analysis_results.OPAQUE}
         for addr, (good, dead) in opaque_map.items():
-            if not enabled: #Mark instructions
+            if not enabled:  # Mark instructions
                 print "propagate dead branch:%x" % addr
                 self.propagate_dead_code(dead, opaque_map)
             else:
-                for addr in self.marked_addresses.keys():
-                    idc.SetColor(addr, idc.CIC_ITEM, 0xffffff)
+                for addr2 in self.marked_addresses.keys():
+                    idc.SetColor(addr2, idc.CIC_ITEM, 0xffffff)
                 self.marked_addresses.clear()
-        self.actions[self.HIGHLIGHT_DEAD_BRANCHES] = (self.highlight_dead, not(enabled))
+        self.actions[self.HIGHLIGHT_DEAD_BRANCHES] = (self.highlight_dead, not enabled)
         self.result_widget.action_selector_changed(self.HIGHLIGHT_DEAD_BRANCHES)
 
-    def dead_br_of_op(self,ea, pred, op_map):
-        if op_map.has_key(pred):
+    @staticmethod
+    def dead_br_of_op(ea, pred, op_map):
+        if pred in op_map:
             good, bad = op_map[pred]
             return ea == bad
         else:
             return False
 
-    def propagate_dead_code(self,ea,op_map):
-        prevs = [x for x in idautils.CodeRefsTo(ea,True) if not self.marked_addresses.has_key(x) and not self.dead_br_of_op(ea, x, op_map)]
-        if prevs == []: #IF there is no legit predecessors
+    def propagate_dead_code(self, ea, op_map):
+        prevs = [x for x in idautils.CodeRefsTo(ea, True) if x not in self.marked_addresses and
+                 not self.dead_br_of_op(ea, x, op_map)]
+        if prevs:  # IF there is no legit predecessors
             idc.SetColor(ea, idc.CIC_ITEM, 0x0000ff)
             self.marked_addresses[ea] = None
-            succs = [x for x in idautils.CodeRefsFrom(ea,True)]
+            succs = [x for x in idautils.CodeRefsFrom(ea, True)]
             for succ in succs:
                 self.propagate_dead_code(succ, op_map)
         else:

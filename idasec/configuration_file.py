@@ -14,9 +14,9 @@ from proto.config_pb2 import configuration
 from idasec.exception import assert_ida_available
 
 
-
 PE = "\x4d\x5a"
 ELF = "\x7fE"
+
 
 class Configuration:
     def __init__(self):
@@ -24,8 +24,11 @@ class Configuration:
 
     def set_start_stop(self, ftype):
         assert_ida_available()
-        import idc, idaapi, idautils
-        fun_mapping = {idc.GetFunctionName(x): (idaapi.get_func(x).startEA, idaapi.get_func(x).endEA-1) for x in idautils.Functions()}
+        import idc
+        import idaapi
+        import idautils
+        fun_mapping = {idc.GetFunctionName(x): (idaapi.get_func(x).startEA, idaapi.get_func(x).endEA-1)
+                       for x in idautils.Functions()}
         start = idc.BeginEA()
         stop = 0
         if ftype == PE:
@@ -39,17 +42,17 @@ class Configuration:
                 if idc.MakeFunction(start) == 0:
                     print "Fail to create function !"
                 idaapi.autoWait()
-                fun_mapping = {idc.GetFunctionName(x): (idaapi.get_func(x).startEA, idaapi.get_func(x).endEA-1) for x in idautils.Functions()}
+                fun_mapping = {idc.GetFunctionName(x): (idaapi.get_func(x).startEA, idaapi.get_func(x).endEA-1)
+                               for x in idautils.Functions()}
 
-            if fun_mapping.has_key("main"):
+            if "main" in fun_mapping:
                 start, stop = fun_mapping["main"]
-            elif fun_mapping.has_key("start"):
-                if fun_mapping.has_key("__libc_start_main"):
+            elif "start" in fun_mapping:
+                if "__libc_start_main" in fun_mapping:
                     instrs = list(idautils.FuncItems(fun_mapping["start"][0]))
                     instrs.reverse()
                     for inst in instrs:
                         arg1 = idc.GetOperandValue(inst, 0)
-                        fname = idc.GetFunctionName(arg1)
                         if idc.GetMnem(inst) == "push":
                             start, stop = arg1, fun_mapping["start"][1]
                             break
@@ -59,26 +62,24 @@ class Configuration:
 
     def create_call_map(self, ftype):
         assert_ida_available()
-        import idc, idautils, idaapi
-        seg_mapping = {idc.SeSegName(x): (idc.SegStart(x), idc.SegEnd(x)) for x in idautils.Segments()}
+        import idc
+        import idautils
+        seg_mapping = {idc.SegName(x): (idc.SegStart(x), idc.SegEnd(x)) for x in idautils.Segments()}
         imports = seg_mapping[".idata"] if ftype == PE else seg_mapping['.plt']
         start, stop = seg_mapping[".text"]
         current = start
         while current <= stop:
-        #for fun in Functions():
-        #    for inst in list(FuncItems(fun)):
             inst = current
             if idc.GetMnem(inst) in ["call", "jmp"]:
-                is_dynamic = idc.GetOpType(inst, 0) in [idaapi.o_mem, idaapi.o_reg]
                 value = idc.GetOperandValue(inst, 0)
                 name = idc.GetOpnd(inst, 0)
-                if value >= imports[0] and value <= imports[1]:
+                if imports[0] <= value <= imports[1]:
                     entry = self.config.call_map.add()
                     entry.address = inst
                     entry.name = name
             current = idc.NextHead(current, stop)
 
-    def from_file(self,filename):
+    def from_file(self, filename):
         data = open(filename, "r").read()
         return self.from_string(data)
 
@@ -101,7 +102,8 @@ class Configuration:
 
 
 if __name__ == "__main__":
-    import idaapi, idc
+    import idaapi
+    import idc
     idaapi.autoWait()
     FT = open(idaapi.get_input_file_path()).read(2)
     import os

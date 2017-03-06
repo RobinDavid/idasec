@@ -12,7 +12,7 @@ import idc
 
 # ============================ RESULT CLASS (pb dependant) =============================
 def to_status_name(x):
-    return {callret_analysis_results.OK:"OK", callret_analysis_results.VIOL:"VIOLATION"}[x]
+    return {callret_analysis_results.OK: "OK", callret_analysis_results.VIOL:"VIOLATION"}[x]
 
 
 def to_label_name(x):
@@ -85,8 +85,8 @@ class CallRetResults:
         return iter(self.rets)
 
 
-#===================================== ANALYSIS =======================================
-#======================================================================================
+# ===================================== ANALYSIS =======================================
+# ======================================================================================
 
 class CallRetAnalysis(DefaultAnalysis):
 
@@ -115,13 +115,13 @@ class CallRetAnalysis(DefaultAnalysis):
         self.result_widget.action_button.setEnabled(True)
         report = HTMLReport()
         report.add_title("Call stack results", size=2)
-        report.add_table_header(['address',"status","hit count","labels","return addresses","calls"])
+        report.add_table_header(['address', "status", "hit count", "labels", "return addresses", "calls"])
         for ret in self.results:
             addr = make_cell("%x" % ret.addr)
-            status = make_cell(ret.get_status(), bold=ret.is_tampering(), color= RED if ret.is_tampering() else GREEN)
+            status = make_cell(ret.get_status(), bold=ret.is_tampering(), color=RED if ret.is_tampering() else GREEN)
             labels_s = make_cell(''.join(["[%s]" % x for x in ret.get_labels()]))
             return_s = make_cell(''.join(["%x," % x for x in ret.returnsites])[:-1])
-            call_s = make_cell(''.join(["%x:%s<br/>" % (x[0],to_status_name(x[1])) for x in ret.calls])[:-5])
+            call_s = make_cell(''.join(["%x:%s<br/>" % (x[0], to_status_name(x[1])) for x in ret.calls])[:-5])
             report.add_table_line([addr, status, make_cell(str(ret.solve_count)), labels_s, return_s, call_s])
         report.end_table()
         data = report.generate()
@@ -130,24 +130,23 @@ class CallRetAnalysis(DefaultAnalysis):
     def annotate_code(self, enabled):
         for ret_data in self.results:
             addr = ret_data.addr
-            if not enabled: #Set the comment
+            if not enabled:  # Set the comment
                 status_s = ret_data.get_status()
                 labels_s = ''.join(["[%s]" % x for x in ret_data.get_labels()])
                 comment = "Status:%s %s" % (status_s, labels_s)
                 if ret_data.is_tampering():
                     comment += ' Ret:%s' % str(["%x" % x for x in ret_data.returnsites])
                 idc.MakeRptCmt(addr, comment)
-            else: #Remove the comment
+            else:  # Remove the comment
                 idc.MakeRptCmt(addr, "")
 
-        self.actions[self.ANNOT_CODE] = (self.annotate_code, not(enabled))
+        self.actions[self.ANNOT_CODE] = (self.annotate_code, not enabled)
         self.result_widget.action_selector_changed(self.ANNOT_CODE)
 
-
-    def generate_chart(self, enabled):
+    def generate_chart(self, _):
         import plotly
         import plotly.graph_objs as go
-        data = [[0,0,0],[0,0,0]]
+        data = [[0, 0, 0], [0, 0, 0]]
         ok, viol = self.results.get_ok_viol()
         x = ["OK (%d)" % ok, "Tampering (%d)" % viol]
         for ret in self.results:

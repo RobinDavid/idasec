@@ -59,11 +59,11 @@ class DefaultAnalysis:
                 self.broker.send_binsec_message(trace_cmd, trace_data)
             except StopIteration:
                 self.trace_finished = True
-                self.log("LOG","All the trace sent")
+                self.log("LOG", "All the trace sent")
                 self.broker.send_binsec_message(END, EMPTY)
 
     def pinsec_message_received(self, cmd, data):
-        self.log("LOG","Message received:%s" % cmd, origin="PINSEC")
+        self.log("LOG", "Message received:%s" % cmd, origin="PINSEC")
         self.broker.send_binsec_message(cmd, data)
 
     def binsec_message_received(self, cmd, data):
@@ -72,7 +72,7 @@ class DefaultAnalysis:
             self.broker.send_pinsec_message(cmd, data)
 
     def analysis_terminated(self):
-        self.log("LOG","Analysis %s terminated" % self.name)
+        self.log("LOG", "Analysis %s terminated" % self.name)
         self.broker.terminate()
 
     def stop(self):
@@ -81,8 +81,5 @@ class DefaultAnalysis:
             self.broker.send_binsec_message(EXIT, EMPTY)
         self.broker.terminate()
 
-    def log(self, type, message, origin="IDASec"):
-        self.parent.log(type, message, origin=origin)
-
-
-
+    def log(self, typ, message, origin="IDASec"):
+        self.parent.log(typ, message, origin=origin)

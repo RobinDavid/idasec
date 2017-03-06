@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from PyQt5 import QtGui, QtCore, QtWidgets
+from PyQt5 import QtWidgets
 from idasec.commands import *
 from idasec.analysis.default_analysis import DefaultAnalysis
 from idasec.proto.analysis_config_pb2 import generic_analysis, generic_analysis_results, specific_parameters_t
@@ -17,19 +17,20 @@ import cgi
 import idc
 
 
-#======================== RESULT CLASS (pb dependant) ========================
+# ======================== RESULT CLASS (pb dependant) ========================
 def smtpb_to_result(val):
-    return {SAT:("SAT", GREEN), UNKNOWN:("UNKNOWN", PURPLE), UNSAT:("UNSAT", RED), TIMEOUT:("TIMEOUT", BLUE)}[val]
+    return {SAT: ("SAT", GREEN), UNKNOWN: ("UNKNOWN", PURPLE), UNSAT: ("UNSAT", RED), TIMEOUT: ("TIMEOUT", BLUE)}[val]
+
 
 class GenericResults:
     def __init__(self, params):
-        #-- params
+        # -- params
         self.query = params.dba
         self.from_addr, self.to_addr = params.from_addr, params.to_addr
         self.get_formula = params.get_formula
         self.target = params.target_addr
 
-        #-- results
+        # -- results
         self.values = []
         self.status = None
         self.color = None
@@ -53,8 +54,8 @@ class GenericResults:
         return self.status
 
 
-#================================  CONFIG CLASS =====================================
-#====================================================================================
+# ================================  CONFIG CLASS =====================================
+# ====================================================================================
 class GenericAnalysisConfigWidget(QtWidgets.QWidget, Ui_generic_analysis_widget):
 
     def __init__(self):
@@ -73,28 +74,27 @@ class GenericAnalysisConfigWidget(QtWidgets.QWidget, Ui_generic_analysis_widget)
 
     def set_fields(self, json_fields):
         gen = json_fields["generic_params"]
-        if gen.has_key("target_addr"):
+        if "target_addr" in gen:
             self.target_addr_field.setText(hex(gen["target_addr"]))
-        if gen.has_key("dba"):
+        if "dba" in gen:
             self.dba_expr_field.setText(gen["dba"])
-        if gen.has_key("limit_values"):
+        if "limit_values" in gen:
             self.values_limit_spinbox.setValue(gen['limit_values'])
-        if gen.has_key("get_formula"):
+        if "get_formula" in gen:
             self.get_formula_checkbox.setChecked(gen["get_formula"])
-        if gen.has_key("from_addr"):
+        if "from_addr" in gen:
             self.from_field.setText(hex(gen["from_addr"]))
-        if gen.has_key("to_addr"):
+        if "to_addr" in gen:
             self.to_field.setText(hex(gen["to_addr"]))
-        if gen.has_key("restrict_values_from"):
+        if "restrict_values_from" in gen:
             self.restrict_from_field.setText(hex(gen["restrict_values_from"]))
-        if gen.has_key("restrict_values_to"):
+        if "restrict_values_to" in gen:
             self.restrict_to_field.setText(hex(gen['restrict_values_to']))
-        if gen.has_key("kind"):
+        if "kind" in gen:
             if gen["kind"] == "VALUES":
                 self.values_radiobutton.setChecked(True)
             else:
                 self.satisfiability_radiobutton.setChecked(True)
-
 
     def serialize(self):
         from_field, to_field = self.from_field.text(), self.to_field.text()
@@ -110,8 +110,8 @@ class GenericAnalysisConfigWidget(QtWidgets.QWidget, Ui_generic_analysis_widget)
             else:
                 print "Target address is mandatory for generic analysis"
                 return None
-            if restrict_from !=  "":
-                self.conf.restrict_values_from =  utils.to_addr(restrict_from)
+            if restrict_from != "":
+                self.conf.restrict_values_from = utils.to_addr(restrict_from)
             if restrict_to != "":
                 self.conf.restrict_values_to = utils.to_addr(restrict_to)
         except ValueError:
@@ -164,7 +164,8 @@ class GenericAnalysisConfigWidget(QtWidgets.QWidget, Ui_generic_analysis_widget)
                 expr = cmt.split(":")[1].lstrip()
                 self.dba_expr_field.setText(expr)
 
-    def dba_help_button_clicked(self):
+    @staticmethod
+    def dba_help_button_clicked():
         s = '''
 All the expression usable are:
 - cst: val, val<size>, hexa
@@ -180,8 +181,7 @@ With:
 - bop: [+, -, *u, *s, /, /s, modu, mods, or, and, xor, >>(concat), lshift, rshiftu,
 rshifts, lrotate, rrotate, =, <>, <=u, <u, >=u, >u, <=s, <s, >=s, >s, extu, exts]
         '''
-        QtWidgets.QMessageBox.about(self, u"DBA langage help", unicode(s))
-
+        QtWidgets.QMessageBox.about(None, u"DBA langage help", unicode(s))
 
     def values_radiobutton_toggled(self, toggled):
         if toggled:
@@ -200,8 +200,8 @@ rshifts, lrotate, rrotate, =, <>, <=u, <u, >=u, >u, <=s, <s, >=s, >s, extu, exts
         self.restrict_to_button.setVisible(value)
 
 
-#================================= GENERIC ANALYSIS =================================
-#====================================================================================
+# ================================= GENERIC ANALYSIS =================================
+# ====================================================================================
 
 class GenericAnalysis(DefaultAnalysis):
 
@@ -215,13 +215,12 @@ class GenericAnalysis(DefaultAnalysis):
 
     def __init__(self, parent, config, is_stream=False, trace=None):
         DefaultAnalysis.__init__(self, parent, config, is_stream, trace)
-        #self.setupUi(self)
         self.results = GenericResults(config.additional_parameters.generic_params)
         self.result_widget = GenericAnalysisResultWidget(self)
         self.actions = {self.ANNOT_CODE:           (self.annotate_code, False),
                         self.HIGHLIGHT_CODE:       (self.highlight_dependency, False),
                         self.GRAPH_DEPENDENCY:      (self.graph_dependency, False),
-                        self.DISASS_UNKNOWN_TARGET:(self.disassemble_new_targets, False)}
+                        self.DISASS_UNKNOWN_TARGET: (self.disassemble_new_targets, False)}
         self.addresses_lighted = set()
         self.backup_comment = {}
         self.formula = SMTFormula()
@@ -239,10 +238,10 @@ class GenericAnalysis(DefaultAnalysis):
             self.formula.parse(self.results.formula)
 
     def annotate_code(self, enabled):
-        if not enabled: #Annotate
+        if not enabled:  # Annotate
             s = ":["+self.results.get_status()+"]"
             if self.results.has_values():
-                s+= " vals:["+''.join(["%x," % x for x in self.results.values])[:-1] + "]"
+                s += " vals:["+''.join(["%x," % x for x in self.results.values])[:-1] + "]"
             cmt = idc.RptCmt(self.results.target)
             if cmt != "":
                 self.backup_comment[self.results.target] = cmt
@@ -258,7 +257,7 @@ class GenericAnalysis(DefaultAnalysis):
             for addr, cmt in self.backup_comment.items():
                 idc.MakeRptCmt(addr, cmt)
             self.backup_comment.clear()
-        self.actions[self.ANNOT_CODE] = (self.annotate_code, not(enabled))
+        self.actions[self.ANNOT_CODE] = (self.annotate_code, not enabled)
         self.result_widget.action_selector_changed(self.ANNOT_CODE)
 
     def highlight_dependency(self, enabled):
@@ -268,35 +267,31 @@ class GenericAnalysis(DefaultAnalysis):
                 idc.SetColor(addr, idc.CIC_ITEM, color)
         else:
             print "woot ?"
-        self.actions[self.HIGHLIGHT_CODE] = (self.highlight_dependency, not(enabled))
+        self.actions[self.HIGHLIGHT_CODE] = (self.highlight_dependency, not enabled)
         self.result_widget.action_selector_changed(self.HIGHLIGHT_CODE)
 
-    def graph_dependency(self, enabled):
-#        print "======= Formula 2 ======"
-#        for line in self.formula.formula_to_string():
-#            print line
-#       print "========================"
+    def graph_dependency(self, _):
         output = "/tmp/slice_rendered"
         self.formula.slice(output)
         res = subprocess.call(["dot", "-Tpdf", output, "-o", output+".pdf"])
         if res != 0:
             print "Something went wrong with dot"
-        subprocess.Popen(["xdg-open",output+".pdf"])
+        subprocess.Popen(["xdg-open", output+".pdf"])
 
-    def disassemble_new_targets(self, enabled):
+    def disassemble_new_targets(self, _):
         for value in self.results.values:
             flag = idc.GetFlags(value)
             if not idc.isCode(flag) and idc.isUnknown(flag):
                 res = idc.MakeCode(value)
                 if res == 0:
                     print "Try disassemble at:"+hex(value)+" KO"
-                    #TODO: Rollback ?
+                    # TODO: Rollback ?
                 else:
                     print "Try disassemble at:"+hex(value)+" Success !"
 
 
-#============================= RESULT WIDGET ===============================
-#===========================================================================
+# ============================= RESULT WIDGET ===============================
+# ===========================================================================
 class GenericAnalysisResultWidget(QtWidgets.QWidget, Ui_generic_analysis_result):
     def __init__(self, parent):
         QtWidgets.QWidget.__init__(self)
@@ -338,21 +333,22 @@ class GenericAnalysisResultWidget(QtWidgets.QWidget, Ui_generic_analysis_result)
         self.action_button.setEnabled(True)
 
         report = HTMLReport()
-        report.add_title("Results",size=3)
-        report.add_table_header(["address","assertion", "status","values"])
+        report.add_title("Results", size=3)
+        report.add_table_header(["address", "assertion", "status", "values"])
         addr = make_cell("%x" % results.target)
         status = make_cell(results.get_status(), color=results.color, bold=True)
         vals = ""
         for value in results.values:
             flag = idc.GetFlags(value)
-            type = self.type_to_string(flag)
-            vals += "%x type:%s seg:%s fun:%s<br/>" % (value, type, idc.SegName(value), idc.GetFunctionName(value))
+            typ = self.type_to_string(flag)
+            vals += "%x type:%s seg:%s fun:%s<br/>" % (value, typ, idc.SegName(value), idc.GetFunctionName(value))
         report.add_table_line([addr, make_cell(cgi.escape(results.query)), status, make_cell(vals)])
         report.end_table()
         data = report.generate()
         self.result_area.setHtml(data)
 
-    def type_to_string(self, t):
+    @staticmethod
+    def type_to_string(t):
         if idc.isCode(t):
             return "C"
         elif idc.isData(t):

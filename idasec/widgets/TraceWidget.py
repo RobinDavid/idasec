@@ -20,12 +20,12 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
         self.broker = self.core.broker
         self.colorized = False
         self.heatmaped = False
-        self.trace_header_table = ["#","Addr","Instruction"] #,"Th","Routine"
+        self.trace_header_table = ["#", "Addr", "Instruction"]  # ,"Th","Routine"
         self.index_map = {}
         self.id_map = {}
         self.OnCreate(self)
 
-    def OnCreate(self, form):
+    def OnCreate(self, _):
         self.setupUi(self)
         self.add_trace_button.clicked.connect(self.load_trace)
         self.disassemble_button.clicked.connect(self.disassemble_from_trace)
@@ -38,8 +38,6 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
         self.loading_stat.setVisible(False)
         self.progressbar_loading.setVisible(False)
         self.traces_tab.setTabsClosable(True)
-        #self.reads_view.headerItem().setHidden(True)
-        #self.writes_view.headerItem().setHidden(True)
         self.reads_view.setHeaderItem(QtWidgets.QTreeWidgetItem(["name", "value"]))
         self.writes_view.setHeaderItem(QtWidgets.QTreeWidgetItem(["name", "value"]))
 
@@ -53,7 +51,6 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
         except Exception:
             print "Cannot jump to the selected location"
 
-
     def load_trace(self):
         filename = QtWidgets.QFileDialog.getOpenFileName()[0]
         filepath = Path(filename)
@@ -61,7 +58,7 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
         if filepath.exists() and filepath.isfile():
             trace = Trace(filename)
             try:
-                #==== Gui stuff
+                # ==== Gui stuff
                 self.loading_stat.setVisible(True)
                 self.progressbar_loading.setVisible(True)
                 self.progressbar_loading.reset()
@@ -79,7 +76,7 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
                 self.id_map[index] = id
                 self.index_map[index] = newtable
                 self.traces_tab.setCurrentIndex(index)
-                #=====
+                # =====
                 total_instr = 0
                 nb_row = 0
                 current_size = 0
@@ -96,11 +93,11 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
 
                 self.trace_switch(index)
 
-                #===== Gui stuff
+                # ===== Gui stuff
                 newtable.scrollToTop()
                 self.loading_stat.setVisible(False)
                 self.progressbar_loading.setVisible(False)
-                #============
+                # ============
             except DecodeError:
                 print "Fail to parse the given trace"
         else:
@@ -108,24 +105,24 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
 
     def add_chunk_trace_table(self, table, trace, k, index):
         i = index
-        while trace.instrs.has_key(k):
+        while k in trace.instrs:
             inst = trace.instrs[k]
-            if trace.metas.has_key(k):
+            if k in trace.metas:
                 for name, arg1, arg2 in trace.metas[k]:
                     if name == "wave":
                         infos = ["=", "========", "> Wave:"+str(arg1)]
                     elif name == "exception":
-                        infos = ["","","Exception type:"+str(arg1)+" @handler:"+str(arg2)] #,"",""
+                        infos = ["", "", "Exception type:"+str(arg1)+" @handler:"+str(arg2)]
                     elif name == "module":
-                        infos = ["","Module",arg1] #,"",""
+                        infos = ["", "Module", arg1]
                     else:
-                        infos = ["","","Invalid"]#,"",""
+                        infos = ["", "", "Invalid"]
                     for col_id, cell in enumerate(infos):
                         newitem = QtWidgets.QTableWidgetItem(cell)
                         newitem.setFlags(newitem.flags() ^ QtCore.Qt.ItemIsEditable)
                         table.setItem(i, col_id, newitem)
                     i += 1
-            info = [str(k), hex(inst.address)[:-1], inst.opcode] #str(inst.thread), idc.GetFunctionName(inst.address)
+            info = [str(k), hex(inst.address)[:-1], inst.opcode]
             for col_id, cell in enumerate(info):
                 newitem = QtWidgets.QTableWidgetItem(cell)
                 newitem.setFlags(newitem.flags() ^ QtCore.Qt.ItemIsEditable)
@@ -143,8 +140,9 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
                 coverage = (uniq * 100) / self.core.nb_instr
             except ZeroDivisionError:
                 coverage = -1
-            self.trace_infos.setText(("Name:%s\nLength:%d\nUnique instr:%d\nCoverage:%d%c" % (fname, length, uniq, coverage, '%')))
-        except KeyError: #Upon tab creation callback called while id_map not yet filled
+            self.trace_infos.setText(("Name:%s\nLength:%d\nUnique instr:%d\nCoverage:%d%c" %
+                                      (fname, length, uniq, coverage, '%')))
+        except KeyError:  # Upon tab creation callback called while id_map not yet filled
             pass
 
     def unload_trace(self, index):
@@ -160,7 +158,7 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
             self.trace_infos.clear()
         print "unload trace"
 
-    def update_instruction_informations(self, new_item, old_item):
+    def update_instruction_informations(self, new_item, _):
         index = self.traces_tab.currentIndex()
         try:
             table = self.index_map[index]
@@ -168,7 +166,7 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
             offset = int(table.item(new_item.row(), 0).text())
             inst = trace.instrs[offset]
 
-            #=== Gui stuff
+            # === Gui stuff
             self.reads_view.clear()
             self.writes_view.clear()
             self.additional_infos.clear()
@@ -181,7 +179,7 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
                 else:
                     self.writes_view.addTopLevelItem(widget)
             for r_w, addr, value in inst.memories:
-                infos = ["@[%x]"%addr, "".join("{:02x}".format(ord(c)) for c in value)]
+                infos = ["@[%x]" % addr, "".join("{:02x}".format(ord(c)) for c in value)]
                 widget = QtWidgets.QTreeWidgetItem(infos)
                 if r_w == "R":
                     self.reads_view.addTopLevelItem(widget)
@@ -202,7 +200,8 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
                 c = inst.libcall
                 s = "Libcall:<span style='color:blue;'>"+str(c.func_name)+"</span>"
                 s += "<ul><li>at:"+hex(c.func_addr)[:-1]+"</li>"
-                s += "<li>traced: <span style='color:" + ("blue" if c.is_traced else "red")+";'>"+str(c.is_traced)+"</span></li></ul>"
+                s += "<li>traced: <span style='color:" + ("blue" if c.is_traced else "red")+";'>" + \
+                     str(c.is_traced)+"</span></li></ul>"
                 self.additional_infos.append(s)
             if inst.comment is not None:
                 self.additional_infos.append("Comment:"+inst.comment)
@@ -219,18 +218,18 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
             self.disassemble_button.setFlat(True)
             found_match = False
             for k, inst in trace.instrs.items():
-                if trace.metas.has_key(k):
+                if k in trace.metas:
                     for name, arg1, arg2 in trace.metas[k]:
                         if name == "wave":
-                            self.parent.log("LOG","Wave n°%d encountered at (%s,%x) stop.." % (arg1, k, inst.address))
+                            self.parent.log("LOG", "Wave n°%d encountered at (%s,%x) stop.." % (arg1, k, inst.address))
                             prev_inst = trace.instrs[k-1]
                             idc.MakeComm(prev_inst.address, "Jump into Wave %d" % arg1)
                             self.disassemble_button.setFlat(False)
                             return
-                #TODO: Check that the address is in the address space of the program
+                # TODO: Check that the address is in the address space of the program
                 if not idc.isCode(idc.GetFlags(inst.address)):
                     found_match = True
-                    #TODO: Add an xref with the previous instruction
+                    # TODO: Add an xref with the previous instruction
                     self.parent.log("LOG", "Addr:%x not decoded as an instruction" % inst.address)
                     if idc.MakeCode(inst.address) == 0:
                         self.parent.log("ERROR", "Fail to decode at:%x" % inst.address)
@@ -293,7 +292,8 @@ class TraceWidget(QtWidgets.QWidget, Ui_trace_form):
         except KeyError:
             print "No trace found"
 
-    def compute_step_map(self, hit_map):
+    @staticmethod
+    def compute_step_map(hit_map):
         max = 400
         if len(hit_map)+1 > 510:
             max = 510

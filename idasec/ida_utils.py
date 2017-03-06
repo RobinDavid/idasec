@@ -33,16 +33,17 @@ class MyBasicBlock:
         self._fill_instrs()
         self.status = Status.UNKNOWN
 
-
     def concat(self, bb):
         print "concat %d :: %d" % (self.id, bb.id)
-        print "  before instr:%d::%d status:%d::%d" % (len(self.instrs), len(bb.instrs), len(self.instrs_status), len(bb.instrs_status))
+        print "  before instr:%d::%d status:%d::%d" % \
+              (len(self.instrs), len(bb.instrs), len(self.instrs_status), len(bb.instrs_status))
         self.instrs.extend(bb.instrs)
         self.instrs_status.update(bb.instrs_status)
-        print "  before instr:%d::%d status:%d::%d" % (len(self.instrs), len(bb.instrs), len(self.instrs_status), len(bb.instrs_status))
+        print "  before instr:%d::%d status:%d::%d" % \
+              (len(self.instrs), len(bb.instrs), len(self.instrs_status), len(bb.instrs_status))
         self._succs = list(bb.succs())
         self.endEA = bb.endEA
-        for succ in bb.succs(): #Relocate
+        for succ in bb.succs():  # Relocate
             succ.remove_pred(bb)
             succ.add_pred(self)
         if self.status != bb.status:
@@ -150,42 +151,43 @@ class MyFlowGraph(dict):
                 succ_bb.add_pred(bb)
 
     def make_graph(self):
-        graph = {k:[] for k in self.keys()}
+        graph = {k: [] for k in self.keys()}
         for bb in self.values():
             size = bb.size()
             for succ in bb.succs():
                 graph[bb.id].append((size, succ.id))
         return graph
 
-    def dijkstra(self, graph):
-        M = set()           # élément traités
-        d = {0: 0}          # distance map
-        p = {}              # path map
-        worklist = [(0, 0)] # worklist d'éléments à traiter (distance, id)
+    @staticmethod
+    def dijkstra(graph):
+        seen = set()            # élément traités
+        d = {0: 0}           # distance map
+        p = {}               # path map
+        worklist = [(0, 0)]  # worklist d'éléments à traiter (distance, id)
 
-        while worklist: # tant qu'il reste des éléments dans la worklist à traiter
+        while worklist:  # tant qu'il reste des éléments dans la worklist à traiter
 
-            dx, x_id = heappop(worklist) # distance, and id
-            if x_id in M:                # si l'élément est déjà traité on continue
+            dx, x_id = heappop(worklist)  # distance, and id
+            if x_id in seen:                 # si l'élément est déjà traité on continue
                 continue
 
-            M.add(x_id)                  # l'ajoute aux éléments traités
+            seen.add(x_id)                  # l'ajoute aux éléments traités
 
             for w, y in graph[x_id]:     # itère successeurs du noeud traité
-                if y in M:               # si le succ à déjà été traité continue
+                if y in seen:               # si le succ à déjà été traité continue
                     continue
-                dy = dx + w                     # pondération du succ
-                if y not in d or d[y] > dy:     # si succ n'est pas encore referencé ou que la new distance < alors update
-                    d[y] = dy                   # met à jour la distance pour succ dans la distance map
-                    heappush(worklist, (dy, y)) # met le succ dans la worklist (avec sa pondération)
-                    p[y] = x_id                 # met à jour le prédecesseur le plus court pour succ
-        #TODO: Do something with orphan BB
+                dy = dx + w                      # pondération du succ
+                if y not in d or d[y] > dy:      # si succ n'est pas encore referencé ou new distance < alors update
+                    d[y] = dy                    # met à jour la distance pour succ dans la distance map
+                    heappush(worklist, (dy, y))  # met le succ dans la worklist (avec sa pondération)
+                    p[y] = x_id                  # met à jour le prédecesseur le plus court pour succ
+        # TODO: Do something with orphan BB
         return p
 
     def bb_id_path_to(self, x):
         path = [x]
         tmp = x
-        if tmp not in self.shortest_path_map: #In case of orphan BB
+        if tmp not in self.shortest_path_map:  # In case of orphan BB
             return path
         while tmp != 0:
             tmp = self.shortest_path_map[tmp]
@@ -193,9 +195,9 @@ class MyFlowGraph(dict):
         return path
 
     def get_basic_block(self, addr):
-        if addr > self.endEA and addr < self.startEA:
+        if self.endEA < addr < self.startEA:
             raise BasicBlockNotFound()
-        bb_addrs = {v.startEA:k for k,v in self.items() if v.startEA < addr}
+        bb_addrs = {v.startEA: k for k, v in self.items() if v.startEA < addr}
         b_id = bb_addrs[max(bb_addrs.keys())]
         if addr in self.__getitem__(b_id).instrs:
             return b_id
@@ -221,7 +223,7 @@ class MyFlowGraph(dict):
     def safe_path_to(self, addr):
         path = self.full_path_to(addr)
         i = -1
-        for ea, k in zip(path,range(len(path))):
+        for ea, k in zip(path, range(len(path))):
             nb_preds = len([x for x in idautils.CodeRefsTo(ea, True)])
             if nb_preds > 1:
                 i = k

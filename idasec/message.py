@@ -3,25 +3,25 @@ from proto.common_pb2 import *
 from dba_io import parse_dbalist
 
 
-class AbstractMessage():
-  def __init__(self):
-    pass
+class AbstractMessage:
+    def __init__(self):
+        pass
 
-  def parse(self, raw):
-    pass
+    def parse(self, raw):
+        pass
 
-  def serialize(self):
-    pass
+    def serialize(self):
+        pass
 
 
-lookup_irkind = {"DBA":DBA, "BAP":BAP, "MIASM":MIASM}
-reverse_lookup_irkind = {DBA:"DBA", BAP:"BAP", MIASM:"MIASM"}
+lookup_irkind = {"DBA": DBA, "BAP": BAP, "MIASM": MIASM}
+reverse_lookup_irkind = {DBA: "DBA", BAP: "BAP", MIASM: "MIASM"}
 
 
 class MessageDecodeInstr(AbstractMessage):
 
-    lookup_kind = {"hexa":message_decode_instr.HEXA, "bin":message_decode_instr.BIN}
-    reverse_lookup = {message_decode_instr.HEXA:"hexa", message_decode_instr.BIN:"bin"}
+    lookup_kind = {"hexa": message_decode_instr.HEXA, "bin": message_decode_instr.BIN}
+    reverse_lookup = {message_decode_instr.HEXA: "hexa", message_decode_instr.BIN: "bin"}
 
     def __init__(self, irkind="DBA", kind="bin", instrs=[], base_addrs=[]):
         AbstractMessage.__init__(self)
@@ -65,7 +65,7 @@ class MessageDecodeInstrReply(AbstractMessage):
         self.irkind = kind
 
     def serialize(self):
-        #TODO: Writing a real serialization module
+        # TODO: Writing a real serialization module
         return self.message.SerializeToString()
 
     def parse(self, raw):
@@ -74,13 +74,13 @@ class MessageDecodeInstrReply(AbstractMessage):
             raw = bytes(data)
         self.message.ParseFromString(raw)
         for entry in self.message.instrs:
-          opcode = entry.opcode
-          self.irkind = reverse_lookup_irkind[entry.irkind]
-          if self.irkind == "DBA":
-            self.instrs.append((opcode, parse_dbalist(entry.dba_instrs)))
-          else:
-            print "IR kind not supported"
-        #else: Take them in the other field
+            opcode = entry.opcode
+            self.irkind = reverse_lookup_irkind[entry.irkind]
+            if self.irkind == "DBA":
+                self.instrs.append((opcode, parse_dbalist(entry.dba_instrs)))
+            else:
+                print "IR kind not supported"
+        # else: Take them in the other field
 
 
 class MessageInfos(AbstractMessage):
@@ -88,7 +88,7 @@ class MessageInfos(AbstractMessage):
         self.message = message_infos()
 
     def serialize(self):
-        #TODO: Writing a real serialization module
+        # TODO: Writing a real serialization module
         return self.message.SerializeToString()
 
     def parse(self, raw):

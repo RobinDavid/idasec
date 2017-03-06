@@ -146,7 +146,7 @@ _js2ftype = {
     # FD.TYPE_MESSAGE: json2pb,	#handled specially
     FD.TYPE_BYTES: base64.b64decode,
     FD.TYPE_UINT32: int,
-    FD.TYPE_ENUM: int, #Never used because catch before
+    FD.TYPE_ENUM: int,  # Never used because catch before
     FD.TYPE_SFIXED32: float,
     FD.TYPE_SFIXED64: float,
     FD.TYPE_SINT32: int,

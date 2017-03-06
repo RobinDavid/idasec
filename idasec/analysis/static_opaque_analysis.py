@@ -20,14 +20,14 @@ import idc
 import idaapi
 import idautils
 
-#=============================== CONFIGURATION =============================
-#===========================================================================
+
+# =============================== CONFIGURATION =============================
+# ===========================================================================
 class StaticOpaqueConfigWidget(QtWidgets.QWidget, Ui_static_iteration_config):
 
     def __init__(self):
         super(StaticOpaqueConfigWidget, self).__init__()
         self.setupUi(self)
-        #My initializations
         self.horizontalLayout_2.setEnabled(False)
         self.radio_addr.toggled.connect(self.addr_radio_toggled)
         self.radio_routine.toggled.connect(self.routine_radio_toggled)
@@ -37,7 +37,7 @@ class StaticOpaqueConfigWidget(QtWidgets.QWidget, Ui_static_iteration_config):
         self.radio_path_routine.setChecked(True)
 
     def set_fields(self, json_fields):
-        #Set the target field if a target is given in standard_params
+        # Set the target field if a target is given in standard_params
         try:
             target = json_fields["standard_params"]["target_addr"]
             self.targetlineedit.setText(hex(target))
@@ -69,9 +69,9 @@ class StaticOpaqueConfigWidget(QtWidgets.QWidget, Ui_static_iteration_config):
             self.target_label.setText("Name:")
 
     def program_radio_toggled(self, enabled):
-        self.target_label.setVisible(not(enabled))
-        self.target_field.setVisible(not(enabled))
-        self.target_button.setVisible(not(enabled))
+        self.target_label.setVisible(not enabled)
+        self.target_field.setVisible(not enabled)
+        self.target_button.setVisible(not enabled)
 
     def target_button_clicked(self):
         if self.radio_addr.isChecked():
@@ -88,25 +88,26 @@ AddrRet = namedtuple("AddrRet", "status k dependency predicate distance alive_br
 cond_jump = ["jz", "jnz", "ja", "jae", "jnb", "jnc", "jb", "jc", "jbe", "jna", "je", "jne", "jg",
              "jge", "jnl", "jl", "jle", "jng"]
 
+
 def to_status_name(x):
-    return {po_analysis_results.UNKNOWN : "Unknown",
+    return {po_analysis_results.UNKNOWN: "Unknown",
             po_analysis_results.NOT_OPAQUE: "Covered",
             po_analysis_results.OPAQUE: "Opaque",
             po_analysis_results.LIKELY: "Likely"}[x]
 
-def status_to_color(x):
-    return {po_analysis_results.UNKNOWN:PURPLE,
-            po_analysis_results.LIKELY: ORANGE,
-            po_analysis_results.NOT_OPAQUE:GREEN,
-            po_analysis_results.OPAQUE:RED}[x]
-# =======================================================
 
+def status_to_color(x):
+    return {po_analysis_results.UNKNOWN: PURPLE,
+            po_analysis_results.LIKELY: ORANGE,
+            po_analysis_results.NOT_OPAQUE: GREEN,
+            po_analysis_results.OPAQUE: RED}[x]
+# =======================================================
 
 
 # ===================================== ANALYSIS =======================================
 # ======================================================================================
-#ANNOT_CODE = "Annotate opaque jumps"
-#GENERATE_PLOT = "Generate plot chart"
+# ANNOT_CODE = "Annotate opaque jumps"
+# GENERATE_PLOT = "Generate plot chart"
 HIGHLIGHT_DEAD_CODE = "Highlight dead code"
 HIGHLIGHT_SPURIOUS_CALCULUS = "Highlight spurious computation"
 EXPORT_RESULT = "Export results"
@@ -131,8 +132,8 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
 
     def __init__(self, parent, config, is_stream=False, trace=None):
         DefaultAnalysis.__init__(self, parent, config, is_stream, trace)
-        self.actions = {#ANNOT_CODE: (self.annotate_code, False),
-                        #GENERATE_PLOT: (self.generate_chart, False),
+        self.actions = {# ANNOT_CODE: (self.annotate_code, False),
+                        # GENERATE_PLOT: (self.generate_chart, False),
                         HIGHLIGHT_DEAD_CODE: (self.highlight_dead_code, False),
                         HIGHLIGHT_SPURIOUS_CALCULUS: (self.highlight_spurious, False),
                         EXPORT_RESULT: (self.export_result, False),
@@ -160,7 +161,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
 
         # Refill the configuration file
         if self.configuration.ksteps != 0 and self.config_widget.radio_path_routine.isChecked():
-            self.k = self.configuration.ksteps # Use the ksteps given if making the path on the whole routine
+            self.k = self.configuration.ksteps  # Use the ksteps given if making the path on the whole routine
 
         self.result_widget.webview.append("### Opaque predicates Detection ###\n")
 
@@ -197,13 +198,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
     def process_program(self):
         funs = list(idautils.Functions())
         nb = len(funs)
-        found = False
         for i, fun in zip(xrange(nb), funs):
-            #if not found:
-            #    if fun == 0x4dbfd0:
-            #        found = True
-            #    else:
-            #        continue
             self.process_routine(fun, rtn_i=i+1, total_rtn=nb)
             if self.STOP:
                 return
@@ -218,7 +213,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         else:
             candidates = {pred_addr}
         nb_candidates = len(candidates)
-        #print "Nb candidates: %d" % nb_candidates
         self.functions_candidates[rtn_addr] = set()
         self.functions_spurious_instrs[rtn_addr] = set()
 
@@ -264,14 +258,14 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                 po = self.po.values[0]
                 before = time.time()
                 formula_dep, predicate, distance = self.compute_dependency_and_predicate(po.formula) if po.formula else ([], "", 0)
-                #formula_dep, predicate, distance = ([], "", 0)
+                # formula_dep, predicate, distance = ([], "", 0)
                 self.exec_time_dep += time.time() - before
                 dead_branch = [x for x in succs if x != po.alive_branch][0] if po.status == self.po.OPAQUE else None
                 if po.status == self.po.OPAQUE:
                     self.functions_spurious_instrs[rtn_addr].update(formula_dep+[addr])
                 self.results[addr] = AddrRet(po.status, k, formula_dep, predicate, distance, po.alive_branch, dead_branch)
                 self.txt_dump.write('%x,%s,%d,%s,%d\n' % (addr, to_status_name(po.status), k, predicate, distance))
-        #print "End processing address:%x status:%s" % (addr, to_status_name(ret.status))
+        # print "End processing address:%x status:%s" % (addr, to_status_name(ret.status))
         if addr in self.results:
             return self.results[addr]
         else:
@@ -284,12 +278,9 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
 
     def send_query_binsec(self, conf, path, addr):
         self.broker.send_binsec_message(START_ANALYSIS, conf.SerializeToString())
-        #message_pool = [(TRACE_HEADER, make_header().SerializeToString()),
-        #                (TRACE_CHUNK, chunk_from_path(path).SerializeToString()),
-        #                (END, EMPTY)]
         header = make_header().SerializeToString()
         chunk = chunk_from_path(path).SerializeToString()
-        #self.dump_trace(header, chunk, addr)
+        # self.dump_trace(header, chunk, addr)
         self.broker.send_binsec_message(TRACE_HEADER, header)
         self.broker.send_binsec_message(TRACE_CHUNK, chunk)
         self.broker.send_binsec_message(END, EMPTY)
@@ -299,9 +290,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
 
             if self.STOP:
                 break
-            #if message_pool:
-            #    cmd, data = message_pool.pop()
-            #    self.broker.send_binsec_message(cmd, data)
 
             if origin == BINSEC:
                 if cmd == "END":
@@ -315,7 +303,8 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                 print "Timeout over !"
                 break
 
-    def dump_trace(self, header, chunk, addr):
+    @staticmethod
+    def dump_trace(header, chunk, addr):
         import struct
         f = open("/tmp/%x.dmp" % addr, "wb")
         f.write(struct.pack("I", len(header)))
@@ -329,9 +318,8 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         f.parse(raw_formula)
         offsets, bin_op, distance = self.slice(f)
         pred = self.expr_synthesis(bin_op) if bin_op else ""
-        #print "compute_dependency: ", pred, offsets #,"\n",bin_op
+        # print "compute_dependency: ", pred, offsets #,"\n",bin_op
         return offsets, pred, distance
-
 
     def config_to_path_function(self, cfg):
         if self.config_widget.radio_path_routine.isChecked():
@@ -347,7 +335,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         self.log("[info]", "Analysis %s terminated" % self.name)
 
         self.refine_results()
-        #self.compute_dead_code()
+        # self.compute_dead_code()
         self.propagate_liveness()
         self.generate_opaqueness_stats_report()
         self.generate_dead_code_stats_report()
@@ -355,7 +343,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         # TODO: Stat of pattern used etc..
 
         self.result_widget.webview.setHtml(self.report.generate())
-        f = open("/tmp/report_export.html","w")
+        f = open("/tmp/report_export.html", "w")
         f.write(self.report.generate())
         f.close()
 
@@ -363,7 +351,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         likely_retag = 0
         fp_retag = 0
         fn_retag = 0
-        #tags = ["x²", "y²", "7y", "7x", "(0 :: 2)", " + 3", " - 1"]
         for rtn_addr, candidates in self.functions_candidates.items():
             for addr in sorted(candidates):
                 res = self.results[addr]
@@ -397,7 +384,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         print "Retag: FN->OP:%d" % fn_retag
         print "Retag: Lkl->OK:%d" % likely_retag
 
-
     def generate_opaqueness_stats_report(self):
         self.report.add_title('Stats opaqueness', size=3)
         self.report.add_table_header(["type", "number", "percentage"])
@@ -410,8 +396,8 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         self.report.end_table()
 
     def generate_dead_code_stats_report(self):
-        stats = {"DEAD":0, "ALIVE":0, "SPURIOUS":0, "UNKNOWN":0}
-        to_color = {"DEAD":RED, "ALIVE":GREEN, "SPURIOUS":ORANGE, "UNKNOWN":BLACK}
+        stats = {"DEAD": 0, "ALIVE": 0, "SPURIOUS": 0, "UNKNOWN": 0}
+        to_color = {"DEAD": RED, "ALIVE": GREEN, "SPURIOUS": ORANGE, "UNKNOWN": BLACK}
         for cfg in self.functions_cfg.values():
             for bb in cfg.values():
                 if bb.is_dead():
@@ -454,7 +440,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
             while worklist:
                 bb = worklist.pop()
                 if bb.status == Status.UNKNOWN:
-                    #print "%d 0x%x marked ALIVE" % (bb.id, bb.startEA)
+                    # print "%d 0x%x marked ALIVE" % (bb.id, bb.startEA)
                     bb.status = Status.ALIVE
                     last = bb.last()
                     succs = list(bb.succs())
@@ -462,88 +448,39 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                         infos = self.results[last]
                         if infos.status == self.po.OPAQUE:
                             succ = [x for x in succs if x.startEA == infos.alive_branch][0]
-                            #print "Append %x to worklist" % succ.startEA
+                            # print "Append %x to worklist" % succ.startEA
                             worklist.append(succ)
                         else:
-                            #print "Append all child to worklist"
+                            # print "Append all child to worklist"
                             worklist.extend(succs)
-                    else: # Just propagate normally
-                        #print "last 0x%x not in candidates" % last
+                    else:  # Just propagate normally
+                        # print "last 0x%x not in candidates" % last
                         worklist.extend(succs)
 
-                    for i in bb: #Update the status for instructions
+                    for i in bb:  # Update the status for instructions
                         st = Status.DEAD if i in spurious else Status.ALIVE
                         bb.set_instr_status(i, st)
 
             for bb in [x for x in cfg.values() if x.status == Status.UNKNOWN]:
                 bb.status = Status.DEAD
 
-    '''
-    def compute_dead_code(self):
-        # TODO: ne rien faire sur unknown, puis fixpoint
-        for fun_addr, cfg in self.functions_cfg.items():
-            candidates = self.functions_candidates[fun_addr]
-            cfg[0].status = Status.ALIVE  # Mark the first basic bloc of the function as alive
-
-            for idx, bb in cfg.items():  # Iterate over all basic blocs
-                print "%d:0x%x -> %s" % (idx, bb.startEA, bb.status.key)
-                if bb.is_alive() or bb.is_unknown():  # If the current bb is alive or unknown
-                    last = bb.last()                  # Get the last instruction (to see if its a conditional jump
-                    if last in candidates:            # If the last instruction of the bb is a conditional jump
-                        infos = self.results[last]   # Get the infos
-                        print "  0x%x in candidates:%s" % (last, to_status_name(infos.status))
-                        if infos.status == self.po.OPAQUE:
-                            for succ in bb.succs():
-                                if succ.startEA == infos.dead_branch:
-                                    print "    prop dead: 0x%x" % succ.startEA
-                                    succ.status = Status.DEAD
-                                else:
-                                    print "    prop alive: 0x%x" % succ.startEA
-                                    succ.status = Status.ALIVE
-                        elif infos.status == self.po.NOT_OPAQUE:
-                            for succ in bb.succs():
-                                print "    prop alive: 0x%x"  % succ.startEA
-                                succ.status = Status.ALIVE
-                        elif infos.status == self.po.UNKNOWN or infos.status == self.po.LIKELY:
-                            print "     do nothing..."
-                            pass # Do not propagate anything the predicate is UNKNOWN
-                    else:
-                        print "  not in candidates"
-                        if not bb.is_unknown(): # propagate the state (except if its unknown?)
-                            for succ in bb.succs():
-                                succ.status = bb.status # Can only propagate ALIVE here..
-
-                elif bb.status == Status.DEAD:
-                    for succ in bb.succs():
-                        print "  succ:%s (%d)" % (succ.status.key, succ.nb_preds())
-                        preds_of_succ = [x for x in succ.preds() if x.id not in [bb.id, succ.id] and x.status != Status.DEAD]
-                        if len(preds_of_succ) == 0 and succ.status == Status.UNKNOWN:
-                            print "    propagate DEAD on:%x" % succ.startEA
-                            succ.status = bb.status # aka DEAD
-                        else:
-                            print "    can't do anything.."
-                            pass  # do not known that much so can't propagate
-                else:
-                    print "Woot ?"
-    '''
-
     # -- Action handlers
-    def annotate_code(self, enabled):
+    def annotate_code(self, _):
         print "Annotate code !"
 
-    def generate_chart(self, enabled):
+    def generate_chart(self, _):
         print "Generate chart !"
 
     def highlight_dead_code(self, enabled):
         curr_fun = idaapi.get_func(idc.here()).startEA
         cfg = self.functions_cfg[curr_fun]
-        #for cfg in self.functions_cfg.values():
+        # for cfg in self.functions_cfg.values():
         for bb in cfg.values():
-            color = {Status.DEAD:0x5754ff, Status.ALIVE:0x98FF98,Status.UNKNOWN:0xaa0071}[bb.status]
+            color = {Status.DEAD: 0x5754ff, Status.ALIVE: 0x98FF98, Status.UNKNOWN: 0xaa0071}[bb.status]
             color = 0xFFFFFF if enabled else color
             for i in bb:
                 idc.SetColor(i, idc.CIC_ITEM, color)
-        self.actions[HIGHLIGHT_DEAD_CODE] = (self.highlight_dead_code, not(enabled))
+        self.actions[HIGHLIGHT_DEAD_CODE] = (self.highlight_dead_code, not enabled)
         self.result_widget.action_selector_changed(HIGHLIGHT_DEAD_CODE)
 
     def highlight_spurious(self, enabled):
@@ -551,25 +488,14 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         curr_fun = idaapi.get_func(idc.here()).startEA
         cfg = self.functions_cfg[curr_fun]
         color = 0xFFFFFF if enabled else 0x507cff
-        #for cfg in self.functions_cfg.values():
         for bb in [x for x in cfg.values() if x.is_alive()]:
             for i, st in bb.instrs_status.items():
                 if st == Status.DEAD:
                     idc.SetColor(i, idc.CIC_ITEM, color)
-            '''
-            last = bb.last()
-            if last in self.results:
-                infos = self.results[last]
-                #print "last %x in resuls ! (%d)" % (last, len(infos.dependency))
-                if infos.status == self.po.OPAQUE:
-                    idc.SetColor(last, idc.CIC_ITEM, color)
-                    for addr in infos.dependency:
-                        idc.SetColor(addr, idc.CIC_ITEM, color)
-            '''
         self.actions[HIGHLIGHT_SPURIOUS_CALCULUS] = (self.highlight_spurious, not(enabled))
         self.result_widget.action_selector_changed(HIGHLIGHT_SPURIOUS_CALCULUS)
 
-    def export_result(self, enabled):
+    def export_result(self, _):
         filename = QtWidgets.QFileDialog.getSaveFileName()[0]
         filepath = Path(filename)
         if not filepath.exists() and filepath != '':
@@ -578,25 +504,26 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                 report.write_text(self.report.generate())
                 f = raw.open("w")
                 for addr, infos in self.results.iteritems():
-                    f.write(u"0x%x,%s,%d,%s,0x%x,0x%x\n" % (addr, to_status_name(infos.status), infos.k, infos.dependency, infos.alive_branch, infos.dead_branch))
+                    f.write(u"0x%x,%s,%d,%s,0x%x,0x%x\n" % (addr, to_status_name(infos.status), infos.k,
+                                                            infos.dependency, infos.alive_branch, infos.dead_branch))
                 f.close()
                 self.log("[info]", "Export done in %s and %s" % (report.basename(), raw.basename()))
         else:
             self.log("[error]", "File already exists.. (do not save)")
 
-    def extract_reduced_cfg(self, enabled):
-        #TODO: Make a copy of the CFG before stripping it
+    def extract_reduced_cfg(self, _):
+        # TODO: Make a copy of the CFG before stripping it
         print "Extract reduced CFG"
         curr_fun = idaapi.get_func(idc.here()).startEA
         cfg = self.functions_cfg[curr_fun]
-        po_addrs = {k for k,v in self.results.items() if v.status == self.po.OPAQUE}
+        po_addrs = {k for k, v in self.results.items() if v.status == self.po.OPAQUE}
 
-        cfg.remove_dead_bb() #Dead basic block removal step
+        cfg.remove_dead_bb()  # Dead basic block removal step
 
         # Relocation + Merge step
         for idx, bb in cfg.items():
             print "try reduce: %d: 0x%x" % (idx, bb.startEA)
-            if bb.is_full_spurious() and bb.nb_preds() == bb.nb_succs() == 1: # Do relocation
+            if bb.is_full_spurious() and bb.nb_preds() == bb.nb_succs() == 1:  # Do relocation
                 bb_pred = list(bb.preds())[0]
                 bb_succ = list(bb.succs())[0]
                 print "  relocation bind %d->%d" % (bb_pred.id, bb_succ.id)
@@ -618,7 +545,6 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
 
     def stop_button_clicked(self):
         self.STOP = True
-
 
     def set_progress_visible(self, enable):
         self.loading_stat.setVisible(enable)
@@ -647,7 +573,8 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         elif isinstance(e, UnOp):
             return UnOp(e.op, self.replace_var_bv_expr(name, sub, e.expr, arr, pld), e.opt1, e.opt2)
         elif isinstance(e, BinOp):
-            return BinOp(e.op, self.replace_var_bv_expr(name, sub, e.expr1, arr, pld), self.replace_var_bv_expr(name, sub, e.expr2, arr, pld))
+            return BinOp(e.op, self.replace_var_bv_expr(name, sub, e.expr1, arr, pld),
+                         self.replace_var_bv_expr(name, sub, e.expr2, arr, pld))
         elif isinstance(e, Ite):
             c1 = self.replace_var_bv_expr(name, sub, e.cond, arr, pld)
             e1 = self.replace_var_bv_expr(name, sub, e.expr1, arr, pld)
@@ -657,7 +584,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
             if e.expr in arr:
                 return arr[e.expr]
             else:
-                new_v = pld.pop(0)  #TODO: HERE !
+                new_v = pld.pop(0)  # TODO: HERE !
                 arr[e.expr] = Var(new_v)
                 return Var(new_v)
         else:
@@ -670,27 +597,27 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         off_to_keep = {}
         bin_op = None
         tmp_arr = {}
-        bag = ['y','x','z','a','b','c','d','e','f','g','h','i','j','k','l','m']
+        bag = ['y', 'x', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
         for off in reversed(sorted(f.formula.keys())):
-            #print "Offset ", off, ": ",
+            # print "Offset ", off, ": ",
             if not cmp_found:
                 if off == -1:
                     break
                 mnemonic = f.offset_instr[off][1]
                 if mnemonic[:4] in ["cmp ", "test", "sub "]:
-                    #print "Found cmp %d: %s" % (off, f.offset_instr[off][1])
+                    # print "Found cmp %d: %s" % (off, f.offset_instr[off][1])
                     cmp_found = True
                     vars = set(f.get_var_bv_expr(f.formula[off][0].value))
-                    #print "vars found", vars
+                    # print "vars found", vars
                     if len(vars) != 2:
-                        #print "No two variables were found abort %s", vars
+                        # print "No two variables were found abort %s", vars
                         break
                     var_seen.update(vars)
                     off_to_keep[off] = [0]
                     bin_op = BinOp("bvcomp", Var(vars.pop()), Var(vars.pop()))
                 else:
                     continue
-            else: # Normal case
+            else:  # Normal case
                 cmds = f.formula[off]
                 for i, vardef in reversed(zip(xrange(len(cmds)), cmds)):
                     try:
@@ -703,18 +630,18 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                             off_to_keep[off] = off_to_keep.get(off, [])+[i]
                             bin_op = self.replace_var_bv_expr(name, expr, bin_op, tmp_arr, bag)
                         else:
-                            pass #print name, " does not belong to var_seen"
+                            pass  # print name, " does not belong to var_seen"
                     except AttributeError:
                         pass
-                if not var_seen: #Means empty
+                if not var_seen:  # Means empty
                     break
-        bin_op = self.replace_var_bv_expr("stub","stub",bin_op, tmp_arr, bag) if bin_op is not None else None
-        addr_dep = [v[0] for k,v in f.offset_instr.items() if k in off_to_keep]
+        bin_op = self.replace_var_bv_expr("stub", "stub", bin_op, tmp_arr, bag) if bin_op is not None else None
+        addr_dep = [v[0] for k, v in f.offset_instr.items() if k in off_to_keep]
         distance = max(off_to_keep)-min(off_to_keep)+1 if len(off_to_keep) != 0 else 0
         return addr_dep, bin_op, distance
 
     def expr_synthesis(self, e, top=True):
-        o,r = ("(",")") if not top else ("","")
+        o, r = ("(", ")") if not top else ("", "")
         if isinstance(e, Bv):
             return e.value
         elif isinstance(e, Var):
@@ -736,7 +663,8 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
                 return "%s%s" % (e.expr2.value, self.expr_synthesis(e.expr1, False))
             else:
                 top = e.op == "bvcomp" and top
-                return "%s%s %s %s%s" % (o, self.expr_synthesis(e.expr1, top), SMTFormula.bop_to_pp_string(e.op), self.expr_synthesis(e.expr2, top),r)
+                return "%s%s %s %s%s" % (o, self.expr_synthesis(e.expr1, top), SMTFormula.bop_to_pp_string(e.op),
+                                         self.expr_synthesis(e.expr2, top), r)
         elif isinstance(e, Ite):
             c = self.expr_synthesis(e.cond, False)
             e1 = self.expr_synthesis(e.expr1, False)

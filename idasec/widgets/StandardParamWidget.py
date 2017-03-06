@@ -5,6 +5,7 @@ from idasec.ui.standard_params_ui import Ui_standard_params
 
 import idc
 
+
 class StandardParamConfigWidget(QtWidgets.QWidget, Ui_standard_params):
 
     def __init__(self):
@@ -15,9 +16,9 @@ class StandardParamConfigWidget(QtWidgets.QWidget, Ui_standard_params):
 
     def set_fields(self, json_fields):
         gen = json_fields["standard_params"]
-        if gen.has_key("target_addr"):
+        if "target_addr" in gen:
             self.target_field.setText(hex(gen["target_addr"]))
-        if gen.has_key("uniq"):
+        if "uniq" in gen:
             self.uniq_checkbox.setChecked(gen["uniq"])
 
     def serialize(self):
@@ -28,7 +29,6 @@ class StandardParamConfigWidget(QtWidgets.QWidget, Ui_standard_params):
         except ValueError:
             print "Invalid values for target address"
 
-        #if self.uniq_checkbox.isChecked():
         self.conf.uniq = self.uniq_checkbox.isChecked()
 
         try:
@@ -36,7 +36,7 @@ class StandardParamConfigWidget(QtWidgets.QWidget, Ui_standard_params):
             params.typeid = params.STANDARD
             params.standard_params.CopyFrom(self.conf)
             return params
-        except:
+        except Exception:
             print "Analysis specific arguments serialization failed"
             return None
 

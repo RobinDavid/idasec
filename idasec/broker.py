@@ -2,7 +2,6 @@
 import json
 import struct
 import zmq
-import sys
 import random
 
 from idasec.dba_printer import *
@@ -13,14 +12,13 @@ from commands import *
 
 from threading import Thread
 
-def nsplit(s, n):#Split a list into sublists of size "n"
-    return [s[k:k+n] for k in xrange(0, len(s), n)]
+from idasec.utils import nsplit
 
 
 class Broker:
     def __init__(self, binsec_recv_cb=None, pinsec_recv_cb=None):
         self.context = zmq.Context.instance()
-        self.pin_socket = self.context.socket(zmq.DEALER)
+        self.pinsec_socket = self.context.socket(zmq.DEALER)
         self.binsec_socket = self.context.socket(zmq.DEALER)
         self.binsec_callback = binsec_recv_cb if binsec_recv_cb is not None else self.dispatch_from_binsec
         self.pinsec_callback = pinsec_recv_cb if pinsec_recv_cb is not None else self.disconnect_pinsec
@@ -32,7 +30,7 @@ class Broker:
 
     def connect_pinsec(self, ip, port):
         self.pinsec_addr = "tcp://"+ip+":"+str(port)
-        self.pin_socket.connect(self.pinsec_addr)
+        self.pinsec_socket.connect(self.pinsec_addr)
 
     def connect_binsec(self, ip, port):
         self.binsec_addr = "tcp://"+ip+":"+str(port)
@@ -45,7 +43,7 @@ class Broker:
         self.pinsec_socket.disconnect(self.pinsec_addr)
 
     def bind_pin(self, port):
-        self.pin_socket.bind("tcp://*:"+port)
+        self.pinsec_socket.bind("tcp://*:"+port)
 
     def bind_binsec(self, port):
         self.binsec_socket.bind("tcp://*:"+port)
@@ -66,48 +64,45 @@ class Broker:
     def run_broker_loop_generator(self):
         poll = zmq.Poller()
         poll.register(self.binsec_socket, zmq.POLLIN)
-        poll.register(self.pin_socket, zmq.POLLIN)
+        poll.register(self.pinsec_socket, zmq.POLLIN)
         # print "start iterating"
         try:
             while True:
                 sockets = dict(poll.poll(timeout=100))
-                #print "Yop !"
                 if sockets == {}:
                     yield None, None, None
                 if self.stop:
                     print "Thread loop stop"
                     break
 
-                if self.pin_socket in sockets:
-                    cmd, data = self.pin_socket.recv_multipart()
+                if self.pinsec_socket in sockets:
+                    cmd, data = self.pinsec_socket.recv_multipart()
                     yield PINSEC, cmd, data
-                    #self.pinsec_callback(cmd, data)
+                    # self.pinsec_callback(cmd, data)
 
                 if self.binsec_socket in sockets:
                     cmd, data = self.binsec_socket.recv_multipart()
                     yield BINSEC, cmd, data
-                    #self.binsec_callback(cmd, msg)
-
+                    # self.binsec_callback(cmd, msg)
 
         except KeyboardInterrupt:
             self.binsec_socket.close()
-            self.pin_socket.close()
+            self.pinsec_socket.close()
 
     def dispatch_from_pin(self, cmd, data):
-        self.binsec_socket.send_multipart([cmd,data])
+        self.binsec_socket.send_multipart([cmd, data])
 
     def dispatch_from_binsec(self, cmd, data):
-        self.pin_socket.send_multipart([cmd,data])
+        self.pinsec_socket.send_multipart([cmd, data])
 
     def send_binsec_message(self, cmd, data, blocking=True):
-        #print("Send binsec:"+cmd)
         self.send_message(self.binsec_socket, cmd, data, blocking=blocking)
-        #self.binsec_socket.send_multipart([cmd, data])
 
     def send_pinsec_message(self, cmd, data, blocking=True):
-        self.send_message(self.pin_socket, cmd, data, blocking=blocking)
+        self.send_message(self.pinsec_socket, cmd, data, blocking=blocking)
 
-    def send_message(self, socket, cmd, data, blocking=True):
+    @staticmethod
+    def send_message(socket, cmd, data, blocking=True):
         flags = 0 if blocking else zmq.DONTWAIT
         socket.send_multipart([cmd, data], flags=flags)
 
@@ -115,9 +110,10 @@ class Broker:
         return self.receive_message(self.binsec_socket, blocking=blocking)
 
     def receive_pinsec_message(self, blocking=True):
-        return self.receive_message(self.pin_socket, blocking=blocking)
+        return self.receive_message(self.pinsec_socket, blocking=blocking)
 
-    def receive_message(self, socket, blocking=True):
+    @staticmethod
+    def receive_message(socket, blocking=True):
         flags = 0 if blocking else zmq.NOBLOCK
         try:
             cmd, data = socket.recv_multipart(flags=flags)
@@ -128,13 +124,13 @@ class Broker:
             print("Context terminated ..")
             return None, None
         except KeyboardInterrupt:
-            return None,None
+            return None, None
 
     def terminate(self):
         if self.th is not None:
             self.stop = True
         self.binsec_socket.close()
-        self.pin_socket.close()
+        self.pinsec_socket.close()
 
 
 def decode_instr(opcode):
@@ -144,10 +140,10 @@ def decode_instr(opcode):
     broker.connect_binsec("localhost", "5570")
     broker.send_binsec_message("DECODE_INSTR", raw)
     cmd, data = broker.receive_binsec_message()
-    print "CMD:", cmd, "data:",len(data)
+    print "CMD:", cmd, "data:", len(data)
     reply = MessageDecodeInstrReply()
     reply.parse(data)
-    for opc,dbainsts in reply.instrs:
+    for opc, dbainsts in reply.instrs:
         print(opc)
         for i in dbainsts:
             print instr_to_string(i)
@@ -178,7 +174,7 @@ def launch_full_proxy_analysis(conf_name):
     broker.connect_binsec("127.0.0.1", '5570')
     data = conf.SerializeToString()
     broker.send_binsec_message("START_ANALYSIS", data)
-    broker.connect_pin("192.168.56.101", "5555")
+    broker.connect_pinsec("192.168.56.101", "5555")
     broker.run_broker_loop()
 
 
@@ -187,7 +183,7 @@ def launch_analysis(trace_name, conf_name):
     broker = Broker()
     broker.connect_binsec("127.0.0.1", '5570')
     data = conf.SerializeToString()
-    f = open("config_serialized.pb","w")
+    f = open("config_serialized.pb", "w")
     f.write(data)
     f.close()
     broker.send_binsec_message("START_ANALYSIS", data)
@@ -227,7 +223,7 @@ def main():
     if command == "broker":
         broker = Broker()
         broker.bind_binsec("5555")
-        broker.connect_pin(sys.argv[2],sys.argv[3])
+        broker.connect_pinsec(sys.argv[2], sys.argv[3])
         broker.run_broker_loop()
     elif command == "DECODE_INSTR":
         decode_instr(sys.argv[2])

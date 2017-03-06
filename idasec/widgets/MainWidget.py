@@ -15,7 +15,6 @@ import re
 import idc
 
 
-
 class MainWidget(QtWidgets.QWidget, Ui_Main):
     def __init__(self, parent):
         super(MainWidget, self).__init__()
@@ -28,7 +27,7 @@ class MainWidget(QtWidgets.QWidget, Ui_Main):
 
     # class IDASecApp(PluginForm, Ui_Main):
 
-    def OnCreate(self, form):
+    def OnCreate(self, _):
         self.setupUi(self)
         self.binsec_connect_button.clicked.connect(self.connect_binsec)
         self.dba_decode_button.clicked.connect(self.decode_button_clicked)
@@ -108,10 +107,10 @@ class MainWidget(QtWidgets.QWidget, Ui_Main):
         else:
             raw = idc.GetManyBytes(inst, idc.NextHead(inst)-inst)
             s = to_hex(raw)
-        self.decode_ir(s)
+            self.decode_ir(s)
 
     def decode_button_clicked(self):
-        opc = self.dba_decode_field.text().encode('ascii', 'ignore').replace(" ","")
+        opc = self.dba_decode_field.text().encode('ascii', 'ignore').replace(" ", "")
         if not re.match('^[0-9a-fA-F]+$', opc):
             print "Invalid input:"+opc
             return
@@ -137,7 +136,8 @@ class MainWidget(QtWidgets.QWidget, Ui_Main):
                     for opc, dbainsts in reply.instrs:
                         self.ir_textarea.setText(opc+":")
                         length = len(dbainsts)-1
-                        arr = ["⎧" if i == 0 else "⎩" if i == length - 1 else "⎨" if i == length / 2 else "⎪" for i in range(length)]
+                        arr = ["⎧" if i == 0 else "⎩" if i == length - 1 else "⎨" if i == length / 2 else "⎪"
+                               for i in range(length)]
                         arr = [""] if length == 1 else arr
                         for i in range(len(dbainsts[:-1])):
                             dba = dbainsts[i]
@@ -149,6 +149,6 @@ class MainWidget(QtWidgets.QWidget, Ui_Main):
         else:
             print "Invalid input :"+opc
 
-    def OnClose(self, form):
+    def OnClose(self, _):
         print("Closed invoked !")
         pass

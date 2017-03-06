@@ -2,6 +2,7 @@ from dba import *
 from proto import dba_pb2
 from proto.dba_pb2 import dbaexpr
 
+
 class GenerationError(Exception):
     pass
 
@@ -63,28 +64,28 @@ def parse_codeaddres(pb_addr):
 
 def generate_binary_op(op):
     return {Plus: dbaexpr.DbaPlus, Minus: dbaexpr.DbaMinus, MulU: dbaexpr.DbaMultU,
-    MulS: dbaexpr.DbaMultS, DivU: dbaexpr.DbaDivU, DivS: dbaexpr.DbaDivS, ModU: dbaexpr.DbaModU,
-    ModS: dbaexpr.DbaModS, Or: dbaexpr.DbaOr, And: dbaexpr.DbaAnd, Xor: dbaexpr.DbaXor,
-    Concat: dbaexpr.DbaConcat, Lshift: dbaexpr.DbaLShiftU, RshiftU: dbaexpr.DbaRShiftU,
-    RshiftS: dbaexpr.DbaRShiftS, Lrotate: dbaexpr.DbaLeftRotate, Rrotate: dbaexpr.DbaRightRotate,
-    Equal: dbaexpr.DbaEq, Diff: dbaexpr.DbaDiff, LeqU: dbaexpr.DbaLeqU, LtU: dbaexpr.DbaLtU,
-    GeqU: dbaexpr.DbaGeqU, GtU: dbaexpr.DbaGtU, LeqS: dbaexpr.DbaLeqS, LtS: dbaexpr.DbaLtS,
-    GeqS: dbaexpr.DbaGeqS, GtS: dbaexpr.DbaGtS}[op]
+            MulS: dbaexpr.DbaMultS, DivU: dbaexpr.DbaDivU, DivS: dbaexpr.DbaDivS, ModU: dbaexpr.DbaModU,
+            ModS: dbaexpr.DbaModS, Or: dbaexpr.DbaOr, And: dbaexpr.DbaAnd, Xor: dbaexpr.DbaXor,
+            Concat: dbaexpr.DbaConcat, Lshift: dbaexpr.DbaLShiftU, RshiftU: dbaexpr.DbaRShiftU,
+            RshiftS: dbaexpr.DbaRShiftS, Lrotate: dbaexpr.DbaLeftRotate, Rrotate: dbaexpr.DbaRightRotate,
+            Equal: dbaexpr.DbaEq, Diff: dbaexpr.DbaDiff, LeqU: dbaexpr.DbaLeqU, LtU: dbaexpr.DbaLtU,
+            GeqU: dbaexpr.DbaGeqU, GtU: dbaexpr.DbaGtU, LeqS: dbaexpr.DbaLeqS, LtS: dbaexpr.DbaLtS,
+            GeqS: dbaexpr.DbaGeqS, GtS: dbaexpr.DbaGtS}[op]
 
 
 def parse_binary_op(pb_op):
     return {dbaexpr.DbaPlus: Plus, dbaexpr.DbaMinus: Minus, dbaexpr.DbaMultU: MulU,
-    dbaexpr.DbaMultS: MulS, dbaexpr.DbaDivU: DivU, dbaexpr.DbaDivS: DivS, dbaexpr.DbaModU: ModU,
-    dbaexpr.DbaModS: ModS, dbaexpr.DbaOr: Or, dbaexpr.DbaAnd: And, dbaexpr.DbaXor: Xor,
-    dbaexpr.DbaConcat: Concat, dbaexpr.DbaLShiftU: Lshift, dbaexpr.DbaRShiftU: RshiftU,
-    dbaexpr.DbaRShiftS: RshiftS, dbaexpr.DbaLeftRotate: Lrotate, dbaexpr.DbaRightRotate: Rrotate,
-    dbaexpr.DbaEq: Equal, dbaexpr.DbaDiff: Diff, dbaexpr.DbaLeqU: LeqU, dbaexpr.DbaLtU: LtU,
-    dbaexpr.DbaGeqU: GeqU, dbaexpr.DbaGtU: GtU, dbaexpr.DbaLeqS: LeqS, dbaexpr.DbaLtS:LtS,
-    dbaexpr.DbaGeqS: GeqS, dbaexpr.DbaGtS: GtS}[pb_op]
+            dbaexpr.DbaMultS: MulS, dbaexpr.DbaDivU: DivU, dbaexpr.DbaDivS: DivS, dbaexpr.DbaModU: ModU,
+            dbaexpr.DbaModS: ModS, dbaexpr.DbaOr: Or, dbaexpr.DbaAnd: And, dbaexpr.DbaXor: Xor,
+            dbaexpr.DbaConcat: Concat, dbaexpr.DbaLShiftU: Lshift, dbaexpr.DbaRShiftU: RshiftU,
+            dbaexpr.DbaRShiftS: RshiftS, dbaexpr.DbaLeftRotate: Lrotate, dbaexpr.DbaRightRotate: Rrotate,
+            dbaexpr.DbaEq: Equal, dbaexpr.DbaDiff: Diff, dbaexpr.DbaLeqU: LeqU, dbaexpr.DbaLtU: LtU,
+            dbaexpr.DbaGeqU: GeqU, dbaexpr.DbaGtU: GtU, dbaexpr.DbaLeqS: LeqS, dbaexpr.DbaLtS: LtS,
+            dbaexpr.DbaGeqS: GeqS, dbaexpr.DbaGtS: GtS}[pb_op]
 
 
 def generate_unaryop(op):
-    return {UMinus:dbaexpr.DbaUnaryMinus , Not:dbaexpr.DbaUnaryNot}[op]
+    return {UMinus: dbaexpr.DbaUnaryMinus, Not: dbaexpr.DbaUnaryNot}[op]
 
 
 def parse_unaryop(pb_op):
@@ -99,9 +100,6 @@ def parse_endianess(pb_en):
     return {dba_pb2.Little: Little, dba_pb2.Big: Big}[pb_en]
 
 
-
-
-
 def generate_dbaexpr(e):
     dba_e = dba_pb2.dbaexpr()
     if isinstance(e, Bv):
@@ -113,7 +111,7 @@ def generate_dbaexpr(e):
         dba_e.size = e.size
     elif isinstance(e, Load):
         dba_e.typeid = dba_e.DbaLoad
-        dba_e.endian=generate_endianess(e.endian)
+        dba_e.endian = generate_endianess(e.endian)
         dba_e.size = e.size
         dba_e.expr1.CopyFrom(generate_dbaexpr(e.expr))
     elif isinstance(e, UnOp):
@@ -144,7 +142,7 @@ def generate_dbaexpr(e):
         dba_e.expr1.CopyFrom(generate_dbaexpr(e.expr1))
         dba_e.expr2.CopyFrom(generate_dbaexpr(e.expr2))
     else:
-        raise GenerationError("Unknown expression type:",type(e))
+        raise GenerationError("Unknown expression type:", type(e))
     return dba_e
 
 
@@ -185,7 +183,7 @@ def generate_dbacond(c):
             dba_c.typeid = dba_c.DbaCondNot
             dba_c.cond1.CopyFrom(generate_dbacond(c.cond))
         else:
-            raise GenerationError("Unknown unary operator for condition:",type(c.uop))
+            raise GenerationError("Unknown unary operator for condition:", type(c.uop))
     elif isinstance(c, BinCond):
         if c.bop in [Or, And]:
             dba_c.typeid = dba_c.DbaCondAnd if c.bop == And else dba_c.DbaCondOr
@@ -216,7 +214,7 @@ def parse_dbacond(pb_c):
 
 
 def generate_lhs(lhs):
-    pb_lhs =  dba_pb2.dbaLhs()
+    pb_lhs = dba_pb2.dbaLhs()
     if isinstance(lhs, Var):
         res = reg_to_extract(Var.name)
         pb_lhs.name = lhs.name
@@ -226,12 +224,12 @@ def generate_lhs(lhs):
         else:
             newname, low, high = res
             pb_lhs.typeid = pb_lhs.DbaLhsVarRestrict
-            pb_lhs.size = 32 #Wowow
+            pb_lhs.size = 32  # Wowow
             pb_lhs.low = low
             pb_lhs.high = high
     elif isinstance(lhs, Store):
         pb_lhs.typeid = pb_lhs.DbaStore
-        pb_lhs.size =  lhs.size
+        pb_lhs.size = lhs.size
         pb_lhs.endian = generate_endianess(lhs.endian)
         pb_lhs.expr.CopyFrom(generate_dbaexpr(lhs.expr))
     else:
@@ -240,34 +238,34 @@ def generate_lhs(lhs):
 
 
 def reg_to_extract(name):
-  try:
-    return {#"eax": ("eax", 0, 31),
-     "ax": ("eax", 15, 31),
-     "al": ("eax", 0, 7),
-     "ah": ("eax", 8, 15),
-     #"ebx": ("ebx", 0, 31),
-     "bx": ("ebx", 15, 31),
-     "bl": ("ebx", 0, 7),
-     "bh": ("ebx", 8, 15),
-     #"ecx": ("ecx", 0, 31),
-     "cx": ("ecx", 15, 31),
-     "cl": ("ecx", 0, 7),
-     "ch": ("ecx", 8, 15),
-     #"edx": ("edx", 0, 31),
-     "dx": ("edx", 15, 31),
-     "dl": ("edx", 0, 7),
-     "dh": ("edx", 8, 15),
-     #"ebp": ("ebp", 0, 31),
-     "bp": ("ebp", 0, 15),
-     "bpl": ("ebx", 0, 7),
-     #"esi": ("esi", 0, 31),
-     "si": ("esi", 0, 15),
-     "sil": ("esi", 0, 7),
-     #"esp": ("esp", 0, 31),
-     "sp": ("esp", 0, 15),
-     "spl": ("esp", 0, 8)}[name]
-  except KeyError:
-      return None
+    try:
+        return {# "eax": ("eax", 0, 31),
+                "ax": ("eax", 15, 31),
+                "al": ("eax", 0, 7),
+                "ah": ("eax", 8, 15),
+                # "ebx": ("ebx", 0, 31),
+                "bx": ("ebx", 15, 31),
+                "bl": ("ebx", 0, 7),
+                "bh": ("ebx", 8, 15),
+                # "ecx": ("ecx", 0, 31),
+                "cx": ("ecx", 15, 31),
+                "cl": ("ecx", 0, 7),
+                "ch": ("ecx", 8, 15),
+                # "edx": ("edx", 0, 31),
+                "dx": ("edx", 15, 31),
+                "dl": ("edx", 0, 7),
+                "dh": ("edx", 8, 15),
+                # "ebp": ("ebp", 0, 31),
+                "bp": ("ebp", 0, 15),
+                "bpl": ("ebx", 0, 7),
+                # "esi": ("esi", 0, 31),
+                "si": ("esi", 0, 15),
+                "sil": ("esi", 0, 7),
+                # "esp": ("esp", 0, 31),
+                "sp": ("esp", 0, 15),
+                "spl": ("esp", 0, 8)}[name]
+    except KeyError:
+        return None
 
 
 def parse_lhs(pb_lhs):
@@ -278,7 +276,7 @@ def parse_lhs(pb_lhs):
         if res is None:
             return Restrict(Var(pb_lhs.name, pb_lhs.size), pb_lhs.low, pb_lhs.high)
         else:
-            return Var(res,pb_lhs.high-pb_lhs.low+1)
+            return Var(res, pb_lhs.high-pb_lhs.low+1)
     elif pb_lhs.typeid == pb_lhs.DbaStore:
         return Store(parse_dbaexpr(pb_lhs.expr), pb_lhs.size, parse_endianess(pb_lhs.endian))
     else:
@@ -286,34 +284,34 @@ def parse_lhs(pb_lhs):
 
 
 def extract_to_reg(name):
-  try:
-    return {#"eax": ("eax", 0, 31),
-        ("eax", 15, 31): "ax",
-        ("eax", 0, 7): "al",
-        ("eax", 8, 15): "ah",
-     #"ebx": ("ebx", 0, 31),
-        ("ebx", 15, 31): "bx",
-        ("ebx", 0, 7): "bl",
-        ("ebx", 8, 15): "bh",
-     #"ecx": ("ecx", 0, 31),
-        ("ecx", 15, 31): "cx",
-        ("ecx", 0, 7): "cl",
-        ("ecx", 8, 15): "ch",
-     #"edx": ("edx", 0, 31),
-        ("edx", 15, 31): "dx",
-        ("edx", 0, 7): "dl",
-        ("edx", 8, 15): "dh",
-     #"ebp": ("ebp", 0, 31),
-        ("ebp", 0, 15): "bp",
-        ("ebx", 0, 7): "bpl",
-     #"esi": ("esi", 0, 31),
-        ("esi", 0, 15): "si",
-        ("esi", 0, 7): "sil",
-     #"esp": ("esp", 0, 31),
-        ("esp", 0, 15): "sp",
-        ("esp", 0, 8):"spl"}[name]
-  except KeyError:
-      return None
+    try:
+        return {#"eax": ("eax", 0, 31),
+                ("eax", 15, 31): "ax",
+                ("eax", 0, 7): "al",
+                ("eax", 8, 15): "ah",
+                # "ebx": ("ebx", 0, 31),
+                ("ebx", 15, 31): "bx",
+                ("ebx", 0, 7): "bl",
+                ("ebx", 8, 15): "bh",
+                # "ecx": ("ecx", 0, 31),
+                ("ecx", 15, 31): "cx",
+                ("ecx", 0, 7): "cl",
+                ("ecx", 8, 15): "ch",
+                # "edx": ("edx", 0, 31),
+                ("edx", 15, 31): "dx",
+                ("edx", 0, 7): "dl",
+                ("edx", 8, 15): "dh",
+                # "ebp": ("ebp", 0, 31),
+                ("ebp", 0, 15): "bp",
+                ("ebx", 0, 7): "bpl",
+                # "esi": ("esi", 0, 31),
+                ("esi", 0, 15): "si",
+                ("esi", 0, 7): "sil",
+                # "esp": ("esp", 0, 31),
+                ("esp", 0, 15): "sp",
+                ("esp", 0, 8): "spl"}[name]
+    except KeyError:
+        return None
 
 
 def generate_instr(inst):
@@ -324,7 +322,7 @@ def generate_instr(inst):
         pb_inst.typeid = pb_inst.DbaIkAssign
         pb_inst.lhs.CopyFrom(generate_lhs(inst.instr.lhs))
         pb_inst.expr.CopyFrom(generate_dbaexpr(inst.instr.expr))
-        #TODO: Deal with undef expr
+        # TODO: Deal with undef expr
     elif isinstance(inst.instr, Jump):
         if isinstance(inst.instr.target, JmpAddr):
             pb_inst.typeid = pb_inst.DbaIkSJump
@@ -369,6 +367,7 @@ def generate_dbalist(l):
         x.CopyFrom(generate_instr(i))
     return dbalist
 
+
 def parse_dbalist(pb_l):
     res = []
     for i in pb_l.instrs:
@@ -377,16 +376,11 @@ def parse_dbalist(pb_l):
 
 
 if __name__ == "__main__":
-    #data = open("../out.dba","rb").read()
-    #l = dba_pb2.dba_list()
-    #l.ParseFromString(data)
-    #print l
-
-    i1=Assign(Var("ebx",32), BinOp(Var("eax",32),Plus,Bv(401023,32)))
-    i2=Assign(Var("ah",8), Ite(True, Restrict(Var("eax",32),0,7), Var("al",8)))
-    i3=Jump(JmpAddr(Far,Addr(Bv(401022,32),0)))
-    i4=If(BinCond(Bv(1,1), And, True), JmpAddr(Far,Addr(Bv(401020,32),0)), 4)
-    addr= Addr(Bv(7780052,32),0)
+    i1 = Assign(Var("ebx", 32), BinOp(Var("eax", 32), Plus, Bv(401023, 32)))
+    i2 = Assign(Var("ah", 8), Ite(True, Restrict(Var("eax", 32), 0, 7), Var("al", 8)))
+    i3 = Jump(JmpAddr(Far, Addr(Bv(401022, 32), 0)))
+    i4 = If(BinCond(Bv(1, 1), And, True), JmpAddr(Far, Addr(Bv(401020, 32), 0)), 4)
+    addr = Addr(Bv(7780052, 32), 0)
     l = [Instr(addr, i1, 0), Instr(addr, i2, 0), Instr(addr, i3, 0), Instr(addr, i4, 0)]
     pb = generate_dbalist(l)
     data = pb.SerializeToString()

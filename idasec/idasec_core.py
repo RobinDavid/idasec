@@ -29,7 +29,8 @@ class IDASecCore:
 
     def update_mapping(self):
         pass
-        self.fun_mapping = {idc.GetFunctionName(x): (idaapi.get_func(x).startEA, idaapi.get_func(x).endEA-1) for x in idautils.Functions()}
+        self.fun_mapping = {idc.GetFunctionName(x): (idaapi.get_func(x).startEA, idaapi.get_func(x).endEA-1) for x in
+                            idautils.Functions()}
         self.seg_mapping = {idc.SegName(x): (idc.SegStart(x), idc.SegEnd(x)) for x in idautils.Segments()}
 
     def add_trace(self, t):
@@ -42,9 +43,9 @@ class IDASecCore:
         del t
 
     def compute_nb_instr(self):
-        return 0 #FIXME: by iterating all segments
+        return 0  # FIXME: by iterating all segments
         count = 0
-        start, stop = self.seg_mapping[".text"] #TODO: Iterate all executable segs
+        start, stop = self.seg_mapping[".text"]  # TODO: Iterate all executable segs
         current = start
         while current <= stop:
             if idc.isCode(idc.GetFlags(current)):
@@ -52,12 +53,13 @@ class IDASecCore:
             current = idc.NextHead(current, stop)
         return count
 
-    def compute_imports(self):
+    @staticmethod
+    def compute_imports():
         imports = {}
         current = ""
 
-        def callback(ea, name, ord):
-            imports[current].append((ea, name, ord))
+        def callback(ea, name, ordinal):
+            imports[current].append((ea, name, ordinal))
             return True
 
         nimps = idaapi.get_import_module_qty()
