@@ -2,11 +2,11 @@
 
 from collections import namedtuple
 
-import idc
 import idautils
 
-from idasec.commands import *
+import idc
 from idasec.analysis.default_analysis import DefaultAnalysis
+from idasec.network.commands import *
 from idasec.proto.analysis_config_pb2 import po_analysis_results
 from idasec.report_generator import make_cell, RED, GREEN, PURPLE, HTMLReport
 from idasec.widgets.StandardParamWidget import StandardParamConfigWidget

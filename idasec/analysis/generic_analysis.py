@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import subprocess
 import cgi
-
+import subprocess
 from PyQt5 import QtWidgets
-import idc
 
-from idasec.commands import *
+import idasec.utils as utils
+import idc
 from idasec.analysis.default_analysis import DefaultAnalysis
+from idasec.formula import SMTFormula
+from idasec.network.commands import *
 from idasec.proto.analysis_config_pb2 import generic_analysis, generic_analysis_results, specific_parameters_t
 from idasec.proto.common_pb2 import *
-from idasec.formula import SMTFormula
-import idasec.utils as utils
 from idasec.report_generator import *
-from idasec.ui.generic_analysis_ui import Ui_generic_analysis_widget
 from idasec.ui.generic_analysis_result_ui import Ui_generic_analysis_result
+from idasec.ui.generic_analysis_ui import Ui_generic_analysis_widget
 
 
 # ======================== RESULT CLASS (pb dependant) ========================

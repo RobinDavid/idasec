@@ -2,8 +2,8 @@
 
 import idc
 
-from idasec.commands import *
 from idasec.analysis.default_analysis import DefaultAnalysis
+from idasec.network.commands import *
 from idasec.proto.analysis_config_pb2 import callret_analysis_results
 from idasec.report_generator import make_cell, RED, GREEN, HTMLReport
 from idasec.widgets.StandardParamWidget import StandardParamConfigWidget

@@ -1,17 +1,16 @@
 # coding: utf8
 
-import time
-import sys
 import re
-
+import sys
+import time
 from PyQt5 import QtGui, QtWidgets
-import idc
 
-from idasec.ui.main_ui import Ui_Main
-from idasec.message import MessageInfos, MessageDecodeInstr, MessageDecodeInstrReply
+import idc
 from idasec.dba_printer import instr_to_string
+from idasec.network.commands import END, DECODE_INSTR_REPLY
+from idasec.network.message import MessageInfos, MessageDecodeInstr, MessageDecodeInstrReply
+from idasec.ui.main_ui import Ui_Main
 from idasec.utils import to_hex
-from idasec.commands import END, DECODE_INSTR_REPLY
 
 
 class MainWidget(QtWidgets.QWidget, Ui_Main):

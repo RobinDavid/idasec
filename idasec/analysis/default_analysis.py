@@ -1,9 +1,8 @@
-
 from PyQt5 import QtWidgets
 
-from idasec.broker import Broker
+from idasec.network.broker import Broker
+from idasec.network.commands import *
 from idasec.trace import raw_parse_trace
-from idasec.commands import *
 
 STATIC = 0
 DYNAMIC = 1

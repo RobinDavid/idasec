@@ -1,16 +1,16 @@
 #!/usr/bin/env python
-import struct
-import random
-from threading import Thread
 import json
+import random
+import struct
+from threading import Thread
 
 import zmq
 
 from idasec.dba_printer import *
-from idasec.message import *
+from idasec.network.commands import *
+from idasec.network.message import *
 from idasec.proto import config_pb2
 from idasec.protobuf_json import json2pb
-from idasec.commands import *
 
 
 class Broker:

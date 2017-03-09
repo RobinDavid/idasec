@@ -9,9 +9,9 @@ any later version http://www.gnu.org/licenses/.
 
 import json
 
-from idasec.protobuf_json import json2pb, pb2json
-from idasec.proto.config_pb2 import configuration
 from idasec.exception import assert_ida_available
+from idasec.proto.config_pb2 import configuration
+from idasec.protobuf_json import json2pb, pb2json
 
 
 PE = "\x4d\x5a"
