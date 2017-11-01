@@ -1,7 +1,7 @@
 import datetime
 
 from idasec.broker import Broker
-from PySide import QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from idasec.trace import raw_parse_trace
 from idasec.commands import *
 
@@ -23,7 +23,7 @@ class DefaultAnalysis:
         self.parent = parent
         self.configuration = config
         self.broker = Broker()
-        self.result_widget = QtGui.QTextEdit()
+        self.result_widget = QtWidgets.QTextEdit()
         self.is_stream = is_stream
         self.trace_input_generator = None
         self.analyse_finished = False
@@ -37,7 +37,7 @@ class DefaultAnalysis:
         self.broker.send_binsec_message(START_ANALYSIS, raw_conf)
 
         for origin, cmd, data in self.broker.run_broker_loop_generator():
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
 
             if not self.is_stream:
                 self.send_trace_chunk_if_any()

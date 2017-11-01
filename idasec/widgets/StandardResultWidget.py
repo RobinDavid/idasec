@@ -1,5 +1,10 @@
-from PySide import QtGui, QtCore
-from PySide.QtGui import QWidget
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
 
 class StandardResultWidget(QWidget):
 
@@ -13,7 +18,7 @@ class StandardResultWidget(QWidget):
 
             self.action_selector.addItem(k)
         self.action_button.clicked.connect(self.action_clicked)
-        self.connect(self.action_selector, QtCore.SIGNAL("currentIndexChanged(QString)"), self.action_selector_changed)
+        self.action_selector.currentIndexChanged.connect(self.action_selector_changed)
 
     def action_selector_changed(self, s):
         _, enabled = self.parent.actions[s]
@@ -41,26 +46,26 @@ class StandardResultWidget(QWidget):
             return y
         standard_result.setObjectName(_fromUtf8("standard_result"))
         standard_result.resize(495, 416)
-        self.verticalLayout = QtGui.QVBoxLayout(standard_result)
+        self.verticalLayout = QtWidgets.QVBoxLayout(standard_result)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.webview = QtGui.QTextBrowser(standard_result)
+        self.webview = QtWidgets.QTextBrowser(standard_result)
         self.webview.setObjectName(_fromUtf8("webview"))
         self.verticalLayout.addWidget(self.webview)
-        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.action_label = QtGui.QLabel(standard_result)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        self.action_label = QtWidgets.QLabel(standard_result)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.action_label.sizePolicy().hasHeightForWidth())
         self.action_label.setSizePolicy(sizePolicy)
         self.action_label.setObjectName(_fromUtf8("action_label"))
         self.horizontalLayout_2.addWidget(self.action_label)
-        self.action_selector = QtGui.QComboBox(standard_result)
+        self.action_selector = QtWidgets.QComboBox(standard_result)
         self.action_selector.setObjectName(_fromUtf8("action_selector"))
         self.horizontalLayout_2.addWidget(self.action_selector)
-        self.action_button = QtGui.QPushButton(standard_result)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        self.action_button = QtWidgets.QPushButton(standard_result)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.action_button.sizePolicy().hasHeightForWidth())
