@@ -17,7 +17,7 @@ def get_succs(ea):
 class BasicBlockNotFound(Exception):
     pass
 
-Status = Enum("DEAD", "ALIVE", "UNKNOWN")
+Status = Enum("Status", "DEAD, ALIVE, UNKNOWN")
 
 
 class MyBasicBlock:
