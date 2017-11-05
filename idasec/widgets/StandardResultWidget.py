@@ -21,6 +21,16 @@ class StandardResultWidget(QWidget):
         self.action_selector.currentIndexChanged.connect(self.action_selector_changed)
 
     def action_selector_changed(self, s):
+        try:
+            HIGHLIGHT_DEAD_CODE = "Highlight dead code"
+            HIGHLIGHT_SPURIOUS_CALCULUS = "Highlight spurious computation"
+            EXPORT_RESULT = "Export results"
+            EXTRACT_REDUCED_CFG = "Extract reduced CFG"
+            ss = [HIGHLIGHT_DEAD_CODE, HIGHLIGHT_SPURIOUS_CALCULUS, EXPORT_RESULT, EXTRACT_REDUCED_CFG]
+            s = ss[s]
+        except:
+            pass
+
         _, enabled = self.parent.actions[s]
         if enabled:
             self.action_button.setText("Undo !")
