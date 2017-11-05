@@ -7,7 +7,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide import QtCore
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 qt_resource_data = "\
 \x00\x00\x3d\x9e\

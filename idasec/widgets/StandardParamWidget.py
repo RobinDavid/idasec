@@ -1,10 +1,15 @@
-from PySide import QtGui, QtCore
-from PySide.QtGui import QWidget
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget
 from idasec.proto.analysis_config_pb2 import standard_analysis, specific_parameters_t
 import idasec.utils as utils
 
 import idc
 import idasec.ui.resources_rc
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
 
 class StandardParamConfigWidget(QWidget):
 
@@ -51,17 +56,17 @@ class StandardParamConfigWidget(QWidget):
             return y
         standard_params.setObjectName(_fromUtf8("standard_params"))
         standard_params.resize(293, 82)
-        self.verticalLayout = QtGui.QVBoxLayout(standard_params)
+        self.verticalLayout = QtWidgets.QVBoxLayout(standard_params)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.target_label = QtGui.QLabel(standard_params)
+        self.target_label = QtWidgets.QLabel(standard_params)
         self.target_label.setObjectName(_fromUtf8("target_label"))
         self.horizontalLayout.addWidget(self.target_label)
-        self.target_field = QtGui.QLineEdit(standard_params)
+        self.target_field = QtWidgets.QLineEdit(standard_params)
         self.target_field.setObjectName(_fromUtf8("target_field"))
         self.horizontalLayout.addWidget(self.target_field)
-        self.target_button = QtGui.QPushButton(standard_params)
+        self.target_button = QtWidgets.QPushButton(standard_params)
         self.target_button.setMaximumSize(QtCore.QSize(25, 25))
         self.target_button.setText(_fromUtf8(""))
         icon = QtGui.QIcon()
@@ -69,12 +74,12 @@ class StandardParamConfigWidget(QWidget):
         self.target_button.setIcon(icon)
         self.target_button.setObjectName(_fromUtf8("target_button"))
         self.horizontalLayout.addWidget(self.target_button)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout)
-        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.uniq_checkbox = QtGui.QCheckBox(standard_params)
+        self.uniq_checkbox = QtWidgets.QCheckBox(standard_params)
         self.uniq_checkbox.setObjectName(_fromUtf8("uniq_checkbox"))
         self.horizontalLayout_2.addWidget(self.uniq_checkbox)
         self.verticalLayout.addLayout(self.horizontalLayout_2)

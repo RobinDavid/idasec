@@ -1,8 +1,8 @@
 # coding=utf-8
 import time
 
-from PySide import QtGui, QtCore
-from PySide.QtGui import QWidget, QFileDialog
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget, QFileDialog
 
 from idasec.commands import *
 from idasec.proto.analysis_config_pb2 import specific_parameters_t
@@ -23,6 +23,11 @@ import idautils
 
 import idasec.ui.resources_rc
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
 #=============================== CONFIGURATION =============================
 #===========================================================================
 class StaticOpaqueConfigWidget(QWidget):
@@ -32,10 +37,10 @@ class StaticOpaqueConfigWidget(QWidget):
         self.setupUi(self)
         #My initializations
         self.horizontalLayout_2.setEnabled(False)
-        self.connect(self.radio_addr, QtCore.SIGNAL("toggled(bool)"), self.addr_radio_toggled)
-        self.connect(self.radio_routine, QtCore.SIGNAL("toggled(bool)"), self.routine_radio_toggled)
-        self.connect(self.radio_program, QtCore.SIGNAL("toggled(bool)"), self.program_radio_toggled)
-        self.connect(self.target_button, QtCore.SIGNAL("clicked()"), self.target_button_clicked)
+        self.radio_addr.toggled.connect(self.addr_radio_toggled)
+        self.radio_routine.toggled.connect(self.routine_radio_toggled)
+        self.radio_program.toggled.connect(self.program_radio_toggled)
+        self.target_button.clicked.connect(self.target_button_clicked)
         self.radio_addr.setChecked(True)
         self.radio_path_routine.setChecked(True)
 
@@ -90,40 +95,40 @@ class StaticOpaqueConfigWidget(QWidget):
             return y
         Form.setObjectName(_fromUtf8("Form"))
         Form.resize(294, 213)
-        self.verticalLayout_2 = QtGui.QVBoxLayout(Form)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.label_granularity = QtGui.QLabel(Form)
+        self.label_granularity = QtWidgets.QLabel(Form)
         self.label_granularity.setObjectName(_fromUtf8("label_granularity"))
         self.horizontalLayout.addWidget(self.label_granularity)
-        self.verticalLayout = QtGui.QVBoxLayout()
+        self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.radio_addr = QtGui.QRadioButton(Form)
+        self.radio_addr = QtWidgets.QRadioButton(Form)
         self.radio_addr.setObjectName(_fromUtf8("radio_addr"))
-        self.group_granularity = QtGui.QButtonGroup(Form)
+        self.group_granularity = QtWidgets.QButtonGroup(Form)
         self.group_granularity.setObjectName(_fromUtf8("group_granularity"))
         self.group_granularity.addButton(self.radio_addr)
         self.verticalLayout.addWidget(self.radio_addr)
-        self.radio_routine = QtGui.QRadioButton(Form)
+        self.radio_routine = QtWidgets.QRadioButton(Form)
         self.radio_routine.setObjectName(_fromUtf8("radio_routine"))
         self.group_granularity.addButton(self.radio_routine)
         self.verticalLayout.addWidget(self.radio_routine)
-        self.radio_program = QtGui.QRadioButton(Form)
+        self.radio_program = QtWidgets.QRadioButton(Form)
         self.radio_program.setObjectName(_fromUtf8("radio_program"))
         self.group_granularity.addButton(self.radio_program)
         self.verticalLayout.addWidget(self.radio_program)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
-        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.target_label = QtGui.QLabel(Form)
+        self.target_label = QtWidgets.QLabel(Form)
         self.target_label.setObjectName(_fromUtf8("target_label"))
         self.horizontalLayout_2.addWidget(self.target_label)
-        self.target_field = QtGui.QLineEdit(Form)
+        self.target_field = QtWidgets.QLineEdit(Form)
         self.target_field.setObjectName(_fromUtf8("target_field"))
         self.horizontalLayout_2.addWidget(self.target_field)
-        self.target_button = QtGui.QPushButton(Form)
+        self.target_button = QtWidgets.QPushButton(Form)
         self.target_button.setMaximumSize(QtCore.QSize(25, 25))
         self.target_button.setText(_fromUtf8(""))
         icon = QtGui.QIcon()
@@ -131,32 +136,32 @@ class StaticOpaqueConfigWidget(QWidget):
         self.target_button.setIcon(icon)
         self.target_button.setObjectName(_fromUtf8("target_button"))
         self.horizontalLayout_2.addWidget(self.target_button)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-        self.line = QtGui.QFrame(Form)
-        self.line.setFrameShape(QtGui.QFrame.HLine)
-        self.line.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line = QtWidgets.QFrame(Form)
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.verticalLayout_2.addWidget(self.line)
-        self.horizontalLayout_3 = QtGui.QHBoxLayout()
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
-        self.label = QtGui.QLabel(Form)
+        self.label = QtWidgets.QLabel(Form)
         self.label.setObjectName(_fromUtf8("label"))
         self.horizontalLayout_3.addWidget(self.label)
-        self.verticalLayout_4 = QtGui.QVBoxLayout()
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
-        self.radio_path_routine = QtGui.QRadioButton(Form)
+        self.radio_path_routine = QtWidgets.QRadioButton(Form)
         self.radio_path_routine.setObjectName(_fromUtf8("radio_path_routine"))
-        self.group_path = QtGui.QButtonGroup(Form)
+        self.group_path = QtWidgets.QButtonGroup(Form)
         self.group_path.setObjectName(_fromUtf8("group_path"))
         self.group_path.addButton(self.radio_path_routine)
         self.verticalLayout_4.addWidget(self.radio_path_routine)
-        self.radio_path_basicblock = QtGui.QRadioButton(Form)
+        self.radio_path_basicblock = QtWidgets.QRadioButton(Form)
         self.radio_path_basicblock.setObjectName(_fromUtf8("radio_path_basicblock"))
         self.group_path.addButton(self.radio_path_basicblock)
         self.verticalLayout_4.addWidget(self.radio_path_basicblock)
-        self.radio_path_safe = QtGui.QRadioButton(Form)
+        self.radio_path_safe = QtWidgets.QRadioButton(Form)
         self.radio_path_safe.setObjectName(_fromUtf8("radio_path_safe"))
         self.group_path.addButton(self.radio_path_safe)
         self.verticalLayout_4.addWidget(self.radio_path_safe)
@@ -394,7 +399,7 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         self.broker.send_binsec_message(END, EMPTY)
         before = time.time()+10
         for origin, cmd, data in self.broker.run_broker_loop_generator():
-            QtGui.QApplication.processEvents()
+            QtWidgets.QApplication.processEvents()
 
             if self.STOP:
                 break
@@ -725,17 +730,17 @@ class StaticOpaqueAnalysis(DefaultAnalysis):
         self.stop_button.setVisible(enable)
 
     def make_progress_bar(self, parent):
-        horizontalLayout_2 = QtGui.QHBoxLayout()
+        horizontalLayout_2 = QtWidgets.QHBoxLayout()
         horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.loading_stat = QtGui.QLabel(parent)
+        self.loading_stat = QtWidgets.QLabel(parent)
         horizontalLayout_2.addWidget(self.loading_stat)
-        self.progressbar_loading = QtGui.QProgressBar(parent)
+        self.progressbar_loading = QtWidgets.QProgressBar(parent)
         horizontalLayout_2.addWidget(self.progressbar_loading)
-        self.stop_button = QtGui.QPushButton(parent)
+        self.stop_button = QtWidgets.QPushButton(parent)
         self.stop_button.setMaximumSize(QtCore.QSize(50, 30))
         self.stop_button.setText("stop")
         horizontalLayout_2.addWidget(self.stop_button)
-        parent.connect(self.stop_button, QtCore.SIGNAL("clicked()"), self.stop_button_clicked)
+        self.stop_button.clicked.connect(self.stop_button_clicked)
         return horizontalLayout_2
 
     def replace_var_bv_expr(self, name, sub, e, arr, pld):
