@@ -651,7 +651,7 @@ class AnalysisWidget(QtWidgets.QWidget):
 
         self.save_config_clicked(infile=False)
 
-        name = self.core.configuration.analysis_name                  
+        name = self.core.configuration.analysis_name.upper()               
         analysis_kind = self.parent.analysis_from_name(name).kind
 
         if self.stream_radiobutton.isChecked():
