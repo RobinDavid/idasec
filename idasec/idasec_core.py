@@ -1,4 +1,4 @@
-from idasec.broker import Broker
+from idasec.network.broker import Broker
 from idasec.proto.config_pb2 import configuration
 
 import idc

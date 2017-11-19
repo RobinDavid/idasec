@@ -7,7 +7,7 @@ import idc
 import idaapi
 import idautils
 
-from idasec.commands import *
+from idasec.network.commands import *
 from idasec.proto.analysis_config_pb2 import specific_parameters_t
 from idasec.proto.analysis_config_pb2 import po_analysis_results
 from idasec.analysis.default_analysis import DefaultAnalysis, STATIC_AND_DYNAMIC
